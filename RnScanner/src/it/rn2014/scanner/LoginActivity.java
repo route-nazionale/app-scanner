@@ -55,6 +55,7 @@ public class LoginActivity extends ActionBarActivity {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private class LoginTask extends AsyncTask<String, Void, String>{
 
 		ProgressBar prb;
