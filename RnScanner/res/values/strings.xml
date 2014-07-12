@@ -22,5 +22,13 @@
     <string name="inserisci_badge">Inserisci il tuo codice badge</string>
     <string name="inserisci_data">Inserisci la tua data di nascita</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_gate">GateActivity</string>
+    <string name="autenticazione_varchi">Autenticazione Varchi</string>
+    <string name="scansione">Scansione</string>
+    <string name="codice">Codice</string>
+    <string name="descrizione_varchi">Benvenuto nella modalità di Autenticazione Varchi,
+        di qui puoi autenticare i Badge per il varco di accesso alla Route Nazionale.
+        Premere sul bottone Scansione per scansionare il badge con la fotocamera,
+        Premere sul bottono Codice per inserire il codice del Badge a mano.</string>
 
 </resources>
