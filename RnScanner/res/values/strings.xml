@@ -9,18 +9,18 @@
     <string name="thanks_to">Thanks to</string>
     <string name="title_activity_auth">Autenticazione</string>
     <string name="auth_badge">Autenticazione con Badge</string>
-    <string name="auth_password">Autenticazione con id e password</string>
+    <string name="auth_password">Autenticazione con inserimento manuale del codice</string>
     <string name="welcome">Benvenuto!</string>
     <string name="anonym">Utente Anonimo</string>
-    
-    <string name="title_activity_login">Login con password</string>
-    <string name="prompt_userid">Email</string>
-    <string name="prompt_password">Password</string>
+    <string name="title_activity_login">Login</string>
+    <string name="prompt_code">Codice badge (AA-1234-567890-0)</string>
+    <string name="prompt_date">Inserisci la data di nascita</string>
     <string name="action_sign_in">Esegui il login</string>
-    <string name="action_sign_in_short">Login con password</string>
-    <string name="error_invalid_userid">Questo user ID non è valido</string>
-    <string name="error_invalid_password">Password troppo breve</string>
-    <string name="error_incorrect_password">Password non corretta</string>
+    <string name="action_sign_in_short">Login</string>
+    <string name="error_invalid_userid">Questo codice non è valido</string>
     <string name="error_field_required">Campo necessario</string>
+    <string name="inserisci_badge">Inserisci il tuo codice badge</string>
+    <string name="inserisci_data">Inserisci la tua data di nascita</string>
+    <string name="title_activity_main">MainActivity</string>
 
 </resources>
