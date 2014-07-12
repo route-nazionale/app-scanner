@@ -1,32 +1,52 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:layout_width="fill_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent" >
-
-    <TextView
-        android:id="@+id/text"
-        android:layout_margin="20dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text="Result: " />
-
-    <Button
-        android:id="@+id/btn1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="Method 1"
-        android:textSize="24sp" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+	android:orientation="vertical"
+    tools:context="it.rn2014.scanner.MainActivity" >
     
     <Button
-        android:id="@+id/btn2"
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:text="Log out" />
+    
+    <Button
+        android:id="@+id/btnGate"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="Method 2"
-        android:textSize="24sp" />
+        android:layout_weight="5"
+        android:layout_margin="5dp"
+        android:drawableLeft="@drawable/gate"
+        android:text="Autenticazione Varco" />
+    
+    <Button
+        android:id="@+id/btnEvents"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:layout_margin="5dp"
+        android:drawableLeft="@drawable/event"
+        android:text="Autenticazione Eventi" />
+    
+    <Button
+        android:id="@+id/btnIdentify"
+        android:drawableLeft="@drawable/identify"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:layout_margin="5dp"
+        android:text="Identifica" />
+    
+    <Button
+        android:id="@+id/btnSyncro"
+        android:drawableLeft="@drawable/syncro"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:layout_margin="5dp"
+        android:text="Sincronizza" />
 
 </LinearLayout>

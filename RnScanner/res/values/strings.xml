@@ -12,7 +12,6 @@
     <string name="auth_password">Autenticazione con inserimento manuale del codice</string>
     <string name="welcome">Benvenuto!</string>
     <string name="anonym">Utente Anonimo</string>
-    
     <string name="title_activity_login">Login</string>
     <string name="prompt_code">Codice badge (AA-1234-567890-0)</string>
     <string name="prompt_date">Inserisci la data di nascita</string>
@@ -22,5 +21,6 @@
     <string name="error_field_required">Campo necessario</string>
     <string name="inserisci_badge">Inserisci il tuo codice badge</string>
     <string name="inserisci_data">Inserisci la tua data di nascita</string>
+    <string name="title_activity_main">MainActivity</string>
 
 </resources>
