@@ -16,6 +16,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:indeterminate="true"
+        android:indeterminateBehavior="repeat"
         android:visibility="gone" />
     
     <ScrollView
@@ -29,27 +31,41 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <AutoCompleteTextView
-                android:id="@+id/username"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/prompt_userid"
+                android:gravity="left"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="@string/inserisci_badge"
+                />
+            
+            <EditText
+                android:id="@+id/code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_code"
                 android:inputType="text"
                 android:maxLines="1"
                 android:singleLine="true" />
-
-            <EditText
-                android:id="@+id/password"
+            
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/prompt_password"
+                android:gravity="left"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="@string/inserisci_data"
                 
-                android:imeActionId="@+id/login"
-                android:imeActionLabel="@string/action_sign_in_short"
-                android:imeOptions="actionUnspecified"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:singleLine="true" />
+                />
+
+            <DatePicker
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:calendarViewShown="false"
+                android:startYear="1900"
+                android:endYear="2014" />
 
             <Button
                 android:id="@+id/btnSignin"

@@ -1,7 +1,7 @@
 package it.rn2014.downloader;
  
-import it.rn2014.R;
 import it.rn2014.db.DataBaseManager;
+import it.rn2014.scanner.R;
 
 import java.io.BufferedInputStream;
 import java.io.File;

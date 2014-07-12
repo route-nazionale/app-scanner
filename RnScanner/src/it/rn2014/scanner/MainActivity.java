@@ -1,20 +1,26 @@
 package it.rn2014.scanner;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 public class MainActivity extends ActionBarActivity implements OnClickListener {
 
+	
+	Intent batteryStatus;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,26 +32,19 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 		Button btn2 = (Button) findViewById(R.id.btn2);
 		btn2.setOnClickListener(this);
 		
-	}
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+		IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+		batteryStatus = getApplicationContext().registerReceiver(null, ifilter);
+		
+		int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+		int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+		float batteryPct = level / (float)scale;
+		
+		TextView tw = (TextView)findViewById(R.id.text);
+		tw.setText("BATTERIA: " + batteryPct);
+		
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -54,11 +53,64 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 			String res = intent.getExtras().getString("la.droid.qr.result");
 			TextView tw = (TextView) findViewById(R.id.text);
 			tw.setText("RESULT " + res);
+			Toast.makeText(getApplicationContext(), "Result: " + res, Toast.LENGTH_SHORT).show();
+			
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+			int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+
+			float batteryPct = level / (float)scale;
+			
+			if (batteryPct < 0.10){
+				try {
+				    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+				    Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+				    r.play();
+				} catch (Exception e) {
+				    e.printStackTrace();
+				}
+			}
+			
+			Intent it = new Intent("la.droid.qr.scan");
+			it.putExtra("la.droid.qr.complete", true);
+			startActivityForResult(it, 5);
 		} else {
 			IntentResult res = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
 			if (res != null){
 				TextView tw = (TextView) findViewById(R.id.text);
 				tw.setText("RESULT: " + res.getContents());
+				Toast.makeText(getApplicationContext(), "Result: " + res, Toast.LENGTH_SHORT).show();
+				 
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+				int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+
+				float batteryPct = level / (float)scale;
+				
+				if (batteryPct < 0.10){
+					try {
+					    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+					    Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+					    r.play();
+					} catch (Exception e) {
+					    e.printStackTrace();
+					}
+				}
+				
+				
+				IntentIntegrator ii = new IntentIntegrator(this);
+				ii.initiateScan();
 			}
 		}
 	}

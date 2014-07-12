@@ -19,8 +19,8 @@ import android.widget.Toast;
 
 public class LoginActivity extends ActionBarActivity {
 
-	EditText uname;
-	EditText passwd;
+	EditText code;
+	EditText date;
 	ProgressBar prb;
 	
 	@Override
@@ -29,8 +29,8 @@ public class LoginActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		
-		uname = (EditText)findViewById(R.id.username);
-		passwd = (EditText)findViewById(R.id.password);
+		code = (EditText)findViewById(R.id.code);
+		
 		Button btn = (Button)findViewById(R.id.btnSignin);
 		final ProgressBar prb = (ProgressBar)findViewById(R.id.login_progress);
 		
@@ -40,11 +40,19 @@ public class LoginActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				
-				// TODO Si devono controllare i campi di login
-				LoginTask login = new LoginTask(prb);
-				login.execute(new String[]{uname.getText().toString(), passwd.getText().toString()});
+				// TODO Si deve implementare il login
+				// LoginTask login = new LoginTask(prb);
+				// login.execute(new String[]{code.getText().toString(), date.getText().toString()});
+				prb.setVisibility(View.VISIBLE);
 			}
 		});
+		
+		Bundle extras = getIntent().getExtras();
+		if (extras != null && extras.containsKey("qrscanned")) {
+		    String scannedCode = extras.getString("qrscanned");
+		    code.setText(scannedCode);
+		    code.setEnabled(false);
+		}
 	}
 	
 	private class LoginTask extends AsyncTask<String, Void, String>{
