@@ -5,6 +5,8 @@ package it.rn2014.db.entity;
 
 public class Persona {
 	
+	
+	
 	private String nome ;
 	private String cognome ;
 	private String ruolo ;
