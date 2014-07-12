@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
@@ -32,7 +33,7 @@ public class LoginActivity extends ActionBarActivity {
 		code = (EditText)findViewById(R.id.code);
 		
 		Button btn = (Button)findViewById(R.id.btnSignin);
-		final ProgressBar prb = (ProgressBar)findViewById(R.id.login_progress);
+		//final ProgressBar prb = (ProgressBar)findViewById(R.id.login_progress);
 		
 		
 		btn.setOnClickListener(new OnClickListener() {
@@ -43,7 +44,8 @@ public class LoginActivity extends ActionBarActivity {
 				// TODO Si deve implementare il login
 				// LoginTask login = new LoginTask(prb);
 				// login.execute(new String[]{code.getText().toString(), date.getText().toString()});
-				prb.setVisibility(View.VISIBLE);
+				Intent main = new Intent(getApplicationContext(), MainActivity.class);
+				startActivity(main);
 			}
 		});
 		
