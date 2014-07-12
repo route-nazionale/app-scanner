@@ -36,10 +36,10 @@ public class DownloadActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.dialog_aggiornamento);
+        setContentView(R.layout.dialog_aggiornamento);
  
         // show progress bar button
-        //btnShowProgress = (Button) findViewById(R.id.btnProgressBar);
+        btnShowProgress = (Button) findViewById(R.id.btnProgressBar);
         /**
          * Show Progress bar click event
          * */
