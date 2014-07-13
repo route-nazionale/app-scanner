@@ -71,7 +71,7 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 				}
 			});
 			alert.show();
-		} else if (v.getId() == R.id.btnPass) {
+		} else if (v.getId() == R.id.btnBadge) {
 			IntentIntegrator ii = new IntentIntegrator(this);
 			ii.initiateScan();
 		}

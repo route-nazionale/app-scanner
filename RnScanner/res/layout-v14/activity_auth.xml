@@ -27,6 +27,7 @@
 
     <Button
         android:id="@+id/btnBadge"
+		android:background="@drawable/button_blue"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -36,6 +37,7 @@
 
     <Button
         android:id="@+id/btnPass"
+		android:background="@drawable/button_red"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
