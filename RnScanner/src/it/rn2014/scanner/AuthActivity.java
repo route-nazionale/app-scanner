@@ -44,7 +44,8 @@ public class AuthActivity extends ActionBarActivity implements OnClickListener {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-		if (scanResult != null) {
+		if (scanResult != null && scanResult.getContents() != null && !scanResult.getContents().contentEquals("")) {
+			
 			Intent login = new Intent(getApplicationContext(), LoginActivity.class);
 			login.putExtra("qrscanned", scanResult.getContents());
 			startActivity(login);

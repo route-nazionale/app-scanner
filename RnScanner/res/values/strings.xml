@@ -34,5 +34,6 @@
     <string name="entrata">Entrata</string>
     <string name="uscita">Uscita</string>
     <string name="annulla">Annulla</string>
+    <string name="auth_fail">Autenticazione Fallita!</string>
 
 </resources>
