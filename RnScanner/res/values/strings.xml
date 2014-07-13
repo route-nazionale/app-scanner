@@ -23,14 +23,16 @@
     <string name="inserisci_data">Inserisci la tua data di nascita</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_gate">GateActivity</string>
-
     <string name="scansione">Scansione</string>
     <string name="codice">Codice</string>
-
     <string name="title_gate">Autenticazione Varchi</string>
     <string name="desc_gate">Benvenuto nella modalità di Autenticazione Varchi,
         di qui puoi autenticare i Badge per il varco di accesso alla Route Nazionale.
         Premere sul bottone Scansione per scansionare il badge con la fotocamera,
         Premere sul bottono Codice per inserire il codice del Badge a mano.</string>
+    <string name="title_activity_gate_result">GateResultActivity</string>
+    <string name="entrata">Entrata</string>
+    <string name="uscita">Uscita</string>
+    <string name="annulla">Annulla</string>
 
 </resources>

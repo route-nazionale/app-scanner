@@ -1,0 +1,72 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}" >
+        
+	<TextView 
+	    android:id="@+id/result"
+	    android:gravity="center"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:padding="30dp"
+	    android:background="@color/LightGreen"
+	    android:textSize="18sp"
+	    android:layout_margin="30dp"
+	    android:textStyle="bold"
+	    android:text="PROVA" />
+	
+	<TextView 
+	    android:id="@+id/code"
+	    android:gravity="center"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:textSize="14sp"
+	    android:layout_margin="10dp"
+	    android:text="AAA-s4564564" />
+	
+	<LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom" >
+
+     
+        
+    <Button
+        android:id="@+id/btnExit"
+        android:layout_weight="1"
+        android:background="@color/LightBlue"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:drawableTop="@drawable/exit"
+        android:text="@string/uscita"
+        android:padding="15dp" />
+    
+        <Button
+        android:id="@+id/btnEnter"
+        android:layout_weight="1"
+        android:background="@color/LightGreen"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:drawableTop="@drawable/entrance"
+        android:text="@string/entrata"
+        android:padding="15dp" />   
+    
+	</LinearLayout>
+	
+	<Button
+        android:id="@+id/btnAbort"
+        android:background="@color/LightPink"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:drawableLeft="@drawable/abort"
+        android:text="@string/annulla"
+        android:layout_gravity="bottom"
+        android:padding="5dp" />
+	
+</LinearLayout>
