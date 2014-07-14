@@ -35,13 +35,13 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 			startActivity(gate);
 			break;
 		case R.id.btnLogout:
-			// TODO Da implementare	
 			break;
 		case R.id.btnEvents:
-			// TODO Da implementare	
 			break;
 		case R.id.btnIdentify:
-			// TODO Da implementare	
+			Intent ident = new Intent(getApplicationContext(), ScanningActivity.class);
+			ident.putExtra("mode", "identify");
+			startActivity(ident);
 			break;
 		case R.id.btnSyncro:
 			// TODO Da implementare	
