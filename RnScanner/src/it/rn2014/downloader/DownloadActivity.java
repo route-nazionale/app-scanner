@@ -6,6 +6,7 @@ import it.rn2014.scanner.R;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
@@ -103,7 +104,7 @@ public class DownloadActivity extends Activity {
  
                 // download the file
                 InputStream input = new BufferedInputStream(url.openStream(), 8192);
-                OutputStream output = new FileOutputStream("/data/data/" + getPackageName() + DataBaseManager.DB_NAME );
+                OutputStream output = new FileOutputStream("/data/data/" + getPackageName() + "/" + DataBaseManager.DB_NAME );
  
                 byte data[] = new byte[1024];
                 long total = 0;
@@ -127,6 +128,7 @@ public class DownloadActivity extends Activity {
  
             } catch (Exception e) {
                 Log.e("Error: ", e.getMessage());
+                Utils.ShowMessageBox(getApplicationContext(), "Problemi aggiornamento , Riprovare più tardi");
             }
  
             return null;
@@ -148,10 +150,16 @@ public class DownloadActivity extends Activity {
         protected void onPostExecute(String file_url) {
             // dismiss the dialog after the file was downloaded
 //            dismissDialog(progress_bar_type);
-        	String pathfile = "/data/data/" + getPackageName() + DataBaseManager.DB_NAME ;
+        	try {
+        		DataBaseManager databaseManager = new DataBaseManager(getApplicationContext());
+				databaseManager.copyDataBaseDownload();
+			} catch (IOException e) {
+				 Log.e("Error: ", e.getMessage());
+	             Utils.ShowMessageBox(getApplicationContext(), "Problemi aggiornamento , Riprovare più tardi");
+			}
         	
-        	DataBaseManager databaseManager = new DataBaseManager(getApplicationContext());
-        	deleteDataBase(pathfile);
+        	
+//        	deleteDataBase(pathfile);
             pDialog.dismiss();
             
         }

@@ -15,9 +15,6 @@ public class Evento {
 	public void setIdEvento(String idEvento) {
 		this.idEvento = idEvento;
 	}
-	public String getQuartiere() {
-		return quartiere;
-	}
 	public void setQuartiere(String quartiere) {
 		this.quartiere = quartiere;
 	}
@@ -52,9 +49,7 @@ public class Evento {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getSottocampo() {
-		return quartiere;
-	}
+
 	public void setSottocampo(String sottocampo) {
 		this.quartiere = sottocampo;
 	}
