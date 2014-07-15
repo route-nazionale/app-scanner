@@ -44,7 +44,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 			startActivity(ident);
 			break;
 		case R.id.btnSyncro:
-			// TODO Da implementare	
+			Intent sync = new Intent(getApplicationContext(), SyncroActivity.class);
+			startActivity(sync);
 			break;
 		default:
 			break;

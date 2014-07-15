@@ -30,18 +30,17 @@
         di qui puoi autenticare i Badge per il varco di accesso alla Route Nazionale.
         Premere sul bottone Scansione per scansionare il badge con la fotocamera,
         Premere sul bottone Codice per inserire il codice del Badge a mano.</string>
-        
     <string name="title_identify">Identifica</string>
     <string name="desc_identify">Benvenuto nella modalità di Identificazione,
         di qui puoi ottenere tutti i dati associati ad un badge.
         Premere sul bottone Scansione per scansionare il badge con la fotocamera,
         Premere sul bottone Codice per inserire il codice del Badge a mano.</string>
-            
     <string name="title_activity_gate_result">GateResultActivity</string>
     <string name="entrata">Entrata</string>
     <string name="uscita">Uscita</string>
     <string name="annulla">Annulla</string>
     <string name="auth_fail">Autenticazione Fallita!</string>
     <string name="testDB">test DB</string>
+    <string name="title_activity_syncro">SyncroActivity</string>
 
 </resources>

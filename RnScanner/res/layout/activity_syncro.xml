@@ -1,0 +1,143 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://hemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="it.rn2014.scanner.SyncroActivity" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:gravity="center_horizontal"
+        android:text="Sincronizzazione dei dati"
+        android:textStyle="bold"
+        android:textSize="20sp" />
+    
+    <LinearLayout 
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:gravity="left"
+        android:text="Aggiornamento del Database"
+         />
+
+        <LinearLayout 
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="right"
+            >
+
+		<ProgressBar
+		    android:id="@+id/progressBarDB"
+		    style="?android:attr/progressBarStyleSmall"
+		    android:layout_width="30dp"
+		    android:layout_height="30dp"
+		    android:layout_marginRight="15dp"
+		    android:layout_gravity="center_vertical"
+		    android:visibility="invisible" />
+
+		</LinearLayout>
+        
+    </LinearLayout>
+    
+        <LinearLayout 
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:gravity="left"
+        android:text="Invio dei dati"
+         />
+
+        <LinearLayout 
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="right"
+            >
+
+		<ProgressBar
+		    android:id="@+id/progressBarSend"
+		    style="?android:attr/progressBarStyleSmall"
+		    android:layout_width="30dp"
+		    android:layout_height="30dp"
+		    android:layout_marginRight="15dp"
+		    android:layout_gravity="center_vertical"
+		    android:visibility="invisible" />
+
+		</LinearLayout>
+        
+    </LinearLayout>
+    
+            <LinearLayout 
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:gravity="center_vertical"
+        android:text="Ricezione dei dati"
+         />
+
+        <LinearLayout 
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="right"
+            >
+
+		<ProgressBar
+		    android:id="@+id/progressBarReceive"
+		    style="?android:attr/progressBarStyleSmall"
+		    android:layout_width="30dp"
+		    android:layout_height="30dp"
+		    android:layout_marginRight="15dp"
+		    android:layout_gravity="center_vertical"
+		    android:visibility="invisible"
+		    />
+
+		</LinearLayout>
+        
+    </LinearLayout>
+    
+    <ProgressBar
+        android:id="@+id/syncro_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:indeterminate="false"
+        android:indeterminateBehavior="repeat"
+        android:visibility="visible" />
+    
+    <Button 
+        android:id="@+id/btnStartSyncro"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:text="Avvia Sincronizzazione"
+        android:layout_gravity="bottom"
+        android:layout_margin="40dp"
+        android:drawableBottom="@drawable/syncro"
+        android:padding="20dp"
+        />
+    
+
+</LinearLayout>
