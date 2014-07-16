@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import it.rn2014.db.entity.StatisticheScansioni;
 import it.rn2014.scanner.CustomHttpClient;
 
 /**
@@ -27,7 +28,7 @@ public class SyncData {
      * @param imei the imei of the phone in order to download only the diff from the database (filtered by imei)
      * @return the arraylist of Statistics that must be added to the local database
      */
-    public static ArrayList<Statistics> getUpdate(String token,String imei){
+    public static ArrayList<StatisticheScansioni> getUpdate(String token,String imei){
         ArrayList<NameValuePair> postParams = new ArrayList<NameValuePair>();
         postParams.add(new BasicNameValuePair("token",token));
         postParams.add(new BasicNameValuePair("imei", imei));
@@ -38,7 +39,7 @@ public class SyncData {
             res = response.toString();
             Log.e("me", res);
             JSONArray jsonArray=new JSONArray(response.toString());
-            return JsonToStatisticsList(jsonArray);
+            return JsonToStatList(jsonArray);
 
         } catch (Exception e) {
             Log.e("me", e.toString());
@@ -54,9 +55,10 @@ public class SyncData {
      * @param stat the list of Statistics
      * @return true if the Upload is successful elsewhere if no
      */
-    public static boolean postUpdate(String token,ArrayList<Statistics> stat){
+    public static boolean postUpdate(String token,ArrayList<StatisticheScansioni> stat){
 
-        String json= StatisticsListToJSONArr(stat).toString();
+        String json= StatListToJSONArr(stat).toString();
+        Log.e("Mi aspetto di vedere il json", json);
         ArrayList<NameValuePair> postParams = new ArrayList<NameValuePair>();
         postParams.add(new BasicNameValuePair("token",token));
         postParams.add(new BasicNameValuePair("update", json));
@@ -75,9 +77,10 @@ public class SyncData {
     }
 
 
-    public static  Statistics JsonToStatistics(JSONObject js) throws JSONException {
-        Statistics s=new Statistics();
-        //s.setIdScansione(js.getInt("idScansione"));
+    public static  StatisticheScansioni JsonToStat(JSONObject js) throws JSONException,ClassCastException {
+        StatisticheScansioni s=new StatisticheScansioni();
+
+        s.setIdScansione(js.getInt("idScansione"));
         s.setCodiceUnivoco(js.getString("codiceUnivoco"));
         Log.e("Dato",js.getString("codiceUnivoco"));
         s.setCodiceRistampa(js.getString("codiceRistampa"));
@@ -89,14 +92,15 @@ public class SyncData {
         s.setErrore(js.getString("errore").equals("1"));
         s.setErrore(js.getString("entrata").equals("1"));;
         s.setSync(true);
+        s.setIdEvento(js.getString("idEvento"));
         return s;
     }
 
-    public static ArrayList<Statistics> JsonToStatisticsList(JSONArray jsonArray){
-        ArrayList<Statistics> ar=new ArrayList<Statistics>();
+    public static ArrayList<StatisticheScansioni> JsonToStatList(JSONArray jsonArray){
+        ArrayList<StatisticheScansioni> ar=new ArrayList<StatisticheScansioni>();
         for(int i=0;i<jsonArray.length();i++) {
             try {
-                ar.add(JsonToStatistics((JSONObject)jsonArray.get(i)));
+                ar.add(JsonToStat((JSONObject)jsonArray.get(i)));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -110,7 +114,7 @@ public class SyncData {
      * @return the json version of the row
      * @throws JSONException
      */
-    public static JSONObject StatisticsToJSON(Statistics s) throws JSONException {
+    public static JSONObject StatToJSON(StatisticheScansioni s) throws JSONException {
         JSONObject js=new JSONObject();
         js.put("idScansione",s.getIdScansione());
         js.put("codiceUnivoco",s.getCodiceUnivoco());
@@ -121,6 +125,7 @@ public class SyncData {
         js.put("imei",s.getImei());
         js.put("errore",s.isErrore());
         js.put("entrata",s.isEntrata());
+        js.put("idEvento",s.getIdEvento());
         return js;
     }
 
@@ -129,12 +134,12 @@ public class SyncData {
      * @param stat the Statistic List row by row
      * @return a Json Object fulfill with the Statistics
      */
-    public static JSONObject StatisticsListToJSONArr(ArrayList<Statistics> stat){
+    public static JSONObject StatListToJSONArr(ArrayList<StatisticheScansioni> stat){
         JSONArray jsonArr = new JSONArray();
 
-        for (Statistics s : stat ) {
+        for (StatisticheScansioni s : stat ) {
             try {
-                jsonArr.put(StatisticsToJSON(s));
+                jsonArr.put(StatToJSON(s));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

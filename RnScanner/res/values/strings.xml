@@ -13,7 +13,7 @@
     <string name="welcome">Benvenuto!</string>
     <string name="anonym">Utente Anonimo</string>
     <string name="title_activity_login">Login</string>
-    <string name="prompt_code">Codice badge (AA-1234-567890-0)</string>
+    <string name="prompt_code">Codice badge (AA-####-######-#)</string>
     <string name="prompt_date">Inserisci la data di nascita</string>
     <string name="action_sign_in">Esegui il login</string>
     <string name="action_sign_in_short">Login</string>
@@ -29,10 +29,19 @@
     <string name="desc_gate">Benvenuto nella modalità di Autenticazione Varchi,
         di qui puoi autenticare i Badge per il varco di accesso alla Route Nazionale.
         Premere sul bottone Scansione per scansionare il badge con la fotocamera,
-        Premere sul bottono Codice per inserire il codice del Badge a mano.</string>
+        Premere sul bottone Codice per inserire il codice del Badge a mano.</string>
+        
+    <string name="title_identify">Identifica</string>
+    <string name="desc_identify">Benvenuto nella modalità di Identificazione,
+        di qui puoi ottenere tutti i dati associati ad un badge.
+        Premere sul bottone Scansione per scansionare il badge con la fotocamera,
+        Premere sul bottone Codice per inserire il codice del Badge a mano.</string>
+            
     <string name="title_activity_gate_result">GateResultActivity</string>
     <string name="entrata">Entrata</string>
     <string name="uscita">Uscita</string>
     <string name="annulla">Annulla</string>
+    <string name="auth_fail">Autenticazione Fallita!</string>
+    <string name="testDB">test DB</string>
 
 </resources>

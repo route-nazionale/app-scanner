@@ -5,10 +5,15 @@
     android:versionName="1.0" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <uses-sdk
         android:minSdkVersion="10"
         android:targetSdkVersion="20" />
+    
+    <uses-feature 
+        android:name="android.hardware.screen.portrait"/>
 
     <application
         android:allowBackup="true"
@@ -29,34 +34,37 @@
         </activity>
         <activity
             android:name=".TestActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".AuthActivity"
-            android:label="@string/title_activity_auth" >
+            android:label="@string/title_activity_auth"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
+            android:windowSoftInputMode="adjustResize|stateVisible"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main" >
+            android:label="@string/title_activity_main"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ScanningActivity"
-            android:label="@string/title_activity_gate" >
+            android:label="@string/title_activity_gate"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".GateResultActivity"
-            android:label="@string/title_activity_gate_result" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/title_activity_gate_result"
+            android:screenOrientation="portrait" >
         </activity>
+        <!-- Solo per testare le funzionalita' -->
+        <activity android:label="@string/hello_world" android:name="it.rn2014.downloader.DownloadActivity"></activity>
         <activity android:name="it.rn2014.SyncStats.SyncActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

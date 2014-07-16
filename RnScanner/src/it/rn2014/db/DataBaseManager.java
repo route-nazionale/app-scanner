@@ -4,6 +4,8 @@
 package it.rn2014.db;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +15,6 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 /**
  * @author Luca
@@ -35,7 +36,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
 	public DataBaseManager(Context context) {
 		super(context, DB_NAME, null, 1);// 1? its Database Version
 		DB_PATH			 = "/data/data/" + context.getPackageName() + "/databases/";
-		DB_PATH_DOWNLOAD = "/data/data/" + context.getPackageName() ;
+		DB_PATH_DOWNLOAD = "/data/data/" + context.getPackageName() + "/";
 		this.mContext = context;
 	}
 
@@ -99,25 +100,46 @@ public class DataBaseManager extends SQLiteOpenHelper {
 	}
 	
 	// Copy the database from assets
-	private void copyDataBaseDownload() throws IOException {
+	public void copyDataBaseDownload() throws IOException {
 		deleteDataBase();
 		copyDataBase(DB_PATH_DOWNLOAD) ;
 		deleteDataBaseDownload();
 	}
 	
-	private void copyDataBase(String path) throws IOException {
-		InputStream inputStream = mContext.getAssets().open(DB_NAME);
-		String outFileName = path + DB_NAME;
-		OutputStream outputStream = new FileOutputStream(outFileName);
-		byte[] mBuffer = new byte[1024];
-		int length;
-		while ((length = inputStream.read(mBuffer)) > 0) {
-			outputStream.write(mBuffer, 0, length);
+	private void copyDataBase(String path) {
+		String pathToCopy = DB_PATH ;
+		String pathFromCopy = DB_PATH_DOWNLOAD;
+		
+		try {
+				
+			File dbDir = new File(pathToCopy);
+			if (!dbDir.exists()) {
+				dbDir.mkdir();
+			}
+			
+			File dbFile = new File(pathToCopy  + DB_NAME);
+			if(!dbFile.exists()){
+				dbFile.createNewFile();
+			}
+			
+			InputStream inputStream = new FileInputStream(pathFromCopy  + DB_NAME);
+			OutputStream outputStream = new FileOutputStream(dbFile);
+			
+			byte[] mBuffer = new byte[1024];
+			int length;
+			while ((length = inputStream.read(mBuffer)) > 0) {
+				outputStream.write(mBuffer, 0, length);
+			}
+			outputStream.flush();
+			outputStream.close();
+			inputStream.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		outputStream.flush();
-		outputStream.close();
-		inputStream.close();
-		//TODO Cancellare il file in /assets
 	}
 
 	// Open the database, so we can query it

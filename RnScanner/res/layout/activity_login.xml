@@ -9,6 +9,18 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="it.rn2014.scanner.LoginActivity" >
 
+     <TextView
+     	android:id="@+id/errorMessage"
+     	android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="5dp"
+        android:textSize="20sp"
+        android:textColor="@color/Red"
+        android:text="@string/auth_fail"
+        android:visibility="gone"
+    />
+    
     
     <ProgressBar
         android:id="@+id/login_progress"

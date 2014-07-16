@@ -14,6 +14,7 @@ import org.apache.http.NameValuePair;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import it.rn2014.db.entity.StatisticheScansioni;
 import it.rn2014.scanner.R;
 
 /**
@@ -26,7 +27,9 @@ public class SyncActivity extends Activity {
         setContentView(R.layout.activity_sync);
 
         DownloadTask login = new DownloadTask();
-        login.execute(new String[]{"updateStatistics"});
+        //login.execute(new String[]{"uploadStatistics"});
+
+        login.execute(new String[]{"downloadStatistics"});
 
     }
     public class DownloadTask  extends AsyncTask<String, Void, String> {
@@ -39,20 +42,37 @@ public class SyncActivity extends Activity {
             }
             if(params[0].equals("uploadStatistics")) {
                 //TODO SELECT FROM LOCAL DATABASE THE VALUE FROM THE IMEI
-                startSyncUpload(null);
+
+                StatisticheScansioni s=new StatisticheScansioni();
+                s.setIdScansione(31);
+                s.setCodiceUnivoco("anfan");
+                s.setCodiceRistampa("amfw");
+                s.setTime("2014-07-16 18:07:23");
+                s.setOperatore("giggi");
+                s.setSlot(5);
+                s.setEntrata(true);
+                s.setErrore(false);
+                s.setImei("anaingana-phoning");
+                s.setIdEvento("33");
+                ArrayList<StatisticheScansioni> ls=new ArrayList<StatisticheScansioni>();
+                ls.add(s);
+                startSyncUpload(ls);
             }
             return null;
         }
 
         public void startSyncDownload(){
+            Log.e("startSyncDownload","imei");
             TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
             String imei=telephonyManager.getDeviceId();
+            Log.e("startSyncDownload",imei);
 
-            ArrayList<Statistics> ob= SyncData.getUpdate("FUCK", imei);
+            ArrayList<StatisticheScansioni> ob= SyncData.getUpdate("FUCK", imei);
+            Log.e("startSyncDownload","carico di dati");
             for(int i=0;i<ob.size();i++)
                 Log.e("BEN FATTO", ob.get(i).toString());
         }
-        public boolean startSyncUpload(ArrayList<Statistics> stat){
+        public boolean startSyncUpload(ArrayList<StatisticheScansioni> stat){
             SyncData.postUpdate("FUCK",stat);
             return true;
         }

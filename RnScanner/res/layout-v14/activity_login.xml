@@ -9,6 +9,18 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="it.rn2014.scanner.LoginActivity" >
 
+     <TextView
+     	android:id="@+id/errorMessage"
+     	android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="5dp"
+        android:textSize="20sp"
+        android:textColor="@color/Red"
+        android:text="@string/auth_fail"
+        android:visibility="gone"
+    />
+    
     
     <ProgressBar
         android:id="@+id/login_progress"
@@ -75,6 +87,17 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/action_sign_in"
                 android:textStyle="bold" />
+            
+            <Button
+                android:id="@+id/btnTestDB"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/testDB"
+                android:onClick="testDB"
+                android:textStyle="bold" />
+            
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

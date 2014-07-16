@@ -16,6 +16,8 @@ import com.google.zxing.integration.android.IntentResult;
 
 public class ScanningActivity extends ActionBarActivity implements OnClickListener {
 
+	String mode = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -28,7 +30,7 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 		
 		Bundle extras = getIntent().getExtras();
 		if (extras != null && extras.containsKey("mode")) {
-		    String mode = extras.getString("mode");
+		    mode = extras.getString("mode");
 		    if (mode.contentEquals("gate")){
 				
 		    	TextView title = (TextView)findViewById(R.id.title);
@@ -40,8 +42,13 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 		    } else if (mode.contentEquals("lab")) {
 		    	
 		    } else if (mode.contentEquals("identify")) {
-		    	
+		    	TextView title = (TextView)findViewById(R.id.title);
+				title.setText(R.string.title_identify);
+				TextView description = (TextView)findViewById(R.id.description);
+				description.setText(R.string.desc_identify);
 		    }
+		} else {
+			finish();
 		}
 	}
 
@@ -60,7 +67,12 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 			alert.setPositiveButton("Invia", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					String value = code.getText().toString();
-					Intent login = new Intent(getApplicationContext(), GateResultActivity.class);
+					Intent login;
+					// TODO da completare
+					if (mode.contentEquals("identify")) login = new Intent(getApplicationContext(), GateResultActivity.class);
+					else if (mode.contentEquals("gate")) login = new Intent(getApplicationContext(), GateResultActivity.class);
+					else login = new Intent(getApplicationContext(), GateResultActivity.class);
+					
 					login.putExtra("qrscanned", value);
 					startActivity(login);
 				}

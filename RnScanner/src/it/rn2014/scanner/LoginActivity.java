@@ -1,5 +1,7 @@
 package it.rn2014.scanner;
 
+import it.rn2014.downloader.DownloadActivity;
+
 import java.util.ArrayList;
 
 import org.apache.http.NameValuePair;
@@ -8,21 +10,22 @@ import org.apache.http.message.BasicNameValuePair;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class LoginActivity extends ActionBarActivity {
 
 	EditText code;
-	EditText date;
+	DatePicker date;
 	ProgressBar prb;
+	TextView error;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,21 +34,22 @@ public class LoginActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_login);
 		
 		code = (EditText)findViewById(R.id.code);
+		date = (DatePicker)findViewById(R.id.date);
 		
 		Button btn = (Button)findViewById(R.id.btnSignin);
-		//final ProgressBar prb = (ProgressBar)findViewById(R.id.login_progress);
+		final ProgressBar prb = (ProgressBar)findViewById(R.id.login_progress);
+		
+		error = (TextView)findViewById(R.id.errorMessage);
 		
 		
 		btn.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				
-				// TODO Si deve implementare il login
-				// LoginTask login = new LoginTask(prb);
-				// login.execute(new String[]{code.getText().toString(), date.getText().toString()});
-				Intent main = new Intent(getApplicationContext(), MainActivity.class);
-				startActivity(main);
+
+				LoginTask login = new LoginTask(prb, error);
+				String dateValue = date.getDayOfMonth() + "/" + date.getMonth() + "/" + date.getYear();
+				login.execute(new String[]{code.getText().toString(), dateValue});
 			}
 		});
 		
@@ -53,31 +57,44 @@ public class LoginActivity extends ActionBarActivity {
 		if (extras != null && extras.containsKey("qrscanned")) {
 		    String scannedCode = extras.getString("qrscanned");
 		    code.setText(scannedCode);
+		    code.setClickable(false);
+		    code.setFocusable(false);
+		    code.setFocusableInTouchMode(false);
 		    code.setEnabled(false);
 		}
 	}
 	
-	@SuppressWarnings("unused")
+	public void testDB(View view){
+		Intent intent = new Intent(this,DownloadActivity.class);
+    	startActivity(intent);
+	}
+	
+
 	private class LoginTask extends AsyncTask<String, Void, String>{
 
 		ProgressBar prb;
+		TextView error;
 		
-		private LoginTask(ProgressBar p){
+		private LoginTask(ProgressBar p, TextView err){
 			this.prb = p;
+			this.error = err;
 		}
 		
 		@Override
 		protected void onPreExecute() {
+			error.setVisibility(View.GONE);
 			prb.setVisibility(View.VISIBLE);
 		}
 		
 		@Override
 		protected void onPostExecute(String result) {
 		    if(result.equals("1")){
-		    	Log.e("ME", "CORRETTO");
+		    	Toast.makeText(getApplicationContext(), "Autenticazione Riuscita", Toast.LENGTH_SHORT).show();
+		    	Intent main = new Intent(getApplicationContext(), MainActivity.class);
+				startActivity(main);
 		    }
 		    else{
-		    	Log.e("ME", "ERRATO"); 
+		    	error.setVisibility(View.VISIBLE);
 		    }
 		    prb.setVisibility(View.GONE);
 		}
@@ -85,24 +102,19 @@ public class LoginActivity extends ActionBarActivity {
 		@Override
 		protected String doInBackground(String... params) {
 			
-			Looper.prepare();
 			ArrayList<NameValuePair> postParams = new ArrayList<NameValuePair>();
-			postParams.add(new BasicNameValuePair("username", params[0]));
-			postParams.add(new BasicNameValuePair("password", params[1]));
+			postParams.add(new BasicNameValuePair("code", params[0]));
+			postParams.add(new BasicNameValuePair("date", params[1]));
+			
 			String res = null;
 			String response = null;
-			Log.e("me", "SONO QUA");
 			try{
 				response = CustomHttpClient.executeHttpPost("http://ncorti.it/files/rn.php", postParams);
 				res = response.toString();
-				Log.e("me", res);
 				res = res.replaceAll("\\s+","");
-				Toast.makeText(getApplicationContext(), res, Toast.LENGTH_SHORT).show();
-				
 			} catch (Exception e) {
-				Log.e("me", e.toString());
+				
 			}
-			Looper.loop();
 			return res;
 		}
 	}
