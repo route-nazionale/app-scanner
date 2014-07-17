@@ -2,6 +2,58 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:padding="10dp">
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar3"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.1" />
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Download Database"
+        android:id="@+id/checkBox"
+        android:layout_weight="0.1"
+        android:textSize="25dp"
+        android:checked="false" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_weight="0.1" />
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Upload Stats"
+        android:id="@+id/checkBox2"
+        android:layout_weight="0.13"
+        android:textSize="25dp"
+        android:checked="false" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar2"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.1" />
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Download Stats"
+        android:id="@+id/checkBox3"
+        android:layout_weight="0.14"
+        android:textSize="25dp"
+        android:checked="false" />
 
 </LinearLayout>
