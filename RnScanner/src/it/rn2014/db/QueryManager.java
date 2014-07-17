@@ -29,6 +29,7 @@ public class QueryManager {
 	public QueryManager(Context context) {
 		this.mContext = context;
 		databaseManager = new DataBaseManager(mContext);
+		createDatabase();
 	}
 	
 	public boolean checkDataBase(){
@@ -89,8 +90,11 @@ public class QueryManager {
 	}
 	
 	public Persona findPersonaBySQL(String sql) {
+		open();
 		Cursor cursor = getDBCursor(sql);
+		close();
 		return getPersona(cursor);
+		
 	}
 	
 	public ArrayList<StatisticheScansioni> findAllStatsByImeiNotSync(String imei){
@@ -113,6 +117,8 @@ public class QueryManager {
 	
 	public ArrayList<StatisticheScansioni> findAllStatsBySQL(String sql){
 		
+		open();
+		
 		ArrayList<StatisticheScansioni> statisticheScansioniList = new ArrayList<StatisticheScansioni>();
 		Cursor cursor = getDBCursor(sql);
 		
@@ -123,6 +129,7 @@ public class QueryManager {
 			} while(cursor.moveToNext());
 		}
 		
+		close();
 		return statisticheScansioniList;
 	}
 	
@@ -173,6 +180,9 @@ public class QueryManager {
 	 * @return
 	 */
 	public ArrayList<Evento> findAllEventiBySQL(String sql){
+		
+		open() ;
+		
 		ArrayList<Evento> eventoList = new ArrayList<Evento>();
 		Cursor cursor = getDBCursor(sql);
 		
@@ -182,6 +192,8 @@ public class QueryManager {
 				eventoList.add(evento);
 			} while(cursor.moveToNext());
 		}
+		
+		close();
 		
 		return eventoList;
 		
@@ -211,14 +223,12 @@ public class QueryManager {
 	private Evento getEvento(Cursor cursor){
 		Evento evento = new Evento();
 		
-		evento.setCodiceEvento(getColumnValue(cursor, "codiceEvento"));
-		evento.setContrada(getColumnValue(cursor, "contrada"));
-		evento.setIdEvento(getColumnValue(cursor, "contrada"));
+		evento.setIdEvento(getColumnValue(cursor, "idEvento"));
 		evento.setNome(getColumnValue(cursor, "nome"));
 		evento.setQuartiere(getColumnValue(cursor, "quartiere"));
-		evento.setContrada(getColumnValue(cursor, "contrada"));
-		evento.setStradaCoraggio(getColumnValue(cursor, "stradaCoraggio"));
-		evento.setTipoEvento(Integer.valueOf(getColumnValue(cursor, "tipoEvento")));
+		evento.setContrada(getColumnValue(cursor, "contrade"));
+		evento.setStradaCoraggio(getColumnValue(cursor, "stradaCorggio"));
+		evento.setTipoEvento(getColumnValue(cursor, "tipoEvento"));
 		
 		return evento;
 	}
@@ -234,7 +244,7 @@ public class QueryManager {
 		persona.setNome(" **** ");
 		persona.setIdGruppo(getColumnValue(cursor, "idGruppo"));
 		persona.setRuolo(getColumnValue(cursor, "ruolo"));
-		persona.setCodiceAgesci(getColumnValue(cursor, "codAgesci"));
+		persona.setCodiceAgesci(getColumnValue(cursor, "codiceAgesci"));
 		persona.setIdUnita(getColumnValue(cursor, "idUnita"));
 		persona.setContrada(getColumnValue(cursor, "contrada"));
 		persona.setQuartiere(getColumnValue(cursor, "quartiere"));

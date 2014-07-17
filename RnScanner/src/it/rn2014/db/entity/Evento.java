@@ -7,7 +7,19 @@ public class Evento {
 	private String quartiere;
 	private String stradaCoraggio;
 	private String contrada;
-	private int tipoEvento;
+	private String tipoEvento;
+	
+	@Override
+	public String toString() {
+		System.out.println("idEvento " + this.idEvento );
+		System.out.println("nome " + this.nome );
+		System.out.println("quartiere " + this.quartiere );
+		System.out.println("stradaCoraggio " + this.stradaCoraggio );
+		System.out.println("contrada " + this.contrada );
+		System.out.println("tipoEvento " + this.tipoEvento );
+				
+		return "";
+	}
 	
 	public String getIdEvento() {
 		return idEvento;
@@ -30,10 +42,10 @@ public class Evento {
 	public void setContrada(String contrada) {
 		this.contrada = contrada;
 	}
-	public int getTipoEvento() {
+	public String getTipoEvento() {
 		return tipoEvento;
 	}
-	public void setTipoEvento(int tipoEvento) {
+	public void setTipoEvento(String tipoEvento) {
 		this.tipoEvento = tipoEvento;
 	}
 	

@@ -28,6 +28,22 @@ public class Persona {
 	private String quartiere ;
 	private String contrada ;
 	
+	@Override
+	public String toString() {
+
+		System.out.println("Persona nome " + this.nome );
+		System.out.println("Persona cognome " + this.cognome );
+		System.out.println("Persona ruolo " + this.ruolo );
+		System.out.println("Persona codiceAgesci " + this.codiceAgesci );
+		System.out.println("Persona idGruppo " + this.idGruppo );
+		System.out.println("Persona idUnita " + this.idUnita );
+		System.out.println("Persona codiceUnivoco  " + this.codiceUnivoco );
+		System.out.println("Persona ristampaBadge " + this.ristampaBadge );
+		System.out.println("Persona quartiere " + this.quartiere );
+		System.out.println("Persona contrada " + this.contrada );
+
+		return super.toString();
+	}
 	
 	
 	public String getIdGruppo() {
