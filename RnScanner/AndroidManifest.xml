@@ -64,8 +64,13 @@
             android:screenOrientation="portrait" >
         </activity>
         <!-- Solo per testare le funzionalita' -->
-        <activity android:label="@string/hello_world" android:name="it.rn2014.downloader.DownloadActivity"></activity>        
-       
+        <activity android:label="@string/hello_world" android:name="it.rn2014.downloader.DownloadActivity"></activity>
+        <activity android:name="it.rn2014.SyncStats.SyncActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

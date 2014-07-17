@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <TableLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1"
+        android:padding="10dp">
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+        android:layout_width="317dp"
+        android:layout_height="50dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Sincronizzazione in corso"
+        android:id="@+id/textView"
+        android:layout_gravity="center_horizontal"
+        android:textAlignment="center"
+            android:gravity="fill_horizontal" />
+        </TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="Download Database"
+                android:id="@+id/checkDatabase"
+                android:layout_weight="0.5"
+                android:textSize="25dp"
+                android:checked="false"
+                android:clickable="false"
+                android:focusable="false" />
+
+            <ProgressBar
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:id="@+id/progDatabase"
+                android:layout_weight="2"
+        android:indeterminate="false" />
+
+
+        </TableRow>
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Upload Stats"
+            android:id="@+id/checkUpStat"
+            android:layout_weight="0.13"
+            android:textSize="25dp"
+            android:checked="false"
+            android:layout_marginLeft="0dp"
+            android:focusable="false" />
+
+        <ProgressBar
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:id="@+id/progUpStat"
+        android:layout_weight="0.5"
+        android:indeterminate="false" />
+
+    </TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="Download Stats"
+                android:id="@+id/checkDownStat"
+                android:layout_weight="0.14"
+                android:textSize="25dp"
+                android:checked="false"
+                android:focusable="false" />
+
+            <ProgressBar
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:id="@+id/progDownStat"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.5"
+        android:indeterminate="false" />
+
+        </TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sincronizza"
+                android:id="@+id/syncButton"
+                android:layout_gravity="center_horizontal"
+                android:layout_span="2" />
+
+        </TableRow>
+</TableLayout>

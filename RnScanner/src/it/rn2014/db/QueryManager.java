@@ -207,7 +207,7 @@ public class QueryManager {
 	private StatisticheScansioni getStatisticaScansione(Cursor cursor) {
 		StatisticheScansioni statisticheScansioni = new StatisticheScansioni();
 		
-		statisticheScansioni.setCodiceRisampa(getColumnValue(cursor, "codiceRistampa"));
+		statisticheScansioni.setCodiceRistampa(getColumnValue(cursor, "codiceRistampa"));
 		statisticheScansioni.setCodiceUnivoco(getColumnValue(cursor, "codiceUnivoco"));
 		statisticheScansioni.setIdEvento(getColumnValue(cursor, "idEvento"));
 		statisticheScansioni.setTime(getColumnValue(cursor, "time"));

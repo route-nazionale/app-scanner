@@ -4,7 +4,7 @@ public class StatisticheScansioni {
 	
     private int idScansione   ; // INTEGER PRIMARY KEY AUTOINCREMENT,
     private String codiceUnivoco ; // VARCHAR,
-    private String codiceRisampa ; // VARCHAR,
+    private String codiceRistampa ; // VARCHAR,
     private String time          ; // VARCHAR,
     private String operatore     ; // VARCHAR,
     private int slot          ; // INTEGER,
@@ -26,11 +26,11 @@ public class StatisticheScansioni {
 	public void setCodiceUnivoco(String codiceUnivoco) {
 		this.codiceUnivoco = codiceUnivoco;
 	}
-	public String getCodiceRisampa() {
-		return codiceRisampa;
+	public String getCodiceRistampa() {
+		return codiceRistampa;
 	}
-	public void setCodiceRisampa(String codiceRisampa) {
-		this.codiceRisampa = codiceRisampa;
+	public void setCodiceRistampa(String codiceRistampa) {
+		this.codiceRistampa = codiceRistampa;
 	}
 	public String getTime() {
 		return time;
@@ -80,7 +80,8 @@ public class StatisticheScansioni {
 	public void setIdEvento(String idEvento) {
 		this.idEvento = idEvento;
 	}
-
-
+    public String toString(){
+        return "["+idScansione+"] "+codiceUnivoco+codiceRistampa+" "+idEvento;
+    }
 
 }
