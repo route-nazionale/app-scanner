@@ -7,6 +7,7 @@ import it.rn2014.db.entity.StatisticheScansioni;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -28,6 +29,10 @@ public class QueryManager {
 	public QueryManager(Context context) {
 		this.mContext = context;
 		databaseManager = new DataBaseManager(mContext);
+	}
+	
+	public boolean checkDataBase(){
+		return databaseManager.checkDataBase();
 	}
 
 	public QueryManager createDatabase() throws SQLException {
@@ -119,6 +124,33 @@ public class QueryManager {
 		}
 		
 		return statisticheScansioniList;
+	}
+	
+	public boolean insertStats(StatisticheScansioni statistica){
+		try {
+			
+			ContentValues cv = new ContentValues();
+			cv.put("codiceRistampa", statistica.getCodiceRisampa());
+			cv.put("codiceUnivoco", statistica.getCodiceUnivoco());
+			cv.put("idEvento", statistica.getIdEvento());
+			cv.put("time", statistica.getTime());
+			cv.put("operatore", statistica.getOperatore());
+			cv.put("slot", statistica.getSlot());
+			cv.put("imei", statistica.getImei());
+			cv.put("errore", statistica.isErrore());
+			cv.put("entrata", statistica.isEntrata());
+			cv.put("sync", statistica.isSync());
+			
+			database.insert("statisticheScansioni", null, cv);
+			
+			Log.d("SaveEmployee", "informationsaved");
+			return true;
+		} catch (Exception ex) {
+			Log.d("insertStats", ex.toString());
+			return false;
+		}
+		
+		
 	}
 	
 	/**

@@ -79,7 +79,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
 		return deleteFile;
 	}
 	
-	private boolean checkDataBase(){
+	public boolean checkDataBase(){
 		return checkDataBase(DB_PATH);
 	}
 	
@@ -90,7 +90,6 @@ public class DataBaseManager extends SQLiteOpenHelper {
 	// Check that the database exists here:  /data/data/package/databases/DBName
 	private boolean checkDataBase(String path) {
 		File dbFile = new File(path + DB_NAME);
-		// Log.v("dbFile", dbFile + "   "+ dbFile.exists());
 		return dbFile.exists();
 	}
 
@@ -107,23 +106,32 @@ public class DataBaseManager extends SQLiteOpenHelper {
 	}
 	
 	private void copyDataBase(String path) {
+		copyDataBase(path, false);
+	}
+	
+	private void copyDataBase(String path, boolean fromAssets) {
 		String pathToCopy = DB_PATH ;
 		String pathFromCopy = DB_PATH_DOWNLOAD;
 		
 		try {
 				
+			InputStream inputStream = null;
+			OutputStream outputStream = null;	
+			
 			File dbDir = new File(pathToCopy);
-			if (!dbDir.exists()) {
-				dbDir.mkdir();
-			}
-			
 			File dbFile = new File(pathToCopy  + DB_NAME);
-			if(!dbFile.exists()){
-				dbFile.createNewFile();
+
+			if (!dbDir.exists()) dbDir.mkdir();
+			if (!dbFile.exists()) dbFile.createNewFile();
+				
+			if(!fromAssets){
+				inputStream = new FileInputStream(pathFromCopy  + DB_NAME);
+				
+			} else {
+				inputStream = mContext.getAssets().open(DB_NAME);
 			}
+			outputStream = new FileOutputStream(dbFile);
 			
-			InputStream inputStream = new FileInputStream(pathFromCopy  + DB_NAME);
-			OutputStream outputStream = new FileOutputStream(dbFile);
 			
 			byte[] mBuffer = new byte[1024];
 			int length;
