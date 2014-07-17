@@ -17,6 +17,7 @@ import org.apache.http.NameValuePair;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import it.rn2014.db.QueryManager;
 import it.rn2014.db.entity.StatisticheScansioni;
 import it.rn2014.scanner.MainActivity;
 import it.rn2014.scanner.R;
@@ -41,23 +42,23 @@ public class SyncActivity extends Activity {
 
         final CheckBox checkUpStats =(CheckBox)findViewById(R.id.checkUpStat);
 
-        DownloadTask sync2 = new DownloadTask(progDownStats,checkDownStats);
+        SyncTask sync2 = new SyncTask(progDownStats,checkDownStats);
         //login.execute(new String[]{"uploadStatistics"});
 
         sync2.execute(new String[]{"downloadStatistics"});
 
-        DownloadTask sync1 = new DownloadTask(progUpStats,checkUpStats);
-        sync1.execute(new String[]{"downloadStatistics"});
+        //SyncTask sync3 = new SyncTask(progUpStats,checkUpStats);
+        //sync3.execute(new String[]{"uploadStatistics"});
 
         checkDownStats.setFocusable(false);
         checkDownStats.setFocusable(false);
         checkUpStats.setFocusable(false);
 
     }
-    public class DownloadTask  extends AsyncTask<String, Void, String> {
+    public class SyncTask  extends AsyncTask<String, Void, String> {
         ProgressBar prb;
         CheckBox check;
-        public DownloadTask(ProgressBar p,CheckBox c){
+        public SyncTask(ProgressBar p,CheckBox c){
             this.prb=p;
             this.check=c;
         }
@@ -73,6 +74,8 @@ public class SyncActivity extends Activity {
                 Toast.makeText(getApplicationContext(), "Download Riuscito", Toast.LENGTH_SHORT).show();
                 check.setChecked(true);
                 prb.setVisibility(View.GONE);
+
+                //TODO SET THE SELECTED VALUE AS SYNC AS TRUE IF THE SYNC IS SUCCESSFULL
             }
             else{
                 Toast.makeText(getApplicationContext(), "Download Fallito", Toast.LENGTH_SHORT).show();
@@ -87,9 +90,8 @@ public class SyncActivity extends Activity {
                 res=startSyncDownload();
             }
             if(params[0].equals("uploadStatistics")) {
-                //TODO SELECT FROM LOCAL DATABASE THE VALUE FROM THE IMEI
 
-                StatisticheScansioni s=new StatisticheScansioni();
+                /*StatisticheScansioni s=new StatisticheScansioni();
                 s.setIdScansione(31);
                 s.setCodiceUnivoco("anfan");
                 s.setCodiceRistampa("amfw");
@@ -101,7 +103,13 @@ public class SyncActivity extends Activity {
                 s.setImei("anaingana-phoning");
                 s.setIdEvento("33");
                 ArrayList<StatisticheScansioni> ls=new ArrayList<StatisticheScansioni>();
-                ls.add(s);
+                ls.add(s);*/
+                TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+                String imei=telephonyManager.getDeviceId();
+
+                QueryManager qm=new QueryManager(getApplicationContext());
+                ArrayList<StatisticheScansioni> ls=qm.findAllStatsByImeiNotSync(imei);
+                //TODO SET THE SELECTED VALUE AS SYNC AS TRUE IF THE SYNC IS SUCCESSFULL
                 res=startSyncUpload(ls);
             }
             if(res)
@@ -116,11 +124,14 @@ public class SyncActivity extends Activity {
             String imei=telephonyManager.getDeviceId();
             Log.e("startSyncDownload",imei);
 
-            ArrayList<StatisticheScansioni> ob= SyncData.getUpdate("FUCK", imei);
+            String idEvento="000";
+
+            ArrayList<StatisticheScansioni> ob= SyncData.getUpdate("FUCK", imei,idEvento);
             Log.e("startSyncDownload","carico di dati");
             for(int i=0;i<ob.size();i++)
                 Log.e("BEN FATTO", ob.get(i).toString());
 
+            //TODO insert the result into the database
             return true;
         }
         public boolean startSyncUpload(ArrayList<StatisticheScansioni> stat){
