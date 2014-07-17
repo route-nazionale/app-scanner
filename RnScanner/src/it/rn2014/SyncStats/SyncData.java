@@ -28,10 +28,11 @@ public class SyncData {
      * @param imei the imei of the phone in order to download only the diff from the database (filtered by imei)
      * @return the arraylist of Statistics that must be added to the local database
      */
-    public static ArrayList<StatisticheScansioni> getUpdate(String token,String imei){
+    public static ArrayList<StatisticheScansioni> getUpdate(String token,String imei,String idEvento){
         ArrayList<NameValuePair> postParams = new ArrayList<NameValuePair>();
         postParams.add(new BasicNameValuePair("token",token));
         postParams.add(new BasicNameValuePair("imei", imei));
+        postParams.add(new BasicNameValuePair("idEvento", idEvento));
         String res = null;
         String response = null;
         try{
