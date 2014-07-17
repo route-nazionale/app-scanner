@@ -143,7 +143,7 @@ public class QueryManager {
 			
 			database.insert("statisticheScansioni", null, cv);
 			
-			Log.d("SaveEmployee", "informationsaved");
+			Log.d("insertStats", "Statistica salvata");
 			return true;
 		} catch (Exception ex) {
 			Log.d("insertStats", ex.toString());
