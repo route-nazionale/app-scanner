@@ -11,6 +11,7 @@ public class GateResultActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_gate_result);
 		
+		
 		Bundle extras = getIntent().getExtras();
 		if (extras != null && extras.containsKey("qrscanned")) {
 		    String code = extras.getString("qrscanned");

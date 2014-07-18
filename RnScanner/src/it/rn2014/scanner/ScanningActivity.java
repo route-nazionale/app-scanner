@@ -44,8 +44,9 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 	    if (mode.contentEquals("gate")){
 			
 	    	TextView title = (TextView)findViewById(R.id.title);
-			title.setText(R.string.title_gate);
 			TextView description = (TextView)findViewById(R.id.description);
+			title.setText(R.string.title_gate);
+			title.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.gate), null, null, null);
 			description.setText(R.string.desc_gate);
 			
 			
@@ -57,6 +58,7 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 			TextView turn = (TextView)findViewById(R.id.turnText);
 	    	
 			title.setText(R.string.title_event);
+			title.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.event), null, null, null);
 			description.setText(R.string.desc_event);
 			
 			String[] eventNames = getResources().getStringArray(R.array.example_events);
@@ -68,8 +70,10 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 	    	
 	    } else if (mode.contentEquals("identify")) {
 	    	TextView title = (TextView)findViewById(R.id.title);
-			title.setText(R.string.title_identify);
 			TextView description = (TextView)findViewById(R.id.description);
+	    	
+			title.setText(R.string.title_identify);
+			title.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.identify), null, null, null);
 			description.setText(R.string.desc_identify);
 	    }
 	}
@@ -113,11 +117,21 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		
+		Intent result = null;
+		if (mode.contentEquals("gate"))
+			result = new Intent(getApplicationContext(), GateResultActivity.class);
+//		if (mode.contentEquals("identify"))
+//			result = new Intent(getApplicationContext(), IdentifyResultActivity.class);
+//		if (mode.contentEquals("event"))
+//			result = new Intent(getApplicationContext(), EventResultActivity.class);
+//		
 		IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-		if (scanResult != null && scanResult.getContents() != null && scanResult.getContents() != "") {
-			Intent login = new Intent(getApplicationContext(), GateResultActivity.class);
-			login.putExtra("qrscanned", scanResult.getContents());
-			startActivity(login);
+		if (scanResult != null && scanResult.getContents() != null && scanResult.getContents() != "" && result != null) {
+			result.putExtra("qrscanned", scanResult.getContents());
+			startActivity(result);
+		} else {
+			Log.e(this.getLocalClassName(), "Returned a wrong activity result");
 		}
 	}
 	

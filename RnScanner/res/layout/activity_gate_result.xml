@@ -35,36 +35,37 @@
     <Button
         android:id="@+id/btnExit"
         android:layout_weight="1"
-        android:background="@color/LightBlue"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:drawableTop="@drawable/exit"
+        android:background="@drawable/blue_button"
         android:text="@string/uscita"
         android:padding="15dp" />
     
         <Button
         android:id="@+id/btnEnter"
         android:layout_weight="1"
-        android:background="@color/LightGreen"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:drawableTop="@drawable/entrance"
         android:text="@string/entrata"
+        android:background="@drawable/green_button"
         android:padding="15dp" />   
     
 	</LinearLayout>
 	
 	<Button
         android:id="@+id/btnAbort"
-        android:background="@color/LightPink"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:layout_marginLeft="10dp"
         android:drawableLeft="@drawable/abort"
         android:text="@string/annulla"
-        android:layout_gravity="bottom"
+        android:background="@drawable/red_button"
+        android:layout_gravity="bottom|center_horizontal"
         android:padding="5dp" />
 	
 </LinearLayout>
