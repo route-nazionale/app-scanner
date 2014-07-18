@@ -28,28 +28,34 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 		Button btnWrite = (Button)findViewById(R.id.btnWrite);
 		btnWrite.setOnClickListener(this);
 		
-		Bundle extras = getIntent().getExtras();
-		if (extras != null && extras.containsKey("mode")) {
-		    mode = extras.getString("mode");
-		    if (mode.contentEquals("gate")){
-				
-		    	TextView title = (TextView)findViewById(R.id.title);
-				title.setText(R.string.title_gate);
-				TextView description = (TextView)findViewById(R.id.description);
-				description.setText(R.string.desc_gate);
-				
-				
-		    } else if (mode.contentEquals("lab")) {
-		    	
-		    } else if (mode.contentEquals("identify")) {
-		    	TextView title = (TextView)findViewById(R.id.title);
-				title.setText(R.string.title_identify);
-				TextView description = (TextView)findViewById(R.id.description);
-				description.setText(R.string.desc_identify);
-		    }
+		if (savedInstanceState != null){
+			mode = savedInstanceState.getString("mode");
 		} else {
-			finish();
+			Bundle extras = getIntent().getExtras();
+			if (extras != null && extras.containsKey("mode")) {
+				mode = extras.getString("mode");
+			} else {
+				mode = UserData.getInstance().getChoose();
+			}
 		}
+		
+		// Disegno l'interfaccia in base alla modalita'
+	    if (mode.contentEquals("gate")){
+			
+	    	TextView title = (TextView)findViewById(R.id.title);
+			title.setText(R.string.title_gate);
+			TextView description = (TextView)findViewById(R.id.description);
+			description.setText(R.string.desc_gate);
+			
+			
+	    } else if (mode.contentEquals("lab")) {
+	    	
+	    } else if (mode.contentEquals("identify")) {
+	    	TextView title = (TextView)findViewById(R.id.title);
+			title.setText(R.string.title_identify);
+			TextView description = (TextView)findViewById(R.id.description);
+			description.setText(R.string.desc_identify);
+	    }
 	}
 
 	@Override
@@ -92,10 +98,21 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-		if (scanResult != null) {
+		if (scanResult != null && scanResult.getContents() != null && scanResult.getContents() != "") {
 			Intent login = new Intent(getApplicationContext(), GateResultActivity.class);
 			login.putExtra("qrscanned", scanResult.getContents());
 			startActivity(login);
 		}
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+	    savedInstanceState.putString("mode", mode);
+	    super.onSaveInstanceState(savedInstanceState);
+	}
+	
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+	    super.onRestoreInstanceState(savedInstanceState);
+	    mode = savedInstanceState.getString("mode");
 	}
 }

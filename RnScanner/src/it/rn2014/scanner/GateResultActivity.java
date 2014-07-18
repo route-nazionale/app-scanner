@@ -14,6 +14,7 @@ public class GateResultActivity extends Activity {
 		Bundle extras = getIntent().getExtras();
 		if (extras != null && extras.containsKey("qrscanned")) {
 		    String code = extras.getString("qrscanned");
+		    if (code == null) finish();
 		    if (code.contentEquals("AA-1079-022839-0")){
 		    	TextView result = (TextView)findViewById(R.id.result);
 		    	result.setText("CODICE CORRETTO");

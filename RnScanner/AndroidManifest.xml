@@ -62,7 +62,7 @@
             android:label="@string/title_activity_gate_result"
             android:screenOrientation="portrait" >
         </activity>
-        
+
         <!-- Solo per testare le funzionalita' -->
         <activity
             android:name="it.rn2014.downloader.DownloadActivity"
@@ -71,6 +71,10 @@
         <activity
             android:name=".SyncroActivity"
             android:label="@string/title_activity_syncro" >
+        </activity>
+        <activity
+            android:name=".EventActivity"
+            android:label="@string/title_activity_event" >
         </activity>
     </application>
 

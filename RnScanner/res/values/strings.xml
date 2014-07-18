@@ -48,5 +48,12 @@
     <string name="avvia_sincronizzazione">Avvia Sincronizzazione</string>
     <string name="sincronizzazione_dei_dati">Sincronizzazione dei dati</string>
     <string name="ok_image">Ok image</string>
+    <string name="title_activity_event">EventActivity</string>
+    <string name="scegli_l_evento_di_cui_vuoi_fare_l_autenticazione_nell_elenco_seguente_sono_presenti_solo_gli_eventi_per_cui_sei_stato_autorizzato_">Scegli l\'evento di cui vuoi fare l\'autenticazione. Nell\'elenco seguente sono presenti solo gli eventi per cui sei stato autorizzato.</string>
+    <string name="chose_event">Scegli l\'evento di cui vuoi fare l\'autenticazione. Nell\'elenco seguente sono presenti solo gli eventi per cui sei stato autorizzato</string>
+    <string name="scegli_l_evento">Scegli l\'evento</string>
+    <string name="turno_1">Turno 1</string>
+    <string name="turno_2">Turno 2</string>
+    <string name="turno_3">Turno 3</string>
 
 </resources>
