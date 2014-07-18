@@ -11,7 +11,7 @@
         android:layout_gravity="center"
         android:layout_margin="20dp"
         android:gravity="center_horizontal"
-        android:text="Sincronizzazione dei dati"
+        android:text="@string/sincronizzazione_dei_dati"
         android:textStyle="bold"
         android:textSize="20sp" />
     
@@ -21,13 +21,13 @@
         android:layout_height="wrap_content">
         
         <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="15dp"
-        android:gravity="left"
-        android:text="Aggiornamento del Database"
-         />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="15dp"
+            android:drawableLeft="@drawable/syncrodb"
+            android:gravity="left"
+            android:text="@string/aggiornamento_del_database" />
 
         <LinearLayout 
             android:layout_width="fill_parent"
@@ -60,7 +60,8 @@
         android:layout_gravity="center"
         android:layout_margin="15dp"
         android:gravity="left"
-        android:text="Invio dei dati"
+        android:drawableLeft="@drawable/senddb"
+        android:text="@string/invio_dei_dati"
          />
 
         <LinearLayout 
@@ -94,7 +95,8 @@
         android:layout_gravity="center"
         android:layout_margin="15dp"
         android:gravity="center_vertical"
-        android:text="Ricezione dei dati"
+        android:drawableLeft="@drawable/receivedb"        
+        android:text="@string/ricezione_dei_dati"
          />
 
         <LinearLayout 
@@ -132,9 +134,9 @@
         android:id="@+id/btnStartSyncro"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:text="Avvia Sincronizzazione"
+        android:text="@string/avvia_sincronizzazione"
         android:layout_gravity="bottom"
-        android:layout_margin="40dp"
+        android:layout_margin="20dp"
         android:drawableBottom="@drawable/syncro"
         android:padding="20dp"
         />

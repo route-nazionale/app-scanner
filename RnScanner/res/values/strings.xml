@@ -42,5 +42,10 @@
     <string name="auth_fail">Autenticazione Fallita!</string>
     <string name="testDB">test DB</string>
     <string name="title_activity_syncro">SyncroActivity</string>
+    <string name="aggiornamento_del_database">Aggiornamento del Database</string>
+    <string name="invio_dei_dati">Invio dei dati</string>
+    <string name="ricezione_dei_dati">Ricezione dei dati</string>
+    <string name="avvia_sincronizzazione">Avvia Sincronizzazione</string>
+    <string name="sincronizzazione_dei_dati">Sincronizzazione dei dati</string>
 
 </resources>

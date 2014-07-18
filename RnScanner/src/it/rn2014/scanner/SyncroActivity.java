@@ -40,7 +40,7 @@ public class SyncroActivity extends ActionBarActivity {
 	
 	
 
-	private class SyncroTask extends AsyncTask<String, Void, String>{
+	private class SyncroTask extends AsyncTask<String, Integer, String>{
 
 		ProgressBar total, p1, p2, p3;
 			
@@ -65,6 +65,18 @@ public class SyncroActivity extends ActionBarActivity {
 			Toast.makeText(getApplicationContext(), "Sincronizzazione completata!", Toast.LENGTH_LONG).show();
 		}
 		
+		
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			if (values[0] == 1){
+				p1.setVisibility(View.GONE);
+			} else if (values[0] == 2) {
+				p2.setVisibility(View.GONE);
+			} else if (values[0] == 3) {
+				p3.setVisibility(View.GONE);
+			}
+		}
+
 		@Override
 		protected String doInBackground(String... params) {
 			
@@ -75,26 +87,25 @@ public class SyncroActivity extends ActionBarActivity {
 			String res = null;
 			String response = null;
 			try{
-				p1.setVisibility(View.VISIBLE);
 				response = CustomHttpClient.executeHttpPost("http://ncorti.it/files/rn.php", postParams);
 				res = response.toString();
 				res = res.replaceAll("\\s+","");
-				p1.setVisibility(View.INVISIBLE);
+				publishProgress(1);
 				
-				p2.setVisibility(View.VISIBLE);
-				response = CustomHttpClient.executeHttpPost("http://ncorti.it/files/rn.php", postParams);
-				res = response.toString();
-				res = res.replaceAll("\\s+","");
-				p2.setVisibility(View.INVISIBLE);
 				
-				p3.setVisibility(View.VISIBLE);
 				response = CustomHttpClient.executeHttpPost("http://ncorti.it/files/rn.php", postParams);
 				res = response.toString();
 				res = res.replaceAll("\\s+","");
-				p3.setVisibility(View.INVISIBLE);
+				publishProgress(2);
+				
+				
+				response = CustomHttpClient.executeHttpPost("http://ncorti.it/files/rn.php", postParams);
+				res = response.toString();
+				res = res.replaceAll("\\s+","");
+				publishProgress(3);
 				
 			} catch (Exception e) {
-				
+				e.printStackTrace();
 			}
 			return res;
 		}
