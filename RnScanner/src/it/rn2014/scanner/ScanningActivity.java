@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -48,7 +49,22 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 			description.setText(R.string.desc_gate);
 			
 			
-	    } else if (mode.contentEquals("lab")) {
+	    } else if (mode.contentEquals("event")) {
+	    	
+	    	TextView title = (TextView)findViewById(R.id.title);
+	    	TextView description = (TextView)findViewById(R.id.description);
+	    	TextView event = (TextView)findViewById(R.id.eventText);
+			TextView turn = (TextView)findViewById(R.id.turnText);
+	    	
+			title.setText(R.string.title_event);
+			description.setText(R.string.desc_event);
+			
+			String[] eventNames = getResources().getStringArray(R.array.example_events);
+			String eventName = eventNames[Integer.parseInt(UserData.getInstance().getEvent())];
+			Log.e("EVENT", eventName);
+			event.setText("Evento: " + eventName);
+			turn.setText("Turno: " + UserData.getInstance().getTurn());
+	    	
 	    	
 	    } else if (mode.contentEquals("identify")) {
 	    	TextView title = (TextView)findViewById(R.id.title);

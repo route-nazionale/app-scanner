@@ -35,6 +35,12 @@
         di qui puoi ottenere tutti i dati associati ad un badge.
         Premere sul bottone Scansione per scansionare il badge con la fotocamera,
         Premere sul bottone Codice per inserire il codice del Badge a mano.</string>
+    <string name="title_event">Autenticazione Eventi</string>
+    <string name="desc_event">Benvenuto nella modalità di Autenticazione Eventi,
+        di qui puoi autenticare i Badge per l\'evento selezionato.
+        Premere sul bottone Scansione per scansionare il badge con la fotocamera,
+        Premere sul bottone Codice per inserire il codice del Badge a mano.</string>    
+    
     <string name="title_activity_gate_result">GateResultActivity</string>
     <string name="entrata">Entrata</string>
     <string name="uscita">Uscita</string>

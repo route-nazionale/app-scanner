@@ -25,27 +25,27 @@
         android:textSize="12sp" />
 
     <RadioGroup
-        android:id="@+id/radioGroup1"
+        android:id="@+id/radioTurn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal" >
 
         <RadioButton
-            android:id="@+id/radio0"
+            android:id="@+id/radio1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="@string/turno_1" />
 
         <RadioButton
-            android:id="@+id/radio1"
+            android:id="@+id/radio2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/turno_2" />
 
         <RadioButton
-            android:id="@+id/radio2"
+            android:id="@+id/radio3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/turno_3" />
