@@ -78,6 +78,6 @@ public class GateResultActivity extends Activity implements OnClickListener {
 			t.setText("Scansione annullata");
 		}
 		t.show();
-		
+		finish();
 	}
 }
