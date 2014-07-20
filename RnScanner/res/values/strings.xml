@@ -24,7 +24,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_gate">GateActivity</string>
     <string name="scansione">Scansione</string>
-    <string name="codice">CODICE</string>
+    <string name="codice">Codice</string>
     <string name="title_gate">Autenticazione Varchi</string>
     <string name="desc_gate">Benvenuto nella modalità di Autenticazione Varchi,
         di qui puoi autenticare i Badge per il varco di accesso alla Route Nazionale.
@@ -39,8 +39,7 @@
     <string name="desc_event">Benvenuto nella modalità di Autenticazione Eventi,
         di qui puoi autenticare i Badge per l\'evento selezionato.
         Premere sul bottone Scansione per scansionare il badge con la fotocamera,
-        Premere sul bottone Codice per inserire il codice del Badge a mano.</string>    
-    
+        Premere sul bottone Codice per inserire il codice del Badge a mano.</string>
     <string name="title_activity_gate_result">GateResultActivity</string>
     <string name="entrata">Entrata</string>
     <string name="uscita">Uscita</string>
@@ -61,9 +60,9 @@
     <string name="turno_1">Turno 1</string>
     <string name="turno_2">Turno 2</string>
     <string name="turno_3">Turno 3</string>
-    
     <string name="autorizzato">Autorizzato!</string>
     <string name="non_autorizzato">Non Autorizzato!</string>
     <string name="invalido">Non Riconosciuto!</string>
+    <string name="title_activity_identify_result">IdentifyResultActivity</string>
 
 </resources>

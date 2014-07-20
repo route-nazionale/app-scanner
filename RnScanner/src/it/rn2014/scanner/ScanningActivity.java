@@ -95,7 +95,7 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 					String value = code.getText().toString();
 					Intent login;
 					// TODO da completare
-					if (mode.contentEquals("identify")) login = new Intent(getApplicationContext(), GateResultActivity.class);
+					if (mode.contentEquals("identify")) login = new Intent(getApplicationContext(), IdentifyResultActivity.class);
 					else if (mode.contentEquals("gate")) login = new Intent(getApplicationContext(), GateResultActivity.class);
 					else login = new Intent(getApplicationContext(), GateResultActivity.class);
 					
@@ -121,8 +121,8 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 		Intent result = null;
 		if (mode.contentEquals("gate"))
 			result = new Intent(getApplicationContext(), GateResultActivity.class);
-//		if (mode.contentEquals("identify"))
-//			result = new Intent(getApplicationContext(), IdentifyResultActivity.class);
+		if (mode.contentEquals("identify"))
+			result = new Intent(getApplicationContext(), IdentifyResultActivity.class);
 //		if (mode.contentEquals("event"))
 //			result = new Intent(getApplicationContext(), EventResultActivity.class);
 //		

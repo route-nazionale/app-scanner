@@ -76,6 +76,10 @@
             android:name=".EventActivity"
             android:label="@string/title_activity_event" >
         </activity>
+        <activity
+            android:name=".IdentifyResultActivity"
+            android:label="@string/title_activity_identify_result" >
+        </activity>
     </application>
 
 </manifest>
