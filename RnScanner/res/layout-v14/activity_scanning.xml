@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+   	android:background="@drawable/background_bitmap"
     tools:context="it.rn2014.scanner.ScanningActivity" >
 
     <TextView
@@ -21,6 +22,28 @@
         android:layout_margin="15dp"
         android:textSize="14sp"
         android:gravity="left" />
+    
+        <TextView
+        android:id="@+id/turnText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:textStyle="bold" />
+    
+    
+    <TextView
+        android:id="@+id/eventText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:textStyle="bold" />
+    
     
     <LinearLayout
         android:layout_width="fill_parent"

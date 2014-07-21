@@ -30,18 +30,39 @@
         di qui puoi autenticare i Badge per il varco di accesso alla Route Nazionale.
         Premere sul bottone Scansione per scansionare il badge con la fotocamera,
         Premere sul bottone Codice per inserire il codice del Badge a mano.</string>
-        
     <string name="title_identify">Identifica</string>
     <string name="desc_identify">Benvenuto nella modalità di Identificazione,
         di qui puoi ottenere tutti i dati associati ad un badge.
         Premere sul bottone Scansione per scansionare il badge con la fotocamera,
         Premere sul bottone Codice per inserire il codice del Badge a mano.</string>
-            
+    <string name="title_event">Autenticazione Eventi</string>
+    <string name="desc_event">Benvenuto nella modalità di Autenticazione Eventi,
+        di qui puoi autenticare i Badge per l\'evento selezionato.
+        Premere sul bottone Scansione per scansionare il badge con la fotocamera,
+        Premere sul bottone Codice per inserire il codice del Badge a mano.</string>
     <string name="title_activity_gate_result">GateResultActivity</string>
     <string name="entrata">Entrata</string>
     <string name="uscita">Uscita</string>
     <string name="annulla">Annulla</string>
     <string name="auth_fail">Autenticazione Fallita!</string>
     <string name="testDB">test DB</string>
+    <string name="title_activity_syncro">SyncroActivity</string>
+    <string name="aggiornamento_del_database">Aggiornamento del Database</string>
+    <string name="invio_dei_dati">Invio dei dati</string>
+    <string name="ricezione_dei_dati">Ricezione dei dati</string>
+    <string name="avvia_sincronizzazione">Avvia Sincronizzazione</string>
+    <string name="sincronizzazione_dei_dati">Sincronizzazione dei dati</string>
+    <string name="ok_image">OK image</string>
+    <string name="title_activity_event">EventActivity</string>
+    <string name="scegli_l_evento_di_cui_vuoi_fare_l_autenticazione_nell_elenco_seguente_sono_presenti_solo_gli_eventi_per_cui_sei_stato_autorizzato_">Scegli l\'evento di cui vuoi fare l\'autenticazione. Nell\'elenco seguente sono presenti solo gli eventi per cui sei stato autorizzato.</string>
+    <string name="chose_event">Scegli l\'evento di cui vuoi fare l\'autenticazione. Nell\'elenco seguente sono presenti solo gli eventi per cui sei stato autorizzato</string>
+    <string name="scegli_l_evento">Scegli l\'evento</string>
+    <string name="turno_1">Turno 1</string>
+    <string name="turno_2">Turno 2</string>
+    <string name="turno_3">Turno 3</string>
+    <string name="autorizzato">Autorizzato!</string>
+    <string name="non_autorizzato">Non Autorizzato!</string>
+    <string name="invalido">Non Riconosciuto!</string>
+    <string name="title_activity_identify_result">IdentifyResultActivity</string>
 
 </resources>

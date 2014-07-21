@@ -92,9 +92,11 @@ public class LoginActivity extends ActionBarActivity {
 		    	Toast.makeText(getApplicationContext(), "Autenticazione Riuscita", Toast.LENGTH_SHORT).show();
 		    	Intent main = new Intent(getApplicationContext(), MainActivity.class);
 				startActivity(main);
+				UserData.getInstance().setLevel("OK");
 		    }
 		    else{
 		    	error.setVisibility(View.VISIBLE);
+		    	UserData.getInstance().logOut();
 		    }
 		    prb.setVisibility(View.GONE);
 		}
@@ -105,6 +107,9 @@ public class LoginActivity extends ActionBarActivity {
 			ArrayList<NameValuePair> postParams = new ArrayList<NameValuePair>();
 			postParams.add(new BasicNameValuePair("code", params[0]));
 			postParams.add(new BasicNameValuePair("date", params[1]));
+			
+			UserData.getInstance().setCU(params[0]);
+			UserData.getInstance().setDate(params[1]);
 			
 			String res = null;
 			String response = null;

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 	android:orientation="vertical"
+	android:background="@drawable/background_bitmap"
     tools:context="it.rn2014.scanner.MainActivity" >
     
     <Button
@@ -11,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:layout_weight="1"
+        android:drawableLeft="@drawable/logout"
         android:text="Log out" />
     
     <Button
