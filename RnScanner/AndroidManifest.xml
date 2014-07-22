@@ -46,23 +46,26 @@
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateVisible"
             android:screenOrientation="portrait" >
-
-        <!-- Solo per testare le funzionalita' -->
+		</activity>
         <activity
             android:name="it.rn2014.downloader.DownloadActivity"
-            android:label="@string/hello_world" >
+            android:label="@string/hello_world"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".SyncroActivity"
-            android:label="@string/title_activity_syncro" >
+            android:label="@string/title_activity_syncro"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".EventActivity"
-            android:label="@string/title_activity_event" >
+            android:label="@string/title_activity_event"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".IdentifyResultActivity"
-            android:label="@string/title_activity_identify_result">
+            android:label="@string/title_activity_identify_result"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

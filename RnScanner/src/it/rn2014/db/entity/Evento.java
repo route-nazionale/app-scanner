@@ -18,6 +18,9 @@ public class Evento {
 	public void setQuartiere(String quartiere) {
 		this.quartiere = quartiere;
 	}
+	public String getQuartiere(String quartiere) {
+		return this.quartiere;
+	}
 	public String getStradaCoraggio() {
 		return stradaCoraggio;
 	}
@@ -36,7 +39,6 @@ public class Evento {
 	public void setTipoEvento(String tipoEvento) {
 		this.tipoEvento = tipoEvento;
 	}
-	
 	public String getCodiceEvento() {
 		return idEvento;
 	}
@@ -49,7 +51,6 @@ public class Evento {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
 	public void setSottocampo(String sottocampo) {
 		this.quartiere = sottocampo;
 	}
@@ -59,6 +60,4 @@ public class Evento {
 	public void setStrada(String strada) {
 		this.stradaCoraggio = strada;
 	}
-	
-	
 }

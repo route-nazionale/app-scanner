@@ -15,7 +15,6 @@ import android.widget.Toast;
 import org.apache.http.NameValuePair;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import it.rn2014.db.QueryManager;
 import it.rn2014.db.entity.StatisticheScansioni;

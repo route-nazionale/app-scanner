@@ -19,7 +19,6 @@
         android:text="Sincronizzazione in corso"
         android:id="@+id/textView"
         android:layout_gravity="center_horizontal"
-        android:textAlignment="center"
             android:gravity="fill_horizontal" />
         </TableRow>
         <TableRow

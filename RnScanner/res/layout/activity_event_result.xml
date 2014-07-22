@@ -1,0 +1,90 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background_bitmap"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="6"
+        android:orientation="vertical"
+       	android:id="@+id/backGroundResult"
+	    android:layout_margin="30dp"
+	    android:background="@color/LightGreen"
+	    android:gravity="center"
+	    android:padding="30dp" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="@string/codice"
+        android:textSize="18sp" />
+    
+    <TextView
+        android:id="@+id/code"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+	<TextView
+	    android:id="@+id/result"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center"
+	    android:layout_marginTop="20dp"
+	    android:textSize="26sp"
+	    android:textStyle="bold"
+	   	/>
+	</LinearLayout>
+	
+	<LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="bottom"
+	    android:layout_weight="1"
+	    android:orientation="horizontal" >
+        
+    <Button
+        android:id="@+id/btnExit"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/cancel"
+        android:padding="15dp"
+        android:text="@string/uscita"
+        tools:ignore="NestedWeights" />
+    
+    <Button
+        android:id="@+id/btnEnter"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/accept"
+        android:padding="15dp"
+        android:text="@string/entrata" />
+    
+	</LinearLayout>
+	
+	<Button
+	    android:id="@+id/btnAbort"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center_horizontal"
+	    android:layout_margin="10dp"
+	    android:layout_marginLeft="10dp"
+	    android:layout_weight="1"
+	    android:drawableLeft="@drawable/abort"
+	    android:padding="5dp"
+	    android:text="@string/annulla" />
+	
+</LinearLayout>

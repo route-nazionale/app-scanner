@@ -27,7 +27,6 @@ public class DataBaseManager extends SQLiteOpenHelper {
 	private static String DB_PATH = "";
 	private static String DB_PATH_DOWNLOAD = "";
 	
-	
 	// Database name
 	public static String DB_NAME = "rn2014.db";
 	private SQLiteDatabase database;

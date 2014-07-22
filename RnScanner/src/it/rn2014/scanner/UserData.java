@@ -4,14 +4,13 @@ public class UserData {
 
     private static UserData instance= null;
 
-    public String lastChoose = null;
-    public String date = null;
-    public String cu = null;
-    public String authLevel = null;
-    public String lastEvent = null;
-    public int lastEventTurn = 0;
+    private String date = null;
+    private String cu = null;
+    private String authLevel = null;
+    private String lastEvent = null;
+    private int lastEventTurn = 0;
+    private String lastChoose = null;
     
-
     protected UserData(){}
 
     public static synchronized UserData getInstance(){

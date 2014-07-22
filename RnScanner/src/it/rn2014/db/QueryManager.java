@@ -137,7 +137,7 @@ public class QueryManager {
 		try {
 			
 			ContentValues cv = new ContentValues();
-			cv.put("codiceRistampa", statistica.getCodiceRisampa());
+			cv.put("codiceRistampa", statistica.getCodiceRistampa());
 			cv.put("codiceUnivoco", statistica.getCodiceUnivoco());
 			cv.put("idEvento", statistica.getIdEvento());
 			cv.put("time", statistica.getTime());
