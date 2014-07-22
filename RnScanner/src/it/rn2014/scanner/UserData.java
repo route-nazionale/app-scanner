@@ -1,8 +1,21 @@
 package it.rn2014.scanner;
 
-public class UserData {
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-    private static UserData instance= null;
+import android.content.Context;
+
+public class UserData implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	private static final String FILENAME = "userdata";
+
+	private static UserData instance= null;
 
     private String date = null;
     private String cu = null;
@@ -42,4 +55,30 @@ public class UserData {
     	this.lastEvent = null;
     	this.lastEventTurn = 0;
 	}
+    
+    public static synchronized void saveInstance(Context c){
+    	FileOutputStream fos;
+		try {
+			fos = c.openFileOutput(FILENAME, Context.MODE_PRIVATE);
+	    	ObjectOutputStream oos = new ObjectOutputStream(fos);
+	    	oos.writeObject(instance);
+	    	if (oos != null) oos.close();
+	    	if (fos != null) fos.close();
+	    	
+		} catch (FileNotFoundException e) { e.printStackTrace(); }
+		  catch (IOException e) { e.printStackTrace(); }
+    }
+    
+    public static synchronized boolean restoreInstance(Context c){
+    	FileInputStream fis;
+		try {
+			fis = c.openFileInput(FILENAME);
+	    	ObjectInputStream ois = new ObjectInputStream(fis);
+	    	instance = (UserData) ois.readObject();
+	    	if (ois != null) ois.close();
+	    	if (fis != null) fis.close();
+	    	
+		} catch (Exception e) { return false; }
+		return true;
+    }
 }

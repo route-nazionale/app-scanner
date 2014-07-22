@@ -93,6 +93,7 @@ public class LoginActivity extends ActionBarActivity {
 		    	Intent main = new Intent(getApplicationContext(), MainActivity.class);
 				startActivity(main);
 				UserData.getInstance().setLevel("OK");
+				UserData.saveInstance(getApplicationContext());
 		    }
 		    else{
 		    	error.setVisibility(View.VISIBLE);

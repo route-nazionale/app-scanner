@@ -40,6 +40,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 			break;
 		case R.id.btnLogout:
 			UserData.getInstance().logOut();
+			UserData.saveInstance(getApplicationContext());
 			Intent login = new Intent(getApplicationContext(), AuthActivity.class);
 			startActivity(login);
 			finish();
