@@ -93,14 +93,19 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 			alert.setPositiveButton("Invia", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					String value = code.getText().toString();
-					Intent login;
+					Intent login = null;
 					// TODO da completare
-					if (mode.contentEquals("identify")) login = new Intent(getApplicationContext(), IdentifyResultActivity.class);
-					else if (mode.contentEquals("gate")) login = new Intent(getApplicationContext(), GateResultActivity.class);
-					else login = new Intent(getApplicationContext(), GateResultActivity.class);
+					if (mode.contentEquals("identify"))
+						login = new Intent(getApplicationContext(), IdentifyResultActivity.class);
+					else if (mode.contentEquals("gate"))
+						login = new Intent(getApplicationContext(), GateResultActivity.class);
+					else if (mode.contentEquals("event"))
+						login = new Intent(getApplicationContext(), EventResultActivity.class);
 					
-					login.putExtra("qrscanned", value);
-					startActivity(login);
+					if (login != null){
+						login.putExtra("qrscanned", value);
+						startActivity(login);
+					}
 				}
 			});
 
@@ -123,9 +128,9 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 			result = new Intent(getApplicationContext(), GateResultActivity.class);
 		if (mode.contentEquals("identify"))
 			result = new Intent(getApplicationContext(), IdentifyResultActivity.class);
-//		if (mode.contentEquals("event"))
-//			result = new Intent(getApplicationContext(), EventResultActivity.class);
-//		
+		if (mode.contentEquals("event"))
+			result = new Intent(getApplicationContext(), EventResultActivity.class);
+		
 		IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
 		if (scanResult != null && scanResult.getContents() != null && scanResult.getContents() != "" && result != null) {
 			result.putExtra("qrscanned", scanResult.getContents());

@@ -63,6 +63,11 @@
     <string name="autorizzato">Autorizzato!</string>
     <string name="non_autorizzato">Non Autorizzato!</string>
     <string name="invalido">Non Riconosciuto!</string>
+    
+    <string name="partecipante">Partecipante!</string>
+    <string name="non_partecipante">Non partecipante!</string>
+    
+    
     <string name="title_activity_identify_result">IdentifyResultActivity</string>
 
 </resources>

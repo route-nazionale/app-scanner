@@ -33,7 +33,7 @@ public class EventResultActivity extends Activity implements OnClickListener {
 		    	TextView codetext = (TextView)findViewById(R.id.code);
 		    	LinearLayout background = (LinearLayout)findViewById(R.id.backGroundResult);
 		    	
-		    	result.setText(getResources().getString(R.string.autorizzato));
+		    	result.setText(getResources().getString(R.string.partecipante));
 		    	codetext.setText(code);
 		    	background.setBackgroundColor(getResources().getColor(R.color.LightGreen));
 		    	
@@ -43,12 +43,29 @@ public class EventResultActivity extends Activity implements OnClickListener {
 		    	TextView codetext = (TextView)findViewById(R.id.code);
 		    	LinearLayout background = (LinearLayout)findViewById(R.id.backGroundResult);
 		    	
-		    	result.setText(getResources().getString(R.string.non_autorizzato));
+		    	result.setText(getResources().getString(R.string.non_partecipante));
 		    	codetext.setText(code);
 		    	background.setBackgroundColor(getResources().getColor(R.color.LightPink));
 		    	
 		    	exit.setVisibility(View.INVISIBLE);
 		    	enter.setVisibility(View.INVISIBLE);
+		    	
+		    	TextView event1 = (TextView)findViewById(R.id.event1);
+		    	TextView event2 = (TextView)findViewById(R.id.event2);
+		    	TextView event3 = (TextView)findViewById(R.id.event3);
+		    	
+		    	event1.setText("Evento :"  + (Math.random() * 1000));
+		    	event2.setText("Evento :"  + (Math.random() * 1000));
+		    	event3.setText("Evento :"  + (Math.random() * 1000));
+		    	
+		    	event1.setBackgroundColor(getResources().getColor(R.color.LightBlue));
+		    	event2.setBackgroundColor(getResources().getColor(R.color.LightCoral));
+		    	event3.setBackgroundColor(getResources().getColor(R.color.LightSeaGreen));
+		    	
+		    	event1.setVisibility(View.VISIBLE);
+		    	event2.setVisibility(View.VISIBLE);
+		    	event3.setVisibility(View.VISIBLE);
+		    	
 		    	
 		    } else {
 		    	TextView result = (TextView)findViewById(R.id.result);

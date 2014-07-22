@@ -20,7 +20,6 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
 
-        <!-- <uses-library android:name="la.droid.qr" android:required="true"/> -->
         <activity
             android:name=".SplashScreenActivity"
             android:label="@string/app_name"
@@ -30,11 +29,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".TestActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".AuthActivity"
@@ -58,12 +52,32 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".ScanningActivity"
+            android:label="@string/title_activity_syncro"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".EventActivity"
             android:label="@string/title_activity_event"
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".EventResultActivity"
+            android:label="@string/title_activity_event"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".IdentifyResultActivity"
+            android:label="@string/title_activity_identify_result"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".GateResultActivity"
             android:label="@string/title_activity_identify_result"
             android:screenOrientation="portrait">
         </activity>
