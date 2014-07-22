@@ -2,11 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.rn2014.scanner"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="v0.1" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -26,10 +27,10 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
         <activity
             android:name=".AuthActivity"
             android:label="@string/title_activity_auth"
@@ -43,7 +44,7 @@
 		</activity>
         <activity
             android:name="it.rn2014.downloader.DownloadActivity"
-            android:label="@string/hello_world"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -68,7 +69,7 @@
         </activity>
         <activity
             android:name=".EventResultActivity"
-            android:label="@string/title_activity_event"
+            android:label="@string/title_activity_event_result"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -82,5 +83,4 @@
             android:screenOrientation="portrait">
         </activity>
     </application>
-
 </manifest>

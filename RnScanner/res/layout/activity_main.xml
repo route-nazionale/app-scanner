@@ -1,54 +1,97 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-	android:orientation="vertical"
 	android:background="@drawable/background_bitmap"
     tools:context="it.rn2014.scanner.MainActivity" >
+    
+        <View
+        android:id="@+id/dummy"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
     
     <Button
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_weight="1"
+        android:layout_margin="10dp"
         android:drawableLeft="@drawable/logout"
+        android:layout_alignParentLeft="true"
         android:text="Log out" />
     
     <Button
         android:id="@+id/btnGate"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="5"
-        android:layout_margin="5dp"
-        android:drawableLeft="@drawable/gate"
+        android:layout_height="120dp"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@id/dummy"
+        android:layout_margin="10dp"
+        android:padding="15dp"
+        android:layout_toLeftOf="@id/dummy"
+        android:drawableTop="@drawable/gate"
         android:text="Autenticazione Varco" />
+    
+
     
     <Button
         android:id="@+id/btnEvents"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="5"
-        android:layout_margin="5dp"
-        android:drawableLeft="@drawable/event"
+        android:layout_height="120dp"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:layout_toRightOf="@id/dummy"
+        android:layout_above="@id/dummy"
+        android:layout_alignParentRight="true"
+        android:drawableTop="@drawable/event"
         android:text="Autenticazione Eventi" />
     
     <Button
         android:id="@+id/btnIdentify"
-        android:drawableLeft="@drawable/identify"
+        android:drawableTop="@drawable/identify"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="5"
-        android:layout_margin="5dp"
+		android:layout_height="120dp"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/dummy"
+        android:layout_below="@id/dummy"
+        android:layout_margin="10dp"
+        android:padding="15dp"
         android:text="Identifica" />
+    
     
     <Button
         android:id="@+id/btnSyncro"
-        android:drawableLeft="@drawable/syncro"
+        android:drawableTop="@drawable/syncro"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:layout_margin="5dp"
+		android:layout_height="120dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/dummy"
+        android:layout_margin="10dp"
+        android:padding="15dp"
+        android:layout_toRightOf="@id/dummy"
         android:text="Sincronizza" />
+    
+    <TextView
+	    android:id="@+id/welcome"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="Connesso come"
+	    android:textSize="14sp"
+	    android:layout_alignParentRight="true"
+	    android:layout_marginTop="10dp"
+	    android:layout_marginRight="10dp" />
+    
+    
+	<TextView
+	    android:id="@+id/cu"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="AA-123456789-00"
+	    android:textSize="20sp"
+	    android:textStyle="bold"
+	    android:layout_alignParentRight="true"
+	    android:layout_below="@id/welcome"
+	    android:layout_marginRight="10dp" />
 
-</LinearLayout>
+</RelativeLayout>

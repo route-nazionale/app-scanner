@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity implements OnClickListener{
 
@@ -14,6 +15,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		TextView cu = (TextView)findViewById(R.id.cu);
+		cu.setText(UserData.getInstance().getCU());
 		Button btnGate = (Button)findViewById(R.id.btnGate);
 		btnGate.setOnClickListener(this);
 		Button btnLogout = (Button)findViewById(R.id.btnLogout);

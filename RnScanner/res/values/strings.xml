@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">RnScanner</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Route Nazionale - Scanner</string>
     <string name="logo_route_nazionale">Logo della Route Nazionale</string>
     <string name="logo_ngm_mobile">Logo di NGM Mobile</string>
     <string name="thanks_to">Thanks to</string>
@@ -21,8 +19,8 @@
     <string name="error_field_required">Campo necessario</string>
     <string name="inserisci_badge">Inserisci il tuo codice badge</string>
     <string name="inserisci_data">Inserisci la tua data di nascita</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_gate">GateActivity</string>
+    <string name="title_activity_main">Route Nazionale - App Scanner</string>
+    <string name="title_activity_gate">Autenticazione Varchi</string>
     <string name="scansione">Scansione</string>
     <string name="codice">Codice</string>
     <string name="title_gate">Autenticazione Varchi</string>
@@ -30,7 +28,7 @@
         di qui puoi autenticare i Badge per il varco di accesso alla Route Nazionale.
         Premere sul bottone Scansione per scansionare il badge con la fotocamera,
         Premere sul bottone Codice per inserire il codice del Badge a mano.</string>
-    <string name="title_identify">Identifica</string>
+    <string name="title_identify">Identifica soggetto</string>
     <string name="desc_identify">Benvenuto nella modalità di Identificazione,
         di qui puoi ottenere tutti i dati associati ad un badge.
         Premere sul bottone Scansione per scansionare il badge con la fotocamera,
@@ -40,20 +38,20 @@
         di qui puoi autenticare i Badge per l\'evento selezionato.
         Premere sul bottone Scansione per scansionare il badge con la fotocamera,
         Premere sul bottone Codice per inserire il codice del Badge a mano.</string>
-    <string name="title_activity_gate_result">GateResultActivity</string>
+    <string name="title_activity_gate_result">Risultato Scansione</string>
     <string name="entrata">Entrata</string>
     <string name="uscita">Uscita</string>
     <string name="annulla">Annulla</string>
     <string name="auth_fail">Autenticazione Fallita!</string>
     <string name="testDB">test DB</string>
-    <string name="title_activity_syncro">SyncroActivity</string>
+    <string name="title_activity_syncro">Sincronizzazione dati</string>
     <string name="aggiornamento_del_database">Aggiornamento del Database</string>
     <string name="invio_dei_dati">Invio dei dati</string>
     <string name="ricezione_dei_dati">Ricezione dei dati</string>
     <string name="avvia_sincronizzazione">Avvia Sincronizzazione</string>
     <string name="sincronizzazione_dei_dati">Sincronizzazione dei dati</string>
     <string name="ok_image">OK image</string>
-    <string name="title_activity_event">EventActivity</string>
+    <string name="title_activity_event">Autenticazione Eventi</string>
     <string name="scegli_l_evento_di_cui_vuoi_fare_l_autenticazione_nell_elenco_seguente_sono_presenti_solo_gli_eventi_per_cui_sei_stato_autorizzato_">Scegli l\'evento di cui vuoi fare l\'autenticazione. Nell\'elenco seguente sono presenti solo gli eventi per cui sei stato autorizzato.</string>
     <string name="chose_event">Scegli l\'evento di cui vuoi fare l\'autenticazione. Nell\'elenco seguente sono presenti solo gli eventi per cui sei stato autorizzato</string>
     <string name="scegli_l_evento">Scegli l\'evento</string>
@@ -69,5 +67,6 @@
     
     
     <string name="title_activity_identify_result">IdentifyResultActivity</string>
+    <string name="title_activity_event_result">Risultato Scansione</string>
 
 </resources>
