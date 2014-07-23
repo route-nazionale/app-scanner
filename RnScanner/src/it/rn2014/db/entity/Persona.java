@@ -14,7 +14,6 @@ package it.rn2014.db.entity;
 //	    quartiere     VARCHAR 
 //	);
 
-
 public class Persona {
 	
 	private String nome ;
@@ -44,8 +43,6 @@ public class Persona {
 
 		return super.toString();
 	}
-	
-	
 	public String getIdGruppo() {
 		return idGruppo;
 	}
@@ -82,9 +79,6 @@ public class Persona {
 	public void setContrada(String contrada) {
 		this.contrada = contrada;
 	}
-	
-	
-
 	public String getNome() {
 		return nome;
 	}
@@ -109,10 +103,4 @@ public class Persona {
 	public void setCodiceAgesci(String codiceAgesci) {
 		this.codiceAgesci = codiceAgesci;
 	}
-
-	
-	
-
 }
-	
-

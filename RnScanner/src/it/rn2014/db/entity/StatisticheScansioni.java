@@ -83,5 +83,4 @@ public class StatisticheScansioni {
     public String toString(){
         return "["+idScansione+"] "+codiceUnivoco+codiceRistampa+" "+idEvento;
     }
-
 }
