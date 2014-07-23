@@ -19,7 +19,7 @@
         android:layout_margin="10dp"
         android:drawableLeft="@drawable/logout"
         android:layout_alignParentLeft="true"
-        android:text="Log out" />
+        android:text="@string/log_out" />
     
     <Button
         android:id="@+id/btnGate"
@@ -31,7 +31,7 @@
         android:padding="15dp"
         android:layout_toLeftOf="@id/dummy"
         android:drawableTop="@drawable/gate"
-        android:text="Autenticazione Varco" />
+        android:text="@string/autenticazione_varco" />
     
 
     
@@ -45,7 +45,7 @@
         android:layout_above="@id/dummy"
         android:layout_alignParentRight="true"
         android:drawableTop="@drawable/event"
-        android:text="Autenticazione Eventi" />
+        android:text="@string/autenticazione_eventi" />
     
     <Button
         android:id="@+id/btnIdentify"
@@ -57,7 +57,7 @@
         android:layout_below="@id/dummy"
         android:layout_margin="10dp"
         android:padding="15dp"
-        android:text="Identifica" />
+        android:text="@string/identifica" />
     
     
     <Button
@@ -70,13 +70,13 @@
         android:layout_margin="10dp"
         android:padding="15dp"
         android:layout_toRightOf="@id/dummy"
-        android:text="Sincronizza" />
+        android:text="@string/sincronizza" />
     
     <TextView
 	    android:id="@+id/welcome"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:text="Connesso come"
+	    android:text="@string/connesso_come"
 	    android:textSize="14sp"
 	    android:layout_alignParentRight="true"
 	    android:layout_marginTop="10dp"
@@ -87,7 +87,7 @@
 	    android:id="@+id/cu"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:text="AA-123456789-00"
+	    android:text=""
 	    android:textSize="20sp"
 	    android:textStyle="bold"
 	    android:layout_alignParentRight="true"

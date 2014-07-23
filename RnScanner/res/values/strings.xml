@@ -68,5 +68,11 @@
     
     <string name="title_activity_identify_result">IdentifyResultActivity</string>
     <string name="title_activity_event_result">Risultato Scansione</string>
+    <string name="sincronizza">Sincronizza</string>
+    <string name="identifica">Identifica</string>
+    <string name="autenticazione_eventi">Autenticazione Eventi</string>
+    <string name="autenticazione_varco">Autenticazione Varco</string>
+    <string name="log_out">Log out</string>
+    <string name="connesso_come">Connesso come</string>
 
 </resources>

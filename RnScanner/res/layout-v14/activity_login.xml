@@ -69,7 +69,6 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:text="@string/inserisci_data"
-                
                 />
 
             <DatePicker
