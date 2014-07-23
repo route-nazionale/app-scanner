@@ -1,7 +1,7 @@
 <?php
 	
 	$sqlite_filename = 'rn2014.db';
-	$gzipped_filename = 'rn2014.db';
+	$gzipped_filename = 'rn2014.db.gz';
 	$mysql_host = '172.16.10.151';
 	$mysql_db = 'varchi';
 	$mysql_user = 'varchi';
@@ -33,6 +33,7 @@
 			
 			$sql = "INSERT INTO `persone`(`codiceUnivoco`, `ristampaBadge`, `nome`, `cognome`, `idGruppo`, `codiceAgesci`, `idUnita`, `quartiere`, `contrada`) VALUES ('" . $row['codiceUnivoco']  . "', '" . $row['ristampaBadge']  . "', '***', '***', '" . $row['idGruppo'] . "', '" . $row['codiceAgesci']  . "', '" . $row['idUnita'] . "', '" .  $row['quartiere']  . "', '" . $row['contrada'] . "')" ;
 			$sq->query($sql);
+
 			// echo $row['codiceUnivoco'] ;
 			// echo $row['ristampaBadge'] ;
 			// echo $row['nome'] ;
@@ -54,6 +55,7 @@
 			
 			$sql = "INSERT INTO `eventi`(`idEvento`, `nome`, `codiceStampa`, `stradaCoraggio`, `quartiere`, `contrade`, `tipoEvento`) VALUES ('" . $row['idEvento']  . "', '" . SQLite3::escapeString($row['nome'])  . "', '" . $row['codiceStampa'] . "', '" . $row['stradaCoraggio']  . "', '" . $row['quartiere'] . "', '" .  $row['contrade']  . "', '" . $row['tipoEvento'] . "')" ;			
 			$sq->query($sql);
+
 		}		
 		
 		// creo la tabella assegnamenti in sqlite 
@@ -64,14 +66,15 @@
 		while($row = mysqli_fetch_array($result)) {	
 			$sql = "INSERT INTO `assegnamenti` ( `codiceUnivoco`, `idEvento`, `slot`, `staffEvento` ) VALUES ('" . $row['codiceUnivoco']  . "', '" . $row['idEvento'] . "', '" . $row['slot']  . "', '" . $row['staffEvento'] . "')" ;			
 			$sq->query($sql);
+
 		}
 		echo "DB generato correttamente";
 		mysqli_close($con);
 		$sq->close();
 		
 		// Comprime l'archivio
-		$gizipped = gzopen($gzfile, 'w9');
-		gzwrite ($fp, file_get_contents($sqlite_filename));
-		gzclose($fp);
+		$gizipped = gzopen($gzipped_filename, 'w9');
+		gzwrite ($gizipped, file_get_contents($sqlite_filename));
+		gzclose ($gizipped);
 	}
 ?>
