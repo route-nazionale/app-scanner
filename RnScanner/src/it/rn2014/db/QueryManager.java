@@ -24,17 +24,27 @@ public class QueryManager {
 
 	private SQLiteDatabase database;
 	private DataBaseManager databaseManager;
+	
+	private static QueryManager instance = null;
 
+	// TODO Questo metodo deve diventare privato
 	public QueryManager(Context context) {
 		databaseManager = new DataBaseManager(context);
 		createDatabase();
 	}
 	
-	public boolean checkDataBase(){
+	public static synchronized QueryManager getInstance(Context c){
+		if (instance == null){
+			instance = new QueryManager(c);
+		}
+		return instance;
+	}
+	
+	public synchronized boolean checkDataBase(){
 		return databaseManager.checkDataBase();
 	}
 
-	public QueryManager createDatabase() throws SQLException {
+	public synchronized QueryManager createDatabase() throws SQLException {
 		try {
 			databaseManager.createDataBase();
 		} catch (IOException mIOException) {
@@ -44,7 +54,7 @@ public class QueryManager {
 		return this;
 	}
 
-	public QueryManager open() throws SQLException {
+	public synchronized QueryManager open() throws SQLException {
 		try {
 			databaseManager.openDataBase();
 			databaseManager.close();
@@ -56,37 +66,16 @@ public class QueryManager {
 		return this;
 	}
 
-	public void close() {
+	public synchronized void close() {
 		databaseManager.close();
 	}
 
-	private Cursor getDBCursor(String sql) {
-		try {
-			Cursor mCur = database.rawQuery(sql, null);
-			if (mCur != null) {
-				mCur.moveToNext();
-			}
-			return mCur;
-		} catch (SQLException mSQLException) {
-			Log.e(TAG, "getTestData >>" + mSQLException.toString());
-			throw mSQLException;
-		}
-	}
-
-	private static String getColumnValue(Cursor cur, String ColumnName) {
-		try {
-			return cur.getString(cur.getColumnIndex(ColumnName));
-		} catch (Exception ex) {
-			return "";
-		}
-	}
-
-	public Persona findPersonaByCodiceUnivoco(String codiceUnivoco) {
+	public synchronized Persona findPersonaByCodiceUnivoco(String codiceUnivoco) {
 		String sql = "SELECT * from persone WHERE codiceUnivoco =  '" + codiceUnivoco  + "'" ;
 		return findPersonaBySQL(sql);
 	}
 	
-	public Persona findPersonaBySQL(String sql) {
+	public synchronized Persona findPersonaBySQL(String sql) {
 		open();
 		Cursor cursor = getDBCursor(sql);
 		close();
@@ -94,17 +83,17 @@ public class QueryManager {
 		
 	}
 	
-	public ArrayList<StatisticheScansioni> findAllStatsByImeiNotSync(String imei){
+	public synchronized ArrayList<StatisticheScansioni> findAllStatsByImeiNotSync(String imei){
 		String sql = "SELECT * from statisticheScansioni Where imei = '" + imei + "' and sync ISNULL" ;
 		return findAllStatsBySQL(sql) ;
 	}
 	
-	public ArrayList<StatisticheScansioni> findAllStatsByEventSync(String idEvent){
+	public synchronized ArrayList<StatisticheScansioni> findAllStatsByEventSync(String idEvent){
 		String sql = "SELECT * FROM statisticheScansioni WHERE idEvento = '" + idEvent + "' AND sync NOTNULL" ;
 		return findAllStatsBySQL(sql) ;
 	}
 	
-	public ArrayList<StatisticheScansioni> findAllStatsByBadgeAndEventNotMine(String idEvent, String myImei, String codiceUnivoco, String codiceRisampa ){
+	public synchronized ArrayList<StatisticheScansioni> findAllStatsByBadgeAndEventNotMine(String idEvent, String myImei, String codiceUnivoco, String codiceRisampa ){
 		String sql = "SELECT * FROM statisticheScansioni WHERE idEvento = 'idevento' " +
 					 "AND codiceUnivoco = '" + codiceUnivoco + "'" +
 					 "AND codiceRisampa = '" + codiceRisampa+ "'" +
@@ -112,7 +101,7 @@ public class QueryManager {
 		return findAllStatsBySQL(sql) ;
 	}
 	
-	public ArrayList<StatisticheScansioni> findAllStatsBySQL(String sql){
+	public synchronized ArrayList<StatisticheScansioni> findAllStatsBySQL(String sql){
 		
 		open();
 		
@@ -130,7 +119,7 @@ public class QueryManager {
 		return statisticheScansioniList;
 	}
 	
-	public boolean insertStats(StatisticheScansioni statistica){
+	public synchronized boolean insertStats(StatisticheScansioni statistica){
 		try {
 			
 			ContentValues cv = new ContentValues();
@@ -163,7 +152,7 @@ public class QueryManager {
 	 * @param persona
 	 * @return
 	 */
-	public ArrayList<Evento> findEventiByPersona(Persona persona) {
+	public synchronized ArrayList<Evento> findEventiByPersona(Persona persona) {
 		String sql = "SELECT * from eventi" +
 				"JOIN assegnamenti ON assegnamenti.idEvento = eventi.idEvento" +
 				"AND assegnamenti.codiceUnivoco = " + persona.getCodiceUnivoco();
@@ -176,7 +165,7 @@ public class QueryManager {
 	 * @param sql
 	 * @return
 	 */
-	public ArrayList<Evento> findAllEventiBySQL(String sql){
+	public synchronized ArrayList<Evento> findAllEventiBySQL(String sql){
 		
 		open() ;
 		
@@ -201,7 +190,7 @@ public class QueryManager {
 	 * @param cursor
 	 * @return
 	 */
-	private StatisticheScansioni getStatisticaScansione(Cursor cursor) {
+	private synchronized StatisticheScansioni getStatisticaScansione(Cursor cursor) {
 		StatisticheScansioni statisticheScansioni = new StatisticheScansioni();
 		
 		statisticheScansioni.setCodiceRistampa(getColumnValue(cursor, "codiceRistampa"));
@@ -217,7 +206,7 @@ public class QueryManager {
 		return statisticheScansioni;
 	}
 	
-	private Evento getEvento(Cursor cursor){
+	private synchronized Evento getEvento(Cursor cursor){
 		Evento evento = new Evento();
 		
 		evento.setIdEvento(getColumnValue(cursor, "idEvento"));
@@ -230,7 +219,7 @@ public class QueryManager {
 		return evento;
 	}
 	
-	private Persona getPersona(Cursor cursor) {
+	private synchronized Persona getPersona(Cursor cursor) {
 		Persona persona;
 		persona = new Persona();
 		
@@ -247,5 +236,25 @@ public class QueryManager {
  
 		return persona;
 	}
+	
+	private synchronized Cursor getDBCursor(String sql) {
+		try {
+			Cursor mCur = database.rawQuery(sql, null);
+			if (mCur != null) {
+				mCur.moveToNext();
+			}
+			return mCur;
+		} catch (SQLException mSQLException) {
+			Log.e(TAG, "getTestData >>" + mSQLException.toString());
+			throw mSQLException;
+		}
+	}
 
+	private synchronized static String getColumnValue(Cursor cur, String ColumnName) {
+		try {
+			return cur.getString(cur.getColumnIndex(ColumnName));
+		} catch (Exception ex) {
+			return "";
+		}
+	}
 }

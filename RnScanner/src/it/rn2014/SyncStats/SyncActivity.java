@@ -106,7 +106,7 @@ public class SyncActivity extends Activity {
                 TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
                 String imei=telephonyManager.getDeviceId();
 
-                QueryManager qm=new QueryManager(getApplicationContext());
+                QueryManager qm = new QueryManager(getApplicationContext());
                 ArrayList<StatisticheScansioni> ls=qm.findAllStatsByImeiNotSync(imei);
                 //TODO SET THE SELECTED VALUE AS SYNC AS TRUE IF THE SYNC IS SUCCESSFULL
                 res=startSyncUpload(ls);
