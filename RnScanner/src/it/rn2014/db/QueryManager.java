@@ -20,15 +20,13 @@ import android.util.Log;
  */
 public class QueryManager {
 
-	protected static final String TAG = "DataAdapter";
+	public static final String TAG = "DataAdapter";
 
-	private final Context mContext;
 	private SQLiteDatabase database;
 	private DataBaseManager databaseManager;
 
 	public QueryManager(Context context) {
-		this.mContext = context;
-		databaseManager = new DataBaseManager(mContext);
+		databaseManager = new DataBaseManager(context);
 		createDatabase();
 	}
 	
@@ -64,7 +62,6 @@ public class QueryManager {
 
 	private Cursor getDBCursor(String sql) {
 		try {
-
 			Cursor mCur = database.rawQuery(sql, null);
 			if (mCur != null) {
 				mCur.moveToNext();
@@ -232,7 +229,6 @@ public class QueryManager {
 		
 		return evento;
 	}
-	
 	
 	private Persona getPersona(Cursor cursor) {
 		Persona persona;

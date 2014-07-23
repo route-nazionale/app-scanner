@@ -46,7 +46,8 @@ public class LoginActivity extends ActionBarActivity {
 			
 			@Override
 			public void onClick(View v) {
-
+				if (code.length() <= 1) return;
+				
 				LoginTask login = new LoginTask(prb, error);
 				String dateValue = date.getDayOfMonth() + "/" + date.getMonth() + "/" + date.getYear();
 				login.execute(new String[]{code.getText().toString(), dateValue});

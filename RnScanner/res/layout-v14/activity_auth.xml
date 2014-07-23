@@ -34,7 +34,8 @@
         android:layout_margin="10dp"
         android:layout_weight="5"
         android:drawableLeft="@drawable/qr_code_icon"
-        android:text="@string/auth_badge" />
+        android:text="@string/auth_badge"
+        android:padding="20dp" />
 
     <Button
         android:id="@+id/btnPass"
@@ -44,6 +45,7 @@
         android:layout_margin="10dp"
         android:layout_weight="5"
         android:drawableLeft="@drawable/password_icon"
-        android:text="@string/auth_password" />
+        android:text="@string/auth_password"
+        android:padding="20dp" />
 
 </LinearLayout>
