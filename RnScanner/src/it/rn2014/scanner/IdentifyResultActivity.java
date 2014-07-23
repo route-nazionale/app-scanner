@@ -1,5 +1,8 @@
 package it.rn2014.scanner;
 
+import it.rn2014.db.QueryManager;
+import it.rn2014.db.entity.Persona;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,39 +24,41 @@ public class IdentifyResultActivity extends ActionBarActivity {
 		    String code = extras.getString("qrscanned");
 		    if (code == null) finish();
 			
+		    Persona result = QueryManager.getInstance(IdentifyResultActivity.this).findPersonaByCodiceUnivoco(code.substring(0, code.length()-2));
+		    
 			ListView lw = (ListView)findViewById(R.id.listIdentify);
 			
 			ArrayList<Map<String, String>> data = new ArrayList<Map<String, String>>();
 			Map<String, String> datum;
 			
 			datum = new HashMap<String, String>(2);
-			datum.put("title", "Pinco");
+			datum.put("title", result.getNome());
 			datum.put("subtitle", "Nome");
 			data.add(datum);
 			
 			datum = new HashMap<String, String>(2);
-			datum.put("title", "Pallino");
+			datum.put("title", result.getCognome());
 			datum.put("subtitle", "Cognome");
 			data.add(datum);
 			
 			datum = new HashMap<String, String>(2);
-			datum.put("title", code);
+			datum.put("title", result.getCodiceUnivoco());
 			datum.put("subtitle", "Codice Univoco");
 			data.add(datum);
 			
 			datum = new HashMap<String, String>(2);
-			datum.put("title", "01/01/2001");
-			datum.put("subtitle", "Data di nascita");
+			datum.put("title", result.getCodiceAgesci());
+			datum.put("subtitle", "Codice A.G.E.S.C.I.");
 			data.add(datum);
 			
 			datum = new HashMap<String, String>(2);
-			datum.put("title", "Pisa 4 - S1367 T1");
+			datum.put("title", result.getIdGruppo() + " - " + result.getIdUnita());
 			datum.put("subtitle", "Gruppo - Unita'");
 			data.add(datum);
 			
 			datum = new HashMap<String, String>(2);
-			datum.put("title", "5 - 18");
-			datum.put("subtitle", "Sottocampo - Contrada");
+			datum.put("title", result.getContrada() + " - " + result.getQuartiere());
+			datum.put("subtitle", "Contrada - Quartiere");
 			data.add(datum);
 			
 			datum = new HashMap<String, String>(2);

@@ -1,5 +1,7 @@
 package it.rn2014.scanner;
 
+import it.rn2014.db.QueryManager;
+import it.rn2014.db.entity.Persona;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -28,17 +30,11 @@ public class GateResultActivity extends Activity implements OnClickListener {
 		if (extras != null && extras.containsKey("qrscanned")) {
 		    String code = extras.getString("qrscanned");
 		    if (code == null) finish();
-		    if (code.contentEquals("AA-1079-022839-0")){
-		    	TextView result = (TextView)findViewById(R.id.result);
-		    	TextView codetext = (TextView)findViewById(R.id.code);
-		    	LinearLayout background = (LinearLayout)findViewById(R.id.backGroundResult);
-		    	
-		    	result.setText(getResources().getString(R.string.autorizzato));
-		    	codetext.setText(code);
-		    	background.setBackgroundColor(getResources().getColor(R.color.LightGreen));
-		    	
-		    } else if (code.contentEquals("AA-1079-022840-0")) {
-
+		    
+		    Persona res = QueryManager.getInstance(GateResultActivity.this).findPersonaByCodiceUnivoco(code.substring(0, code.length()-2));
+		    
+		    
+		    if (res.getCodiceUnivoco().contentEquals("AA-1079-022839")){
 		    	TextView result = (TextView)findViewById(R.id.result);
 		    	TextView codetext = (TextView)findViewById(R.id.code);
 		    	LinearLayout background = (LinearLayout)findViewById(R.id.backGroundResult);
@@ -50,7 +46,20 @@ public class GateResultActivity extends Activity implements OnClickListener {
 		    	exit.setVisibility(View.INVISIBLE);
 		    	enter.setVisibility(View.INVISIBLE);
 		    	
+		    } else if (code.substring(0, code.length()-2).contentEquals(res.getCodiceUnivoco()) &&
+		    		code.substring(code.length()-1).contentEquals(res.getRistampaBadge())) {
+
+		    	TextView result = (TextView)findViewById(R.id.result);
+		    	TextView codetext = (TextView)findViewById(R.id.code);
+		    	LinearLayout background = (LinearLayout)findViewById(R.id.backGroundResult);
+		    	
+		    	result.setText(getResources().getString(R.string.autorizzato));
+		    	codetext.setText(code);
+		    	background.setBackgroundColor(getResources().getColor(R.color.LightGreen));
+		    	
+		    	
 		    } else {
+		    	
 		    	TextView result = (TextView)findViewById(R.id.result);
 		    	TextView codetext = (TextView)findViewById(R.id.code);
 		    	LinearLayout background = (LinearLayout)findViewById(R.id.backGroundResult);

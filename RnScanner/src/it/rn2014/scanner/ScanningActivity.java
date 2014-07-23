@@ -1,5 +1,6 @@
 package it.rn2014.scanner;
 
+import it.rn2014.db.QueryManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,6 +24,9 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_scanning);
+		
+		boolean b = QueryManager.getInstance(ScanningActivity.this).checkDataBase();
+		Log.e("DATABASE", "IS " + b);
 		
 		Button btnScan = (Button)findViewById(R.id.btnBadge);
 		btnScan.setOnClickListener(this);

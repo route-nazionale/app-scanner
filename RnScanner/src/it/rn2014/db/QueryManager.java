@@ -71,7 +71,7 @@ public class QueryManager {
 	}
 
 	public synchronized Persona findPersonaByCodiceUnivoco(String codiceUnivoco) {
-		String sql = "SELECT * from persone WHERE codiceUnivoco =  '" + codiceUnivoco  + "'" ;
+		String sql = "SELECT * FROM `persone` WHERE `codiceUnivoco` =  '" + codiceUnivoco  + "'" ;
 		return findPersonaBySQL(sql);
 	}
 	

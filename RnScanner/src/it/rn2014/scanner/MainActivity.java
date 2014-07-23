@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.PowerManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -98,6 +99,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 	    private Context context;
 	    private PowerManager.WakeLock mWakeLock;
 	    private boolean alreadyExists = false;
+	    private String db_path = Environment.getDataDirectory() + "/data/" + getApplication().getPackageName() + "/databases/";
 
 	    public DownloadTask(Context context) {
 	        this.context = context;
@@ -179,7 +181,9 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 	            }
 	            output.close();
 	       	 	GZIPInputStream gzis = new GZIPInputStream(new FileInputStream(db));
-	       	 	File db_ungzip = new File(context.getDir("db", Context.MODE_PRIVATE), "rn2014.db");
+	       	 	File db_dir = new File(db_path);
+	       	 	if (!db_dir.exists()) db_dir.mkdir();
+	       	 	File db_ungzip = new File(db_path, "rn2014.db");
 	         	FileOutputStream out = new FileOutputStream(db_ungzip);
 	      
 	            int len;
@@ -191,7 +195,9 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 	            gzis.close();
 	         	out.close();
 	      
-	        } catch (Exception e) { return e.toString();
+	        } catch (Exception e) { 
+	        	e.printStackTrace();
+	        	return e.toString();
 	        } finally {
 	            try {
 	                if (input != null) input.close();
@@ -206,7 +212,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 	        super.onPreExecute();
 	        
 	        File file = new File(context.getDir("db", Context.MODE_PRIVATE), "rn2014.db.gz");
-	        File file_ungzip = new File(context.getDir("db", Context.MODE_PRIVATE), "rn2014.db");
+	        File file_ungzip = new File(db_path, "rn2014.db");
 	        if(file.exists() && file_ungzip.exists()){
 	        	alreadyExists = true;
 	        } else {
