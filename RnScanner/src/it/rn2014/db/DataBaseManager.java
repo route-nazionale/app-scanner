@@ -22,42 +22,29 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DataBaseManager extends SQLiteOpenHelper {
 	// Tag just for the LogCat window
-	private static String TAG = "DataBaseHelper"; 
+	public static final String TAG = "DataBaseHelper"; 
+	
 	// destination path (location) of our database on device
 	private static String DB_PATH = "";
 	private static String DB_PATH_DOWNLOAD = "";
-	
 	// Database name
 	public static String DB_NAME = "rn2014.db";
+	
 	private SQLiteDatabase database;
-	private final Context mContext;
 
 	public DataBaseManager(Context context) {
-		super(context, DB_NAME, null, 1);// 1? its Database Version
-		DB_PATH			 = "/data/data/" + context.getPackageName() + "/databases/";
-		DB_PATH_DOWNLOAD = "/data/data/" + context.getPackageName() + "/";
-		this.mContext = context;
+		super(context, DB_NAME, null, 1); // 1? its Database Version
+		DB_PATH			 = context.getDir("db", Context.MODE_PRIVATE).getAbsolutePath();
+		DB_PATH_DOWNLOAD = context.getDir("download", Context.MODE_PRIVATE).getAbsolutePath();
 	}
 
 	public void createDataBase() throws IOException {
+		
 		// If database not exists copy it from the assets
-
 		boolean mDataBaseExist = checkDataBase();
 		if (!mDataBaseExist) {
 			this.getReadableDatabase();
 			this.close();
-
-			//TODO primo aggiornamento del db
-			
-			/*
-			try {
-				// Copy the database from assests
-				copyDataBase();
-				Log.e(TAG, "createDatabase database created");
-			} catch (IOException mIOException) {
-				throw new Error("ErrorCopyingDataBase");
-			}
-			 */
 		}
 	}
 	
@@ -71,7 +58,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
 	
 	private boolean deleteDataBase(String path){
 		boolean deleteFile = false ;
-		File dbFile = new File(path + DB_NAME);
+		File dbFile = new File(path + "/" + DB_NAME);
 		if(dbFile.exists()){
 			deleteFile = dbFile.delete();
 		}
@@ -81,20 +68,11 @@ public class DataBaseManager extends SQLiteOpenHelper {
 	public boolean checkDataBase(){
 		return checkDataBase(DB_PATH);
 	}
-	
-	private boolean checkDataBaseDownload(){
-		return checkDataBase(DB_PATH_DOWNLOAD);
-	}
 
-	// Check that the database exists here:  /data/data/package/databases/DBName
+	// Check that the database exists
 	private boolean checkDataBase(String path) {
-		File dbFile = new File(path + DB_NAME);
+		File dbFile = new File(path + "/" + DB_NAME);
 		return dbFile.exists();
-	}
-
-	// Copy the database from assets
-	private void copyDataBase() throws IOException {
-		copyDataBase(DB_PATH) ;
 	}
 	
 	// Copy the database from assets
@@ -105,10 +83,6 @@ public class DataBaseManager extends SQLiteOpenHelper {
 	}
 	
 	private void copyDataBase(String path) {
-		copyDataBase(path, false);
-	}
-	
-	private void copyDataBase(String path, boolean fromAssets) {
 		String pathToCopy = DB_PATH ;
 		String pathFromCopy = DB_PATH_DOWNLOAD;
 		
@@ -118,17 +92,12 @@ public class DataBaseManager extends SQLiteOpenHelper {
 			OutputStream outputStream = null;	
 			
 			File dbDir = new File(pathToCopy);
-			File dbFile = new File(pathToCopy  + DB_NAME);
+			File dbFile = new File(pathToCopy  + "/" + DB_NAME);
 
 			if (!dbDir.exists()) dbDir.mkdir();
 			if (!dbFile.exists()) dbFile.createNewFile();
 				
-			if(!fromAssets){
-				inputStream = new FileInputStream(pathFromCopy  + DB_NAME);
-				
-			} else {
-				inputStream = mContext.getAssets().open(DB_NAME);
-			}
+			inputStream = new FileInputStream(pathFromCopy  + "/" + DB_NAME);
 			outputStream = new FileOutputStream(dbFile);
 			
 			
@@ -140,12 +109,8 @@ public class DataBaseManager extends SQLiteOpenHelper {
 			outputStream.flush();
 			outputStream.close();
 			inputStream.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (FileNotFoundException e) {	e.printStackTrace();
+		} catch (IOException e) { e.printStackTrace();
 		}
 	}
 
@@ -164,16 +129,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
 	}
 
 	@Override
-	public void onCreate(SQLiteDatabase arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
+	public void onCreate(SQLiteDatabase db) {	}
 	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// TODO Auto-generated method stub
-
-	}
-	
-
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {  }
 }
