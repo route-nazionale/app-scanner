@@ -119,7 +119,7 @@ public class LoginActivity extends ActionBarActivity {
 				res = response.toString();
 				res = res.replaceAll("\\s+","");
 			} catch (Exception e) {
-				
+				e.printStackTrace();
 			}
 			return res;
 		}

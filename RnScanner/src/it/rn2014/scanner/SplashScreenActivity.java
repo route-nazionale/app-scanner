@@ -5,11 +5,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.Toast;
  
 public class SplashScreenActivity extends Activity {
  
-    private static int SPLASH_TIMER = 2000;
+    private static int SPLASH_TIMER = 3000;
  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +32,10 @@ public class SplashScreenActivity extends Activity {
 		protected void onPostExecute(Void result) {
 			
     		if (logged){
-    			Toast.makeText(getApplicationContext(), "Recupero dati ok", Toast.LENGTH_SHORT).show();
     			Intent main = new Intent(getApplicationContext(), MainActivity.class);
     			startActivity(main);
     			finish();
     		} else {
-    			Toast.makeText(getApplicationContext(), "Dati assenti", Toast.LENGTH_SHORT).show();
     			Intent i = new Intent(SplashScreenActivity.this, AuthActivity.class);
                 startActivity(i);
                 finish();
