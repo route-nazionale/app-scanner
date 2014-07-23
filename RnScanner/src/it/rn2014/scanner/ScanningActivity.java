@@ -1,6 +1,7 @@
 package it.rn2014.scanner;
 
 import it.rn2014.db.QueryManager;
+import it.rn2014.db.entity.Evento;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -65,10 +66,10 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 			title.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.event), null, null, null);
 			description.setText(R.string.desc_event);
 			
-			String[] eventNames = getResources().getStringArray(R.array.example_events);
-			String eventName = eventNames[Integer.parseInt(UserData.getInstance().getEvent())];
-			Log.e("EVENT", eventName);
-			event.setText("Evento: " + eventName);
+			String eventcode = UserData.getInstance().getEvent();
+			Evento e = QueryManager.getInstance(this).findEventById(eventcode);
+			if (e != null)
+				event.setText("Evento: " + e.getCodiceStampa() + " - " + e.getNome());
 			turn.setText("Turno: " + UserData.getInstance().getTurn());
 	    	
 	    	

@@ -16,14 +16,13 @@ package it.rn2014.db.entity;
 
 public class Persona {
 	
+	private String codiceUnivoco  ;
+	private String ristampaBadge ;	
 	private String nome ;
 	private String cognome ;
-	private String ruolo ;
 	private String codiceAgesci ;
 	private String idGruppo ;
 	private String idUnita ;
-	private String codiceUnivoco  ;
-	private String ristampaBadge ;
 	private String quartiere ;
 	private String contrada ;
 	
@@ -32,7 +31,6 @@ public class Persona {
 
 		System.out.println("Persona nome " + this.nome );
 		System.out.println("Persona cognome " + this.cognome );
-		System.out.println("Persona ruolo " + this.ruolo );
 		System.out.println("Persona codiceAgesci " + this.codiceAgesci );
 		System.out.println("Persona idGruppo " + this.idGruppo );
 		System.out.println("Persona idUnita " + this.idUnita );
@@ -90,12 +88,6 @@ public class Persona {
 	}
 	public void setCognome(String cognome) {
 		this.cognome = cognome;
-	}
-	public String getRuolo() {
-		return ruolo;
-	}
-	public void setRuolo(String ruolo) {
-		this.ruolo = ruolo;
 	}
 	public String getCodiceAgesci() {
 		return codiceAgesci;

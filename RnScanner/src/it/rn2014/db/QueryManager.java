@@ -161,13 +161,36 @@ public class QueryManager {
 	}
 	
 	/**
+	 * Trova gli eventi di cui si e' capispalla in un dato turno
+	 * 
+	 * @param persona
+	 * @return
+	 */
+	public synchronized ArrayList<Evento> findEventiToCheckin(String cu, String turno) {
+		String sql = "SELECT * from eventi" +
+				"  JOIN assegnamenti ON assegnamenti.idEvento = eventi.idEvento" +
+				"  AND assegnamenti.staffEvento = 0 AND assegnamenti.slot = '" + turno + 
+				"' AND assegnamenti.codiceUnivoco = '" + cu + "'";
+		return findAllEventiBySQL(sql);
+	}
+	
+	public Evento findEventById(String eventid) {
+		String sql = "SELECT * from eventi WHERE idEvento = '" + eventid + "'";
+		ArrayList<Evento> e = findAllEventiBySQL(sql);
+		if (!e.isEmpty())
+			return e.get(0);
+		else
+			return null;
+	}
+	
+	/**
 	 * Trova tutti gli eventi a partire da uno script sql
 	 * @param sql
 	 * @return
 	 */
 	public synchronized ArrayList<Evento> findAllEventiBySQL(String sql){
 		
-		open() ;
+		open();
 		
 		ArrayList<Evento> eventoList = new ArrayList<Evento>();
 		Cursor cursor = getDBCursor(sql);
@@ -211,9 +234,10 @@ public class QueryManager {
 		
 		evento.setIdEvento(getColumnValue(cursor, "idEvento"));
 		evento.setNome(getColumnValue(cursor, "nome"));
+		evento.setCodiceStampa(getColumnValue(cursor, "codiceStampa"));
 		evento.setQuartiere(getColumnValue(cursor, "quartiere"));
 		evento.setContrada(getColumnValue(cursor, "contrade"));
-		evento.setStradaCoraggio(getColumnValue(cursor, "stradaCorggio"));
+		evento.setStradaCoraggio(getColumnValue(cursor, "stradaCoraggio"));
 		evento.setTipoEvento(getColumnValue(cursor, "tipoEvento"));
 		
 		return evento;
@@ -228,7 +252,6 @@ public class QueryManager {
 		persona.setCognome(" **** ");
 		persona.setNome(" **** ");
 		persona.setIdGruppo(getColumnValue(cursor, "idGruppo"));
-		persona.setRuolo(getColumnValue(cursor, "ruolo"));
 		persona.setCodiceAgesci(getColumnValue(cursor, "codiceAgesci"));
 		persona.setIdUnita(getColumnValue(cursor, "idUnita"));
 		persona.setContrada(getColumnValue(cursor, "contrada"));

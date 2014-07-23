@@ -59,7 +59,6 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 	// Check that the database exists
 	private boolean checkDataBase(File dbFile) {
-		Log.e("EXISTENCE", "Result :" + dbFile.exists());
 		return dbFile.exists();
 	}
 

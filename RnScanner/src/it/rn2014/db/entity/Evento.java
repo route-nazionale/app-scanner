@@ -3,6 +3,7 @@ package it.rn2014.db.entity;
 public class Evento {
 	
 	private String idEvento;
+	private String codiceStampa;
 	private String nome;
 	private String quartiere;
 	private String stradaCoraggio;
@@ -60,4 +61,15 @@ public class Evento {
 	public void setStrada(String strada) {
 		this.stradaCoraggio = strada;
 	}
+	public String getCodiceStampa() {
+		return codiceStampa;
+	}
+	public void setCodiceStampa(String codiceStampa) {
+		this.codiceStampa = codiceStampa;
+	}
+	@Override
+	public String toString() {
+		return this.codiceStampa + " - " + this.nome;
+	}
+	
 }

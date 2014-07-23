@@ -42,6 +42,7 @@ public class UserData implements Serializable {
     
     public synchronized String getDate(){ return this.date; }
     public synchronized String getCU(){ return this.cu; }
+    public synchronized String getCUnoReprint(){ return this.cu.substring(0, this.cu.length()-2); }
     public synchronized String getLevel(){ return this.authLevel; }
     public synchronized String getChoose(){ return this.lastChoose; }
     public synchronized String getEvent(){ return this.lastEvent; }
