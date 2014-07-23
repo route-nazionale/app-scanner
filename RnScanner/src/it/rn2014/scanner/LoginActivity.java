@@ -1,7 +1,5 @@
 package it.rn2014.scanner;
 
-import it.rn2014.downloader.DownloadActivity;
-
 import java.util.ArrayList;
 
 import org.apache.http.NameValuePair;
@@ -43,7 +41,6 @@ public class LoginActivity extends ActionBarActivity {
 		
 		
 		btn.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				if (code.length() <= 1) return;
@@ -63,11 +60,6 @@ public class LoginActivity extends ActionBarActivity {
 		    code.setFocusableInTouchMode(false);
 		    code.setEnabled(false);
 		}
-	}
-	
-	public void testDB(View view){
-		Intent intent = new Intent(this,DownloadActivity.class);
-    	startActivity(intent);
 	}
 	
 
