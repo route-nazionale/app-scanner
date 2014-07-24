@@ -57,7 +57,7 @@
 	    android:textStyle="bold"
 	    android:padding="5dp"
 	    android:visibility="gone"
-	    android:background="@color/Aqua"
+	    android:layout_margin="2dp"
 	   	/>
 	<TextView
 	    android:id="@+id/event2"
@@ -68,7 +68,7 @@
 	    android:textStyle="bold"
 	    android:padding="5dp"
 	    android:visibility="gone"
-	    android:background="@color/White"
+	    android:layout_margin="2dp"
 	   	/>
 	<TextView
 	    android:id="@+id/event3"
@@ -79,7 +79,7 @@
 	    android:textStyle="bold"
 	    android:padding="5dp"
 	    android:visibility="gone"
-	    android:background="@color/Violet"
+	    android:layout_margin="2dp"
 	   	/>
 	    
 	</LinearLayout>

@@ -1,5 +1,10 @@
 package it.rn2014.scanner;
 
+import java.util.ArrayList;
+
+import it.rn2014.db.QueryManager;
+import it.rn2014.db.entity.Evento;
+import it.rn2014.db.entity.Persona;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class EventResultActivity extends Activity implements OnClickListener {
+	
+	private final static int INVALID_SCAN = -1;
+	private final static int NOT_AUTH = -2;
+	private final static int AUTH = -3;
+	
+	private ArrayList<Evento> otherEvent = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,12 +34,14 @@ public class EventResultActivity extends Activity implements OnClickListener {
 		exit.setOnClickListener(this);
 		abort.setOnClickListener(this);
 		
-		
 		Bundle extras = getIntent().getExtras();
 		if (extras != null && extras.containsKey("qrscanned")) {
 		    String code = extras.getString("qrscanned");
 		    if (code == null) finish();
-		    if (code.contentEquals("AA-1079-022839-0")){
+		    
+		    int status = computeStatus(code);
+		    
+		    if (status == AUTH){
 		    	TextView result = (TextView)findViewById(R.id.result);
 		    	TextView codetext = (TextView)findViewById(R.id.code);
 		    	LinearLayout background = (LinearLayout)findViewById(R.id.backGroundResult);
@@ -37,7 +50,7 @@ public class EventResultActivity extends Activity implements OnClickListener {
 		    	codetext.setText(code);
 		    	background.setBackgroundColor(getResources().getColor(R.color.LightGreen));
 		    	
-		    } else if (code.contentEquals("AA-1079-022840-0")) {
+		    } else if (status == NOT_AUTH) {
 
 		    	TextView result = (TextView)findViewById(R.id.result);
 		    	TextView codetext = (TextView)findViewById(R.id.code);
@@ -47,25 +60,31 @@ public class EventResultActivity extends Activity implements OnClickListener {
 		    	codetext.setText(code);
 		    	background.setBackgroundColor(getResources().getColor(R.color.LightPink));
 		    	
-		    	exit.setVisibility(View.INVISIBLE);
-		    	enter.setVisibility(View.INVISIBLE);
+		    	exit.setVisibility(View.GONE);
+		    	enter.setVisibility(View.GONE);
 		    	
-		    	TextView event1 = (TextView)findViewById(R.id.event1);
-		    	TextView event2 = (TextView)findViewById(R.id.event2);
-		    	TextView event3 = (TextView)findViewById(R.id.event3);
-		    	
-		    	event1.setText("Evento :"  + (Math.random() * 1000));
-		    	event2.setText("Evento :"  + (Math.random() * 1000));
-		    	event3.setText("Evento :"  + (Math.random() * 1000));
-		    	
-		    	event1.setBackgroundColor(getResources().getColor(R.color.LightBlue));
-		    	event2.setBackgroundColor(getResources().getColor(R.color.LightCoral));
-		    	event3.setBackgroundColor(getResources().getColor(R.color.LightSeaGreen));
-		    	
-		    	event1.setVisibility(View.VISIBLE);
-		    	event2.setVisibility(View.VISIBLE);
-		    	event3.setVisibility(View.VISIBLE);
-		    	
+		    	if (otherEvent != null){
+		    		
+		    		Evento evt1 = (otherEvent.size() >= 1 ? otherEvent.get(0) : null);
+		    		Evento evt2 = (otherEvent.size() >= 2 ? otherEvent.get(1) : null);
+		    		Evento evt3 = (otherEvent.size() >= 3 ? otherEvent.get(2) : null);
+		    		
+		    		TextView event1 = (TextView)findViewById(R.id.event1);
+			    	TextView event2 = (TextView)findViewById(R.id.event2);
+			    	TextView event3 = (TextView)findViewById(R.id.event3);
+			    	
+			    	if (evt1 != null) event1.setText(evt1.getCodiceStampa() + " - " + evt1.getNome());
+			    	if (evt2 != null) event2.setText(evt2.getCodiceStampa() + " - " + evt2.getNome());
+			    	if (evt3 != null) event3.setText(evt3.getCodiceStampa() + " - " + evt3.getNome());
+			    	
+			    	if (evt1 != null) event1.setBackgroundColor(getSubcampColor(evt1));
+			    	if (evt2 != null) event2.setBackgroundColor(getSubcampColor(evt2));
+			    	if (evt3 != null) event3.setBackgroundColor(getSubcampColor(evt3));
+			    	
+			    	if (evt1 != null) event1.setVisibility(View.VISIBLE);
+			    	if (evt2 != null) event2.setVisibility(View.VISIBLE);
+			    	if (evt3 != null) event3.setVisibility(View.VISIBLE);
+		    	}
 		    	
 		    } else {
 		    	TextView result = (TextView)findViewById(R.id.result);
@@ -81,6 +100,48 @@ public class EventResultActivity extends Activity implements OnClickListener {
 		    }
 		} else {
 			finish();
+		}
+	}
+
+	private int getSubcampColor(Evento evt) {
+		switch (Integer.parseInt(evt.getQuartiere())) {
+		case 1: return getResources().getColor(R.color.LightYellow);
+		case 2: return getResources().getColor(R.color.LightGreen);
+		case 3: return getResources().getColor(R.color.Violet);
+		case 4: return getResources().getColor(R.color.LightBlue);
+		case 5: return getResources().getColor(R.color.LightGoldenrodYellow);
+		case 6: return getResources().getColor(R.color.Red);
+		default : return getResources().getColor(R.color.WhiteSmoke);
+		}
+	}
+
+	private int computeStatus(String code) {
+		String cu;
+		String reprint;
+		int turn = UserData.getInstance().getTurn();
+		
+		try {
+			cu = code.substring(0, code.length()-2);
+			reprint = code.substring(code.length()-1);
+			
+			Persona p = QueryManager.getInstance(this).findPersonaByCodiceUnivoco(cu, reprint);
+			if (p.getCodiceUnivoco() == "") return INVALID_SCAN;
+			
+			otherEvent = QueryManager.getInstance(this).findEventiByPersona(p);
+			ArrayList<Evento> ae = QueryManager.getInstance(this).findEventiByPersona(p, turn);
+			
+			if (otherEvent.isEmpty()) return INVALID_SCAN;
+			if (ae.isEmpty()) return NOT_AUTH;
+			else {
+				Evento evt = ae.get(0);
+				if (evt.getCodiceEvento().contentEquals(UserData.getInstance().getEvent())){
+					return AUTH;
+				} else {
+					return NOT_AUTH;
+				}
+			}
+		} catch (IndexOutOfBoundsException e ){
+			return INVALID_SCAN;
 		}
 	}
 

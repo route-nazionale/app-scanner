@@ -1,6 +1,7 @@
 package it.rn2014.scanner;
 
 import it.rn2014.db.QueryManager;
+import it.rn2014.db.entity.Evento;
 import it.rn2014.db.entity.Persona;
 
 import java.util.ArrayList;
@@ -24,8 +25,12 @@ public class IdentifyResultActivity extends ActionBarActivity {
 		    String code = extras.getString("qrscanned");
 		    if (code == null) finish();
 			
-		    Persona result = QueryManager.getInstance(IdentifyResultActivity.this).findPersonaByCodiceUnivoco(code.substring(0, code.length()-2));
-		    
+			String cu = code.substring(0, code.length()-2);
+			String reprint = code.substring(code.length()-1);
+			
+			Persona result = QueryManager.getInstance(this).findPersonaByCodiceUnivoco(cu, reprint);
+			ArrayList<Evento> ae = QueryManager.getInstance(this).findEventiByPersona(result);
+			
 			ListView lw = (ListView)findViewById(R.id.listIdentify);
 			
 			ArrayList<Map<String, String>> data = new ArrayList<Map<String, String>>();
@@ -61,21 +66,13 @@ public class IdentifyResultActivity extends ActionBarActivity {
 			datum.put("subtitle", "Contrada - Quartiere");
 			data.add(datum);
 			
-			datum = new HashMap<String, String>(2);
-			datum.put("title", "LAB 123 - Laboratorio 1123");
-			datum.put("subtitle", "Evento primo turno");
-			data.add(datum);
-			
-			datum = new HashMap<String, String>(2);
-			datum.put("title", "LAB 567 - Laboratorio 1123");
-			datum.put("subtitle", "Evento secondo turno");
-			data.add(datum);
-			
-			datum = new HashMap<String, String>(2);
-			datum.put("title", "TAV 123 - Laboratorio 1123");
-			datum.put("subtitle", "Evento terzo turno");
-			data.add(datum);
-			
+			for (int i = 0; i < ae.size(); i++){
+				Evento e = ae.get(i);
+				datum = new HashMap<String, String>(2);
+				datum.put("title", e.getCodiceStampa() + " - " + e.getNome());
+				datum.put("subtitle", "Turno: " + i + "Sottocampo evento: " + e.getQuartiere());
+				data.add(datum);
+			}			
 			
 			SimpleAdapter adapter = new SimpleAdapter(this, data,
 			                                      android.R.layout.simple_list_item_2,

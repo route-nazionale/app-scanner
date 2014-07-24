@@ -75,6 +75,11 @@ public class QueryManager {
 		return findPersonaBySQL(sql);
 	}
 	
+	public synchronized Persona findPersonaByCodiceUnivoco(String codiceUnivoco, String reprint) {
+		String sql = "SELECT * FROM `persone` WHERE `codiceUnivoco` =  '" + codiceUnivoco  + "' AND `ristampaBadge` = '" + reprint + "'" ;
+		return findPersonaBySQL(sql);
+	}
+	
 	public synchronized Persona findPersonaBySQL(String sql) {
 		open();
 		Cursor cursor = getDBCursor(sql);
@@ -147,6 +152,21 @@ public class QueryManager {
 	}
 	
 	/**
+	 * Trova gli eventi di una persona in un dato turno
+	 * 
+	 * @param persona
+	 * @return
+	 */
+	public synchronized ArrayList<Evento> findEventiByPersona(Persona persona, int turno) {
+		String sql = "SELECT * from eventi" +
+				" JOIN assegnamenti ON assegnamenti.idEvento = eventi.idEvento" +
+				" AND assegnamenti.codiceUnivoco = '" + persona.getCodiceUnivoco() + "' AND " +
+				" assegnamenti.slot = '" + turno + "'";
+		
+		return findAllEventiBySQL(sql);
+	}
+	
+	/**
 	 * Trova gli eventi di una persona
 	 * 
 	 * @param persona
@@ -154,8 +174,9 @@ public class QueryManager {
 	 */
 	public synchronized ArrayList<Evento> findEventiByPersona(Persona persona) {
 		String sql = "SELECT * from eventi" +
-				"JOIN assegnamenti ON assegnamenti.idEvento = eventi.idEvento" +
-				"AND assegnamenti.codiceUnivoco = " + persona.getCodiceUnivoco();
+				" JOIN assegnamenti ON assegnamenti.idEvento = eventi.idEvento" +
+				" AND assegnamenti.codiceUnivoco = '" + persona.getCodiceUnivoco() + 
+				"' ORDER BY assegnamenti.slot ";
 		
 		return findAllEventiBySQL(sql);
 	}

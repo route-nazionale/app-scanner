@@ -31,8 +31,10 @@ public class GateResultActivity extends Activity implements OnClickListener {
 		    String code = extras.getString("qrscanned");
 		    if (code == null) finish();
 		    
-		    Persona res = QueryManager.getInstance(GateResultActivity.this).findPersonaByCodiceUnivoco(code.substring(0, code.length()-2));
-		    
+			String cu = code.substring(0, code.length()-2);
+			String reprint = code.substring(code.length()-1);
+			
+			Persona res = QueryManager.getInstance(this).findPersonaByCodiceUnivoco(cu, reprint);
 		    
 		    if (res.getCodiceUnivoco().contentEquals("AA-1079-022839")){
 		    	TextView result = (TextView)findViewById(R.id.result);

@@ -24,8 +24,7 @@
     <string name="title_gate">Autenticazione Varchi</string>
     <string name="desc_gate">Benvenuto nella modalità di Autenticazione Varchi,
         di qui puoi autenticare i Badge per il varco di accesso alla Route Nazionale.
-        Premere sul bottone Scansione per scansionare il badge con la fotocamera,
-        Premere sul bottone Codice per inserire il codice del Badge a mano.</string>
+        Premere sul bottone Scansione o sul bottone Codice per registrare un ingresso/uscita</string>
     <string name="title_identify">Identifica soggetto</string>
     <string name="desc_identify">Benvenuto nella modalità di Identificazione,
         di qui puoi ottenere tutti i dati associati ad un badge.

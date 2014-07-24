@@ -5,7 +5,12 @@ import java.util.ArrayList;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -39,15 +44,25 @@ public class LoginActivity extends ActionBarActivity {
 		
 		error = (TextView)findViewById(R.id.errorMessage);
 		
+		final AlertDialog.Builder adb = new AlertDialog.Builder(this);
+	    adb.setTitle("Connessione Assente");
+	    adb.setMessage("Per effettuare il login e' necessario essere connessi ad Internet");
+	    adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) {
+	      } });
 		
 		btn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (code.length() <= 1) return;
 				
-				LoginTask login = new LoginTask(prb, error);
-				String dateValue = date.getDayOfMonth() + "/" + date.getMonth() + "/" + date.getYear();
-				login.execute(new String[]{code.getText().toString(), dateValue});
+				if (!haveNetworkConnection()){
+					adb.show();
+				} else {
+					LoginTask login = new LoginTask(prb, error);
+					String dateValue = date.getDayOfMonth() + "/" + date.getMonth() + "/" + date.getYear();
+					login.execute(new String[]{code.getText().toString(), dateValue});
+				}
 			}
 		});
 		
@@ -117,4 +132,21 @@ public class LoginActivity extends ActionBarActivity {
 			return res;
 		}
 	}
+	
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
+    }
 }

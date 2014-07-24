@@ -1,5 +1,7 @@
 package it.rn2014.scanner;
 
+import it.rn2014.db.QueryManager;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -11,9 +13,13 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.util.zip.GZIPInputStream;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -54,6 +60,23 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 		mProgressDialog.setIndeterminate(true);
 		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		
+		if (!haveNetworkConnection() && !QueryManager.getInstance(this).checkDataBase()){
+			
+		    AlertDialog.Builder adb = new AlertDialog.Builder(this);
+		    adb.setTitle("Connessione Assente");
+		    adb.setMessage("Non sono presenti i dati della Route Nazionale sul device! Devi essere connesso ad Internet per scaricarli");
+		    adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int which) {
+		        	Intent intent = new Intent(Intent.ACTION_MAIN);
+					intent.addCategory(Intent.CATEGORY_HOME);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					startActivity(intent);
+		      } });
+		    adb.show();
+		} else {
+			DownloadTask dt = new DownloadTask(MainActivity.this);
+			dt.execute("http://mobile.rn2014.it/rn2014.db.gz");
+		}
 	}
 
 	@Override
@@ -83,10 +106,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 			startActivity(ident);
 			break;
 		case R.id.btnSyncro:
-//			Intent sync = new Intent(getApplicationContext(), SyncroActivity.class);
-//			startActivity(sync);
-			DownloadTask dt = new DownloadTask(MainActivity.this);
-			dt.execute("http://mobile.rn2014.it/rn2014.db.gz");
+			Intent sync = new Intent(getApplicationContext(), SyncroActivity.class);
+			startActivity(sync);
 			break;
 		default:
 			break;
@@ -251,5 +272,22 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
             returnVal += Integer.toString(( md5Bytes[i] & 0xff ) + 0x100, 16).substring(1);
         }
         return returnVal;
+    }
+    
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
     }
 }

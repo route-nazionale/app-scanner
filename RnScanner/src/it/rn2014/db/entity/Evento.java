@@ -19,7 +19,7 @@ public class Evento {
 	public void setQuartiere(String quartiere) {
 		this.quartiere = quartiere;
 	}
-	public String getQuartiere(String quartiere) {
+	public String getQuartiere() {
 		return this.quartiere;
 	}
 	public String getStradaCoraggio() {
