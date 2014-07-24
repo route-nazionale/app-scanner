@@ -14,6 +14,8 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -43,6 +45,31 @@ public class LoginActivity extends ActionBarActivity {
 		final ProgressBar prb = (ProgressBar)findViewById(R.id.login_progress);
 		
 		error = (TextView)findViewById(R.id.errorMessage);
+		
+		code.addTextChangedListener(new TextWatcher() {
+			
+			boolean delete = false;
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) { }
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				if (count < after) 
+					delete = false;
+				else
+					delete = true;
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				int textlength1 = s.length();
+				if (delete) return;
+				if(textlength1==2 || textlength1==7 || textlength1==14)
+					s.append("-");
+			}
+		});
+		
 		
 		final AlertDialog.Builder adb = new AlertDialog.Builder(this);
 	    adb.setTitle("Connessione Assente");

@@ -59,6 +59,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_code"
                 android:inputType="textCapCharacters"
+                android:maxLength="16"
                 android:maxLines="1"
                 android:singleLine="true" />
             

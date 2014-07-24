@@ -37,7 +37,6 @@ public class AuthActivity extends ActionBarActivity implements OnClickListener {
 		} else if (v.getId() == R.id.btnPass){
 			Intent login = new Intent(getApplicationContext(), LoginActivity.class);
 			startActivity(login);
-			finish();
 		}
 			
 	}
@@ -46,11 +45,9 @@ public class AuthActivity extends ActionBarActivity implements OnClickListener {
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
 		if (scanResult != null && scanResult.getContents() != null && !scanResult.getContents().contentEquals("")) {
-			
 			Intent login = new Intent(getApplicationContext(), LoginActivity.class);
 			login.putExtra("qrscanned", scanResult.getContents());
 			startActivity(login);
-			finish();
 		}
 	}
 }

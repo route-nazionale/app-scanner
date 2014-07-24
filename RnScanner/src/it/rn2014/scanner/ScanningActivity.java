@@ -10,8 +10,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,14 +33,11 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_scanning);
 		
-		boolean b = QueryManager.getInstance(ScanningActivity.this).checkDataBase();
-		Log.e("DATABASE", "IS " + b);
-		
 		Button btnScan = (Button)findViewById(R.id.btnBadge);
 		btnScan.setOnClickListener(this);
 		Button btnWrite = (Button)findViewById(R.id.btnWrite);
 		btnWrite.setOnClickListener(this);
-		
+				
 		if (savedInstanceState != null){
 			mode = savedInstanceState.getString("mode");
 		} else {
@@ -110,6 +109,31 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 			final EditText code = new EditText(this);
 			code.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);			
 			code.setHint(R.string.prompt_code);
+			
+			code.addTextChangedListener(new TextWatcher() {
+				
+				boolean delete = false;
+				
+				@Override
+				public void onTextChanged(CharSequence s, int start, int before, int count) { }
+				@Override
+				public void beforeTextChanged(CharSequence s, int start, int count,
+						int after) {
+					if (count < after) 
+						delete = false;
+					else
+						delete = true;
+				}
+				
+				@Override
+				public void afterTextChanged(Editable s) {
+					int textlength1 = s.length();
+					if (delete) return;
+					if(textlength1==2 || textlength1==7 || textlength1==14)
+						s.append("-");
+				}
+			});
+						
 			alert.setView(code);
 
 			alert.setPositiveButton("Invia", new DialogInterface.OnClickListener() {
