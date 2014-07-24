@@ -70,7 +70,7 @@ public class IdentifyResultActivity extends ActionBarActivity {
 				Evento e = ae.get(i);
 				datum = new HashMap<String, String>(2);
 				datum.put("title", e.getCodiceStampa() + " - " + e.getNome());
-				datum.put("subtitle", "Turno: " + i + "Sottocampo evento: " + e.getQuartiere());
+				datum.put("subtitle", "Turno: " + (i+1) + " Sottocampo evento: " + e.getQuartiere());
 				data.add(datum);
 			}			
 			
