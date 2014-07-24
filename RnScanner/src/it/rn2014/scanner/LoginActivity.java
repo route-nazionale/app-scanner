@@ -111,7 +111,7 @@ public class LoginActivity extends ActionBarActivity {
 		    if(result.equals("1")){
 		    	Toast.makeText(getApplicationContext(), "Autenticazione Riuscita", Toast.LENGTH_SHORT).show();
 		    	Intent main = new Intent(getApplicationContext(), MainActivity.class);
-				
+				 
 				UserData.getInstance().setLevel("OK");
 				UserData.saveInstance(getApplicationContext());
 				startActivity(main);
