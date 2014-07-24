@@ -112,10 +112,10 @@ public class IntentIntegrator {
   public static final int REQUEST_CODE = 0x0000c0de; // Only use bottom 16 bits
   private static final String TAG = IntentIntegrator.class.getSimpleName();
 
-  public static final String DEFAULT_TITLE = "Install Barcode Scanner?";
+  public static final String DEFAULT_TITLE = "Installare Barcode Scanner?";
   public static final String DEFAULT_MESSAGE =
-      "This application requires Barcode Scanner. Would you like to install it?";
-  public static final String DEFAULT_YES = "Yes";
+      "Per effettuare le scansioni dei codici QR serve Barcode Scanner. Scaricarla? (necessita di connessione a internet)";
+  public static final String DEFAULT_YES = "Sì";
   public static final String DEFAULT_NO = "No";
 
   private static final String BS_PACKAGE = "com.google.zxing.client.android";

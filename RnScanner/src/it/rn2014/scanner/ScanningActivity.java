@@ -1,5 +1,7 @@
 package it.rn2014.scanner;
 
+import java.util.ArrayList;
+
 import it.rn2014.db.QueryManager;
 import it.rn2014.db.entity.Evento;
 import android.app.AlertDialog;
@@ -133,7 +135,9 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 			alert.show();
 		} else if (v.getId() == R.id.btnBadge) {
 			IntentIntegrator ii = new IntentIntegrator(this);
-			ii.initiateScan();
+			ArrayList<String> formats = new ArrayList<String>();
+			formats.add("QR_CODE");
+			ii.initiateScan(formats);
 		}
 	}
 	
