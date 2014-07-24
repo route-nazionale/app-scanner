@@ -259,9 +259,9 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 	        	mWakeLock.release();
 	        	mProgressDialog.dismiss();
 	        	if (result != null)
-	        		Toast.makeText(context,"Download error: "+result, Toast.LENGTH_LONG).show();
+	        		Toast.makeText(context,"Errore nel download: "+result, Toast.LENGTH_LONG).show();
 	        	else
-	        		Toast.makeText(context,"File downloaded", Toast.LENGTH_SHORT).show();
+	        		Toast.makeText(context,"Dati scaricati correttamente", Toast.LENGTH_LONG).show();
 	        }
 	    }
 	}

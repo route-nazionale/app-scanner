@@ -60,12 +60,24 @@ public class LoginActivity extends ActionBarActivity {
 					adb.show();
 				} else {
 					LoginTask login = new LoginTask(prb, error);
-					String dateValue = date.getDayOfMonth() + "/" + date.getMonth() + "/" + date.getYear();
+										 
+					String day, month, year;
+					if (date.getDayOfMonth() < 10)
+						day = "0" + date.getDayOfMonth();
+					else
+						day = "" + date.getDayOfMonth();
+					
+					if ((date.getMonth()+1) < 10)
+						month = "0" + (date.getMonth() + 1);
+					else
+						month = "" + (date.getMonth() + 1);
+					year = "" + date.getYear();
+					
+					String dateValue = day + "/" + month + "/" + year;
 					login.execute(new String[]{code.getText().toString(), dateValue});
 				}
 			}
 		});
-		
 		Bundle extras = getIntent().getExtras();
 		if (extras != null && extras.containsKey("qrscanned")) {
 		    String scannedCode = extras.getString("qrscanned");
@@ -99,9 +111,11 @@ public class LoginActivity extends ActionBarActivity {
 		    if(result.equals("1")){
 		    	Toast.makeText(getApplicationContext(), "Autenticazione Riuscita", Toast.LENGTH_SHORT).show();
 		    	Intent main = new Intent(getApplicationContext(), MainActivity.class);
-				startActivity(main);
+				
 				UserData.getInstance().setLevel("OK");
 				UserData.saveInstance(getApplicationContext());
+				startActivity(main);
+				finish();
 		    }
 		    else{
 		    	error.setVisibility(View.VISIBLE);

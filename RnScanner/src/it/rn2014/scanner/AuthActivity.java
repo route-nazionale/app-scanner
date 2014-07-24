@@ -37,6 +37,7 @@ public class AuthActivity extends ActionBarActivity implements OnClickListener {
 		} else if (v.getId() == R.id.btnPass){
 			Intent login = new Intent(getApplicationContext(), LoginActivity.class);
 			startActivity(login);
+			finish();
 		}
 			
 	}
@@ -49,6 +50,7 @@ public class AuthActivity extends ActionBarActivity implements OnClickListener {
 			Intent login = new Intent(getApplicationContext(), LoginActivity.class);
 			login.putExtra("qrscanned", scanResult.getContents());
 			startActivity(login);
+			finish();
 		}
 	}
 }
