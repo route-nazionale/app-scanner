@@ -50,7 +50,7 @@
         </activity>
         <activity
             android:name=".ScanningActivity"
-            android:label="@string/title_activity_syncro"
+            android:label="@string/title_activity_scanning"
             android:screenOrientation="portrait" >
         </activity>
         <activity

@@ -33,9 +33,7 @@
         Premere sul bottone Codice per inserire il codice del Badge a mano.</string>
     <string name="title_event">Autenticazione Eventi</string>
     <string name="desc_event">Benvenuto nella modalità di Autenticazione Eventi,
-        di qui puoi autenticare i Badge per l\'evento selezionato.
-        Premere sul bottone Scansione per scansionare il badge con la fotocamera,
-        Premere sul bottone Codice per inserire il codice del Badge a mano.</string>
+        di qui puoi autenticare i Badge per l\'evento selezionato.</string>
     <string name="entrata">Entrata</string>
     <string name="uscita">Uscita</string>
     <string name="annulla">Annulla</string>
@@ -61,7 +59,7 @@
     <string name="non_partecipante">Non partecipante!</string>
     
     
-    <string name="title_activity_identify_result">IdentifyResultActivity</string>
+    <string name="title_activity_identify_result">Risultato Scansione</string>
     <string name="title_activity_event_result">Risultato Scansione</string>
     <string name="sincronizza">Sincronizza</string>
     <string name="identifica">Identifica</string>
@@ -69,5 +67,6 @@
     <string name="autenticazione_varco">Autenticazione Varco</string>
     <string name="log_out">Log out</string>
     <string name="connesso_come">Connesso come</string>
+    <string name="title_activity_scanning">Scansione codici</string>
 
 </resources>

@@ -30,7 +30,7 @@
         android:id="@+id/btnBadge"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="20dp"
         android:layout_weight="5"
         android:drawableLeft="@drawable/qr_code_icon"
         android:text="@string/auth_badge" />
@@ -39,7 +39,7 @@
         android:id="@+id/btnPass"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="20dp"
         android:layout_weight="5"
         android:drawableLeft="@drawable/password_icon"
         android:text="@string/auth_password" />

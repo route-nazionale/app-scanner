@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,6 +49,8 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 		// Disegno l'interfaccia in base alla modalita'
 	    if (mode.contentEquals("gate")){
 			
+	    	this.setTitle("Autenticazione Varchi");
+	    	
 	    	TextView title = (TextView)findViewById(R.id.title);
 			TextView description = (TextView)findViewById(R.id.description);
 			title.setText(R.string.title_gate);
@@ -57,23 +60,32 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 			
 	    } else if (mode.contentEquals("event")) {
 	    	
+	    	this.setTitle("Autenticazione Eventi");
+	    	
 	    	TextView title = (TextView)findViewById(R.id.title);
 	    	TextView description = (TextView)findViewById(R.id.description);
 	    	TextView event = (TextView)findViewById(R.id.eventText);
 			TextView turn = (TextView)findViewById(R.id.turnText);
+			
 	    	
 			title.setText(R.string.title_event);
 			title.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.event), null, null, null);
 			description.setText(R.string.desc_event);
 			
+			event.setVisibility(View.VISIBLE);
+			turn.setVisibility(View.VISIBLE);
+			
 			String eventcode = UserData.getInstance().getEvent();
 			Evento e = QueryManager.getInstance(this).findEventById(eventcode);
 			if (e != null)
-				event.setText("Evento: " + e.getCodiceStampa() + " - " + e.getNome());
-			turn.setText("Turno: " + UserData.getInstance().getTurn());
+				event.setText(Html.fromHtml("Evento: <b>" + e.getCodiceStampa() + " - " + e.getNome() + "</b>"));
+			turn.setText(Html.fromHtml("Turno: <b>" + UserData.getInstance().getTurn() + "</b>"));
 	    	
 	    	
 	    } else if (mode.contentEquals("identify")) {
+	    	
+	    	this.setTitle("Identifica Soggetto");
+	    	
 	    	TextView title = (TextView)findViewById(R.id.title);
 			TextView description = (TextView)findViewById(R.id.description);
 	    	
