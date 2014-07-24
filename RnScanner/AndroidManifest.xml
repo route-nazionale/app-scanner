@@ -44,11 +44,6 @@
             android:screenOrientation="portrait" >
 		</activity>
         <activity
-            android:name="it.rn2014.downloader.DownloadActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name=".SyncroActivity"
             android:label="@string/title_activity_syncro"
             android:screenOrientation="portrait" >

@@ -12,7 +12,6 @@
     <string name="anonym">Utente Anonimo</string>
     <string name="title_activity_login">Login</string>
     <string name="prompt_code">Codice badge (AA-####-######-#)</string>
-    <string name="prompt_date">Inserisci la data di nascita</string>
     <string name="action_sign_in">Esegui il login</string>
     <string name="action_sign_in_short">Login</string>
     <string name="error_invalid_userid">Questo codice non è valido</string>
@@ -20,7 +19,6 @@
     <string name="inserisci_badge">Inserisci il tuo codice badge</string>
     <string name="inserisci_data">Inserisci la tua data di nascita</string>
     <string name="title_activity_main">Route Nazionale - App Scanner</string>
-    <string name="title_activity_gate">Autenticazione Varchi</string>
     <string name="scansione">Scansione</string>
     <string name="codice">Codice</string>
     <string name="title_gate">Autenticazione Varchi</string>
@@ -38,12 +36,10 @@
         di qui puoi autenticare i Badge per l\'evento selezionato.
         Premere sul bottone Scansione per scansionare il badge con la fotocamera,
         Premere sul bottone Codice per inserire il codice del Badge a mano.</string>
-    <string name="title_activity_gate_result">Risultato Scansione</string>
     <string name="entrata">Entrata</string>
     <string name="uscita">Uscita</string>
     <string name="annulla">Annulla</string>
     <string name="auth_fail">Autenticazione Fallita!</string>
-    <string name="testDB">test DB</string>
     <string name="title_activity_syncro">Sincronizzazione dati</string>
     <string name="aggiornamento_del_database">Aggiornamento del Database</string>
     <string name="invio_dei_dati">Invio dei dati</string>
@@ -52,7 +48,6 @@
     <string name="sincronizzazione_dei_dati">Sincronizzazione dei dati</string>
     <string name="ok_image">OK image</string>
     <string name="title_activity_event">Autenticazione Eventi</string>
-    <string name="scegli_l_evento_di_cui_vuoi_fare_l_autenticazione_nell_elenco_seguente_sono_presenti_solo_gli_eventi_per_cui_sei_stato_autorizzato_">Scegli l\'evento di cui vuoi fare l\'autenticazione. Nell\'elenco seguente sono presenti solo gli eventi per cui sei stato autorizzato.</string>
     <string name="chose_event">Scegli l\'evento di cui vuoi fare l\'autenticazione. Nell\'elenco seguente sono presenti solo gli eventi per cui sei stato autorizzato</string>
     <string name="scegli_l_evento">Scegli l\'evento</string>
     <string name="turno_1">Turno 1</string>

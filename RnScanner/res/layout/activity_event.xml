@@ -55,8 +55,7 @@
     <ListView
         android:id="@+id/listEvent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/example_events" >
+        android:layout_height="wrap_content" >
     </ListView>
 
 </LinearLayout>
