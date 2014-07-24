@@ -1,15 +1,17 @@
 package it.rn2014.scanner;
 
-import java.util.ArrayList;
-
 import it.rn2014.db.QueryManager;
 import it.rn2014.db.entity.Evento;
+
+import java.util.ArrayList;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -106,6 +108,7 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 			alert.setMessage("Scrivi il codice badge da scansionare");
 
 			final EditText code = new EditText(this);
+			code.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);			
 			code.setHint(R.string.prompt_code);
 			alert.setView(code);
 
