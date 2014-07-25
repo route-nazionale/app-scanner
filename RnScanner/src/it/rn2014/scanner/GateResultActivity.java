@@ -1,9 +1,12 @@
 package it.rn2014.scanner;
 
 import it.rn2014.db.DataManager;
+import it.rn2014.db.StatsManager;
 import it.rn2014.db.entity.Persona;
+import it.rn2014.db.entity.StatisticheScansioni;
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -12,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class GateResultActivity extends Activity implements OnClickListener {
+	
+	StatisticheScansioni scan = new StatisticheScansioni();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +29,10 @@ public class GateResultActivity extends Activity implements OnClickListener {
 		enter.setOnClickListener(this);
 		exit.setOnClickListener(this);
 		abort.setOnClickListener(this);
-		
-		
+			
 		Bundle extras = getIntent().getExtras();
 		if (extras != null && extras.containsKey("qrscanned")) {
+			
 		    String code = extras.getString("qrscanned");
 		    if (code == null) finish();
 		    
@@ -47,6 +52,7 @@ public class GateResultActivity extends Activity implements OnClickListener {
 		    	
 		    	exit.setVisibility(View.INVISIBLE);
 		    	enter.setVisibility(View.INVISIBLE);
+		    	scan.setNotAuth();
 		    	
 		    } else if (code.substring(0, code.length()-2).contentEquals(res.getCodiceUnivoco()) &&
 		    		code.substring(code.length()-1).contentEquals(res.getRistampaBadge())) {
@@ -58,7 +64,7 @@ public class GateResultActivity extends Activity implements OnClickListener {
 		    	result.setText(getResources().getString(R.string.autorizzato));
 		    	codetext.setText(code);
 		    	background.setBackgroundColor(getResources().getColor(R.color.LightGreen));
-		    	
+		    	scan.setAuth();
 		    	
 		    } else {
 		    	
@@ -72,10 +78,21 @@ public class GateResultActivity extends Activity implements OnClickListener {
 		    	
 		    	exit.setVisibility(View.INVISIBLE);
 		    	enter.setVisibility(View.INVISIBLE);
+		    	scan.setInvalid();
 		    }
+		    
+			cu = code.substring(0, code.length()-2);
+			reprint = code.substring(code.length()-1);
+			
+		    scan.setCodiceUnivoco(cu);
+		    scan.setCodiceRistampa(reprint);
+		    scan.setIdVarco("ACCESSI");
+		    
 		} else {
 			finish();
 		}
+		
+		
 	}
 
 	@Override
@@ -83,11 +100,16 @@ public class GateResultActivity extends Activity implements OnClickListener {
 		Toast t = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
 		if (v.getId() == R.id.btnEnter){
 			t.setText("Accesso al varco registrato");
+			scan.setEnter();
 		} else if (v.getId() == R.id.btnExit) {
 			t.setText("Escita dal varco registrata");
+			scan.setExit();
 		} else if (v.getId() == R.id.btnAbort) {
 			t.setText("Scansione annullata");
+			scan.setAbort();
 		}
+		StatsManager.getInstance(GateResultActivity.this).insertStats(scan);
+		Log.e("Inserito ", scan.toJSONObject().toString());
 		t.show();
 		finish();
 	}

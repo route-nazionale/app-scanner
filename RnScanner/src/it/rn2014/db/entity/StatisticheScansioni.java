@@ -1,7 +1,10 @@
 package it.rn2014.db.entity;
 
+import android.annotation.SuppressLint;
+import it.rn2014.scanner.UserData;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.Date;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,8 +14,10 @@ public class StatisticheScansioni {
 	public static final String INVALID = "invalid";
 	public static final String AUTH = "auth";
 	public static final String NOT_AUTH = "not_auth";
+	public static final String VALID_ENTER = "valid_enter";
+	public static final String VALID_EXIT = "valid_exit";
+	public static final String USER_ABORT = "user_abort";
 	
-    private int idScansione   ; // INTEGER PRIMARY KEY AUTOINCREMENT,
     private String codiceUnivoco ; // VARCHAR,
     private String codiceRistampa ; // VARCHAR,
     private String time          ; // VARCHAR,
@@ -23,12 +28,19 @@ public class StatisticheScansioni {
     private boolean sync          ; // BOOLEAN 
     private String idVarco       ; // VARCHAR
     
-	public int getIdScansione() {
-		return idScansione;
-	}
-	public void setIdScansione(int idScansione) {
-		this.idScansione = idScansione;
-	}
+    @SuppressLint("SimpleDateFormat")
+	public StatisticheScansioni(){
+    	imei = UserData.getInstance().getImei();
+    	turno = UserData.getInstance().getTurn();
+    	sync = false;
+    	idVarco = UserData.getInstance().getEvent();
+    	String operatorCU = UserData.getInstance().getCU();
+    	operatore = operatorCU.substring(0, operatorCU.length()-2);
+    	type = "";
+    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        time = dateFormat.format(new Date()); // Find todays date
+    }
+    
 	public String getCodiceUnivoco() {
 		return codiceUnivoco;
 	}
@@ -68,6 +80,9 @@ public class StatisticheScansioni {
 	public void setInvalid() { this.type = INVALID; }
 	public void setAuth() { this.type = AUTH; }
 	public void setNotAuth() { this.type = NOT_AUTH; }
+	public void setEnter() { this.type = VALID_ENTER; }
+	public void setExit() { this.type = VALID_EXIT; }
+	public void setAbort() { this.type = USER_ABORT; }
 	
 	public String getType() {
 		return this.type;
@@ -86,10 +101,10 @@ public class StatisticheScansioni {
 		this.idVarco = idVarco;
 	}
     public String toString(){
-        return "["+idScansione+"] "+codiceUnivoco+codiceRistampa+" "+idVarco;
+        return ""+codiceUnivoco+codiceRistampa+" "+idVarco;
     }
-    
-    public String toJSON(){
+        
+    public JSONObject toJSONObject(){
     	JSONObject jsonObject= new JSONObject();
         try {
             jsonObject.put("cu", getCodiceUnivoco());
@@ -100,11 +115,11 @@ public class StatisticheScansioni {
             jsonObject.put("turn", getTurno());
             jsonObject.put("imei", getImei());
             jsonObject.put("type", getType());
-            return jsonObject.toString();
+            return jsonObject;
         } catch (JSONException e) {
            
             e.printStackTrace();
-            return "";
+            return null;
         }
     }
     
@@ -112,7 +127,7 @@ public class StatisticheScansioni {
     	
     	JSONArray jsonArray = new JSONArray();
         for (StatisticheScansioni s : arr){
-			jsonArray.put(s);
+			jsonArray.put(s.toJSONObject());
 		}
         
         JSONObject jsonObject = new JSONObject();

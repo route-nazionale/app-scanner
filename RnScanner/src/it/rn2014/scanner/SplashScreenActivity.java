@@ -2,6 +2,7 @@ package it.rn2014.scanner;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -10,6 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.telephony.TelephonyManager;
 
 public class SplashScreenActivity extends Activity {
 
@@ -84,6 +86,10 @@ public class SplashScreenActivity extends Activity {
 		protected Void doInBackground(Void... params) {
 
 			if (UserData.restoreInstance(getApplicationContext()) == true) {
+				
+                TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+                UserData.getInstance().setImei(telephonyManager.getDeviceId());
+                
 				if (UserData.getInstance().getCU() != null
 						&& UserData.getInstance().getDate() != null) {
 					logged = true;
