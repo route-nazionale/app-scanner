@@ -100,7 +100,7 @@ public class LoginActivity extends ActionBarActivity {
 						month = "" + (date.getMonth() + 1);
 					year = "" + date.getYear();
 					
-					String dateValue = day + "/" + month + "/" + year;
+					String dateValue = year + "-" + month + "-" + day;
 					login.execute(new String[]{code.getText().toString(), dateValue});
 				}
 			}
@@ -135,13 +135,24 @@ public class LoginActivity extends ActionBarActivity {
 		
 		@Override
 		protected void onPostExecute(String result) {
-		    if(result.equals("1")){
+		    
+			if(result.equals("security")){
+				UserData.getInstance().setLevel("security");
+				UserData.saveInstance(getApplicationContext());
 		    	Toast.makeText(getApplicationContext(), "Autenticazione Riuscita", Toast.LENGTH_SHORT).show();
 		    	Intent main = new Intent(getApplicationContext(), MainActivity.class);
-				 
-				UserData.getInstance().setLevel("OK");
-				UserData.saveInstance(getApplicationContext());
+
+				startActivity(main);
+				finish();
 				
+		    } else if (result.equals("event")) {
+		    	
+				UserData.getInstance().setLevel("event");
+				UserData.saveInstance(getApplicationContext());
+		    	
+		    	Toast.makeText(getApplicationContext(), "Autenticazione Riuscita", Toast.LENGTH_SHORT).show();
+		    	Intent main = new Intent(getApplicationContext(), MainActivity.class);
+
 				startActivity(main);
 				finish();
 		    }
