@@ -1,6 +1,6 @@
 package it.rn2014.scanner;
 
-import it.rn2014.db.QueryManager;
+import it.rn2014.db.DataManager;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -60,7 +60,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 		mProgressDialog.setIndeterminate(true);
 		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		
-		if (!haveNetworkConnection() && !QueryManager.getInstance(this).checkDataBase()){
+		if (!haveNetworkConnection() && !DataManager.getInstance(this).checkDataBase()){
 			
 		    AlertDialog.Builder adb = new AlertDialog.Builder(this);
 		    adb.setTitle("Connessione Assente");

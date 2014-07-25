@@ -2,12 +2,10 @@ package it.rn2014.db;
 
 import it.rn2014.db.entity.Evento;
 import it.rn2014.db.entity.Persona;
-import it.rn2014.db.entity.StatisticheScansioni;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -18,24 +16,23 @@ import android.util.Log;
  * @author Luca
  * 
  */
-public class QueryManager {
+public class DataManager {
 
 	public static final String TAG = "DataAdapter";
 
 	private SQLiteDatabase database;
 	private DataBaseManager databaseManager;
 	
-	private static QueryManager instance = null;
+	private static DataManager instance = null;
 
-	// TODO Questo metodo deve diventare privato
-	public QueryManager(Context context) {
-		databaseManager = new DataBaseManager(context);
+	private DataManager(Context context) {
+		databaseManager = new DataBaseManager(context, "rn2014.db");
 		createDatabase();
 	}
 	
-	public static synchronized QueryManager getInstance(Context c){
+	public static synchronized DataManager getInstance(Context c){
 		if (instance == null){
-			instance = new QueryManager(c);
+			instance = new DataManager(c);
 		}
 		return instance;
 	}
@@ -44,7 +41,7 @@ public class QueryManager {
 		return databaseManager.checkDataBase();
 	}
 
-	public synchronized QueryManager createDatabase() throws SQLException {
+	public synchronized DataManager createDatabase() throws SQLException {
 		try {
 			databaseManager.createDataBase();
 		} catch (IOException mIOException) {
@@ -54,7 +51,7 @@ public class QueryManager {
 		return this;
 	}
 
-	public synchronized QueryManager open() throws SQLException {
+	public synchronized DataManager open() throws SQLException {
 		try {
 			databaseManager.openDataBase();
 			databaseManager.close();
@@ -88,68 +85,7 @@ public class QueryManager {
 		
 	}
 	
-	public synchronized ArrayList<StatisticheScansioni> findAllStatsByImeiNotSync(String imei){
-		String sql = "SELECT * from statisticheScansioni Where imei = '" + imei + "' and sync ISNULL" ;
-		return findAllStatsBySQL(sql) ;
-	}
 	
-	public synchronized ArrayList<StatisticheScansioni> findAllStatsByEventSync(String idEvent){
-		String sql = "SELECT * FROM statisticheScansioni WHERE idEvento = '" + idEvent + "' AND sync NOTNULL" ;
-		return findAllStatsBySQL(sql) ;
-	}
-	
-	public synchronized ArrayList<StatisticheScansioni> findAllStatsByBadgeAndEventNotMine(String idEvent, String myImei, String codiceUnivoco, String codiceRisampa ){
-		String sql = "SELECT * FROM statisticheScansioni WHERE idEvento = 'idevento' " +
-					 "AND codiceUnivoco = '" + codiceUnivoco + "'" +
-					 "AND codiceRisampa = '" + codiceRisampa+ "'" +
-					 "AND imei<>'" + myImei + "'" ;
-		return findAllStatsBySQL(sql) ;
-	}
-	
-	public synchronized ArrayList<StatisticheScansioni> findAllStatsBySQL(String sql){
-		
-		open();
-		
-		ArrayList<StatisticheScansioni> statisticheScansioniList = new ArrayList<StatisticheScansioni>();
-		Cursor cursor = getDBCursor(sql);
-		
-		if(cursor.moveToFirst()){
-			do{
-				StatisticheScansioni statisticheScansioni = getStatisticaScansione(cursor);
-				statisticheScansioniList.add(statisticheScansioni);
-			} while(cursor.moveToNext());
-		}
-		
-		close();
-		return statisticheScansioniList;
-	}
-	
-	public synchronized boolean insertStats(StatisticheScansioni statistica){
-		try {
-			
-			ContentValues cv = new ContentValues();
-			cv.put("codiceRistampa", statistica.getCodiceRistampa());
-			cv.put("codiceUnivoco", statistica.getCodiceUnivoco());
-			cv.put("idEvento", statistica.getIdEvento());
-			cv.put("time", statistica.getTime());
-			cv.put("operatore", statistica.getOperatore());
-			cv.put("slot", statistica.getSlot());
-			cv.put("imei", statistica.getImei());
-			cv.put("errore", statistica.isErrore());
-			cv.put("entrata", statistica.isEntrata());
-			cv.put("sync", statistica.isSync());
-			
-			database.insert("statisticheScansioni", null, cv);
-			
-			Log.d("insertStats", "Statistica salvata");
-			return true;
-		} catch (Exception ex) {
-			Log.d("insertStats", ex.toString());
-			return false;
-		}
-		
-		
-	}
 	
 	/**
 	 * Trova gli eventi di una persona in un dato turno
@@ -227,27 +163,6 @@ public class QueryManager {
 		
 		return eventoList;
 		
-	}
-
-	/**
-	 * Metodi per mappare gli oggetti Entity Persona, Evento, Statisciche
-	 * @param cursor
-	 * @return
-	 */
-	private synchronized StatisticheScansioni getStatisticaScansione(Cursor cursor) {
-		StatisticheScansioni statisticheScansioni = new StatisticheScansioni();
-		
-		statisticheScansioni.setCodiceRistampa(getColumnValue(cursor, "codiceRistampa"));
-		statisticheScansioni.setCodiceUnivoco(getColumnValue(cursor, "codiceUnivoco"));
-		statisticheScansioni.setIdEvento(getColumnValue(cursor, "idEvento"));
-		statisticheScansioni.setTime(getColumnValue(cursor, "time"));
-		statisticheScansioni.setOperatore(getColumnValue(cursor, "operatore"));
-		statisticheScansioni.setSlot(Integer.valueOf(getColumnValue(cursor, "slot")));
-		statisticheScansioni.setImei(getColumnValue(cursor, "imei"));
-		statisticheScansioni.setErrore(Boolean.valueOf(getColumnValue(cursor, "errore")));
-		statisticheScansioni.setEntrata(Boolean.valueOf(getColumnValue(cursor, "entrata")));
-		statisticheScansioni.setSync(Boolean.valueOf(getColumnValue(cursor, "sync")));
-		return statisticheScansioni;
 	}
 	
 	private synchronized Evento getEvento(Cursor cursor){

@@ -26,13 +26,12 @@
 		return mysql_real_escape_string($value); 
 	}
 	
-	function insertStatistics($idScansione,$codiceUnivoco,$codiceRistampa,$time,$operatore,$slot,$imei,$tipo,$idEvento)
+	function insertStatistics($codiceUnivoco,$codiceRistampa,$time,$operatore,$slot,$imei,$tipo,$idVarco)
 	{
 		
 		// TODO Devo controllare la coppia Timestamp+IMEI onde evitare doppioni
 		
 		$connessione=make_connession();
-		$idScansione=safe($idScansione);
 		$codiceUnivoco=safe($codiceUnivoco);
 		$codiceRistampa=safe($codiceRistampa);
 		$time=safe($time);
@@ -40,17 +39,16 @@
 		$slot=safe($slot);
 		$imei=safe($imei);
 		$tipo=safe($tipo);
-		$idEvento=safe($idEvento);
-		$query_string="INSERT INTO statistics (idScansione,codiceUnivoco,codiceRistampa,time,operatore,slot,imei,tipo,idEvento) ". 
-		"VALUES ('".$idScansione
-			."','".$codiceUnivoco
+		$idVarco=safe($idVarco);
+		$query_string="INSERT INTO statistiche (idScansione,codiceUnivoco,ristampaBadge,timeStamp,operatore,slot,imei,tipo,idVarco) ". 
+		"VALUES ('".$codiceUnivoco
 			 ."','".$codiceRistampa
 			 ."','".$time
 			 ."','".$operatore
 			 ."','".$slot
 			 ."','".$imei
 			 ."','".$tipo
-			 ."','".$idEvento
+			 ."','".$idVarco
 			 ."')";
 		return make_query($connessione,$query_string);
 	}

@@ -1,6 +1,6 @@
 package it.rn2014.scanner;
 
-import it.rn2014.db.QueryManager;
+import it.rn2014.db.DataManager;
 import it.rn2014.db.entity.Evento;
 import it.rn2014.db.entity.Persona;
 
@@ -28,8 +28,8 @@ public class IdentifyResultActivity extends ActionBarActivity {
 			String cu = code.substring(0, code.length()-2);
 			String reprint = code.substring(code.length()-1);
 			
-			Persona result = QueryManager.getInstance(this).findPersonaByCodiceUnivoco(cu, reprint);
-			ArrayList<Evento> ae = QueryManager.getInstance(this).findEventiByPersona(result);
+			Persona result = DataManager.getInstance(this).findPersonaByCodiceUnivoco(cu, reprint);
+			ArrayList<Evento> ae = DataManager.getInstance(this).findEventiByPersona(result);
 			
 			ListView lw = (ListView)findViewById(R.id.listIdentify);
 			

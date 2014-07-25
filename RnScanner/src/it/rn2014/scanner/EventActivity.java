@@ -1,6 +1,6 @@
 package it.rn2014.scanner;
 
-import it.rn2014.db.QueryManager;
+import it.rn2014.db.DataManager;
 import it.rn2014.db.entity.Evento;
 
 import java.util.ArrayList;
@@ -23,11 +23,11 @@ public class EventActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event);
 		
-		final ArrayList<Evento> turn1 = QueryManager.getInstance(EventActivity.this).findEventiToCheckin(
+		final ArrayList<Evento> turn1 = DataManager.getInstance(EventActivity.this).findEventiToCheckin(
 				UserData.getInstance().getCUnoReprint(), "1");
-		final ArrayList<Evento> turn2 = QueryManager.getInstance(EventActivity.this).findEventiToCheckin(
+		final ArrayList<Evento> turn2 = DataManager.getInstance(EventActivity.this).findEventiToCheckin(
 				UserData.getInstance().getCUnoReprint(), "2");
-		final ArrayList<Evento> turn3 = QueryManager.getInstance(EventActivity.this).findEventiToCheckin(
+		final ArrayList<Evento> turn3 = DataManager.getInstance(EventActivity.this).findEventiToCheckin(
 				UserData.getInstance().getCUnoReprint(), "3");		
 		
 		final ArrayAdapter<Evento> adapter1 = new ArrayAdapter<Evento>(

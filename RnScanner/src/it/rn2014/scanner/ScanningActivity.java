@@ -1,6 +1,6 @@
 package it.rn2014.scanner;
 
-import it.rn2014.db.QueryManager;
+import it.rn2014.db.DataManager;
 import it.rn2014.db.entity.Evento;
 
 import java.util.ArrayList;
@@ -79,7 +79,7 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 			turn.setVisibility(View.VISIBLE);
 			
 			String eventcode = UserData.getInstance().getEvent();
-			Evento e = QueryManager.getInstance(this).findEventById(eventcode);
+			Evento e = DataManager.getInstance(this).findEventById(eventcode);
 			if (e != null)
 				event.setText(Html.fromHtml("Evento: <b>" + e.getCodiceStampa() + " - " + e.getNome() + "</b>"));
 			turn.setText(Html.fromHtml("Turno: <b>" + UserData.getInstance().getTurn() + "</b>"));

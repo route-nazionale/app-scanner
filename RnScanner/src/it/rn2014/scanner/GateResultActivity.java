@@ -1,6 +1,6 @@
 package it.rn2014.scanner;
 
-import it.rn2014.db.QueryManager;
+import it.rn2014.db.DataManager;
 import it.rn2014.db.entity.Persona;
 import android.app.Activity;
 import android.os.Bundle;
@@ -34,7 +34,7 @@ public class GateResultActivity extends Activity implements OnClickListener {
 			String cu = code.substring(0, code.length()-2);
 			String reprint = code.substring(code.length()-1);
 			
-			Persona res = QueryManager.getInstance(this).findPersonaByCodiceUnivoco(cu, reprint);
+			Persona res = DataManager.getInstance(this).findPersonaByCodiceUnivoco(cu, reprint);
 		    
 		    if (res.getCodiceUnivoco().contentEquals("AA-1079-022839")){
 		    	TextView result = (TextView)findViewById(R.id.result);

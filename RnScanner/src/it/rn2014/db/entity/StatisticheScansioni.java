@@ -1,18 +1,27 @@
 package it.rn2014.db.entity;
 
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class StatisticheScansioni {
+	
+	public static final String INVALID = "invalid";
+	public static final String AUTH = "auth";
+	public static final String NOT_AUTH = "not_auth";
 	
     private int idScansione   ; // INTEGER PRIMARY KEY AUTOINCREMENT,
     private String codiceUnivoco ; // VARCHAR,
     private String codiceRistampa ; // VARCHAR,
     private String time          ; // VARCHAR,
     private String operatore     ; // VARCHAR,
-    private int slot          ; // INTEGER,
+    private int turno          ; // INTEGER,
     private String imei          ; // VARCHAR,
-    private boolean errore        ; // BOOLEAN,
-    private boolean entrata       ; // BOOLEAN,
+    private String type 	      ; // VARCHAR,
     private boolean sync          ; // BOOLEAN 
-    private String idEvento       ; 
+    private String idVarco       ; // VARCHAR
     
 	public int getIdScansione() {
 		return idScansione;
@@ -44,11 +53,11 @@ public class StatisticheScansioni {
 	public void setOperatore(String operatore) {
 		this.operatore = operatore;
 	}
-	public int getSlot() {
-		return slot;
+	public int getTurno() {
+		return turno;
 	}
-	public void setSlot(int slot) {
-		this.slot = slot;
+	public void setTurno(int turno) {
+		this.turno = turno;
 	}
 	public String getImei() {
 		return imei;
@@ -56,31 +65,62 @@ public class StatisticheScansioni {
 	public void setImei(String imei) {
 		this.imei = imei;
 	}
-	public boolean isErrore() {
-		return errore;
+	public void setInvalid() { this.type = INVALID; }
+	public void setAuth() { this.type = AUTH; }
+	public void setNotAuth() { this.type = NOT_AUTH; }
+	
+	public String getType() {
+		return this.type;
 	}
-	public void setErrore(boolean errore) {
-		this.errore = errore;
-	}
-	public boolean isEntrata() {
-		return entrata;
-	}
-	public void setEntrata(boolean entrata) {
-		this.entrata = entrata;
-	}
+	
 	public boolean isSync() {
 		return sync;
 	}
 	public void setSync(boolean sync) {
 		this.sync = sync;
 	}
-	public String getIdEvento() {
-		return idEvento;
+	public String getIdVarco() {
+		return idVarco;
 	}
-	public void setIdEvento(String idEvento) {
-		this.idEvento = idEvento;
+	public void setIdVarco(String idVarco) {
+		this.idVarco = idVarco;
 	}
     public String toString(){
-        return "["+idScansione+"] "+codiceUnivoco+codiceRistampa+" "+idEvento;
+        return "["+idScansione+"] "+codiceUnivoco+codiceRistampa+" "+idVarco;
+    }
+    
+    public String toJSON(){
+    	JSONObject jsonObject= new JSONObject();
+        try {
+            jsonObject.put("cu", getCodiceUnivoco());
+            jsonObject.put("reprint", getCodiceRistampa());
+            jsonObject.put("time", getTime());
+            jsonObject.put("operator", getOperatore());
+            jsonObject.put("gate", getIdVarco());
+            jsonObject.put("turn", getTurno());
+            jsonObject.put("imei", getImei());
+            jsonObject.put("type", getType());
+            return jsonObject.toString();
+        } catch (JSONException e) {
+           
+            e.printStackTrace();
+            return "";
+        }
+    }
+    
+    public static String toJSONArray(ArrayList<StatisticheScansioni> arr) {
+    	
+    	JSONArray jsonArray = new JSONArray();
+        for (StatisticheScansioni s : arr){
+			jsonArray.put(s);
+		}
+        
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("update",jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+		return jsonObject.toString();
     }
 }

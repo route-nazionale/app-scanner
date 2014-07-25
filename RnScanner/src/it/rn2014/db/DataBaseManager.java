@@ -21,14 +21,15 @@ public class DataBaseManager extends SQLiteOpenHelper {
 	public static final String TAG = "DataBaseHelper"; 
 	
 	// destination path (location) of our database on device
-	private static String DB_NAME = "rn2014.db";
+	private static String DB_NAME = "";
 	private String DB_PATH = "";
 	
 	private SQLiteDatabase database;
 	private File DB_FILE;
 
-	public DataBaseManager(Context context) {
-		super(context, DB_NAME, null, 1); // 1? its Database Version
+	public DataBaseManager(Context context, String name) {
+		super(context, name, null, 1); // 1? its Database Version
+		DB_NAME = name;
 		DB_PATH = Environment.getDataDirectory() + "/data/" + context.getPackageName() + "/databases/";
 		DB_FILE = new File(DB_PATH, DB_NAME);
 	}
@@ -78,4 +79,5 @@ public class DataBaseManager extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {	}
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {  }
+
 }

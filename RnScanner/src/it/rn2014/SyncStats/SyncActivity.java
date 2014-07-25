@@ -16,7 +16,8 @@ import org.apache.http.NameValuePair;
 
 import java.util.ArrayList;
 
-import it.rn2014.db.QueryManager;
+import it.rn2014.db.DataManager;
+import it.rn2014.db.StatsManager;
 import it.rn2014.db.entity.StatisticheScansioni;
 import it.rn2014.scanner.MainActivity;
 import it.rn2014.scanner.R;
@@ -106,7 +107,7 @@ public class SyncActivity extends Activity {
                 TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
                 String imei=telephonyManager.getDeviceId();
 
-                QueryManager qm = new QueryManager(getApplicationContext());
+                StatsManager qm = StatsManager.getInstance(SyncActivity.this);
                 ArrayList<StatisticheScansioni> ls=qm.findAllStatsByImeiNotSync(imei);
                 //TODO SET THE SELECTED VALUE AS SYNC AS TRUE IF THE SYNC IS SUCCESSFULL
                 res=startSyncUpload(ls);
@@ -125,7 +126,7 @@ public class SyncActivity extends Activity {
 
             String idEvento="000";
 
-            ArrayList<StatisticheScansioni> ob= SyncData.getUpdate("FUCK", imei,idEvento);
+            //ArrayList<StatisticheScansioni> ob= SyncData.getUpdate("FUCK", imei,idEvento);
             Log.e("startSyncDownload","carico di dati");
             for(int i=0;i<ob.size();i++)
                 Log.e("BEN FATTO", ob.get(i).toString());

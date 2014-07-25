@@ -2,7 +2,7 @@ package it.rn2014.scanner;
 
 import java.util.ArrayList;
 
-import it.rn2014.db.QueryManager;
+import it.rn2014.db.DataManager;
 import it.rn2014.db.entity.Evento;
 import it.rn2014.db.entity.Persona;
 import android.app.Activity;
@@ -124,11 +124,11 @@ public class EventResultActivity extends Activity implements OnClickListener {
 			cu = code.substring(0, code.length()-2);
 			reprint = code.substring(code.length()-1);
 			
-			Persona p = QueryManager.getInstance(this).findPersonaByCodiceUnivoco(cu, reprint);
+			Persona p = DataManager.getInstance(this).findPersonaByCodiceUnivoco(cu, reprint);
 			if (p.getCodiceUnivoco() == "") return INVALID_SCAN;
 			
-			otherEvent = QueryManager.getInstance(this).findEventiByPersona(p);
-			ArrayList<Evento> ae = QueryManager.getInstance(this).findEventiByPersona(p, turn);
+			otherEvent = DataManager.getInstance(this).findEventiByPersona(p);
+			ArrayList<Evento> ae = DataManager.getInstance(this).findEventiByPersona(p, turn);
 			
 			if (otherEvent.isEmpty()) return INVALID_SCAN;
 			if (ae.isEmpty()) return NOT_AUTH;

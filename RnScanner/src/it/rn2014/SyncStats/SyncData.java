@@ -23,11 +23,14 @@ public class SyncData {
     private static String serverUrl="http://www.512b.it/rn2014/";
 
     /**
+     * NOTA: funzione attualmente non implementata
+     * 
      * This method return the ArrayList updated that must be added to the local database
      * @param token the auth token that let you to download data
      * @param imei the imei of the phone in order to download only the diff from the database (filtered by imei)
      * @return the arraylist of Statistics that must be added to the local database
      */
+    /*
     public static ArrayList<StatisticheScansioni> getUpdate(String token,String imei,String idEvento){
         ArrayList<NameValuePair> postParams = new ArrayList<NameValuePair>();
         postParams.add(new BasicNameValuePair("token",token));
@@ -47,7 +50,7 @@ public class SyncData {
             return null;
         }
 
-    }
+    }*/
 
     /**
      * This method let you to upload the Statistic from the local database to the remote database,
@@ -58,7 +61,7 @@ public class SyncData {
      */
     public static boolean postUpdate(String token,ArrayList<StatisticheScansioni> stat){
 
-        String json= StatListToJSONArr(stat).toString();
+        String json= StatisticheScansioni.toJSONArray(stat);
         Log.e("Mi aspetto di vedere il json", json);
         ArrayList<NameValuePair> postParams = new ArrayList<NameValuePair>();
         postParams.add(new BasicNameValuePair("token",token));
@@ -88,12 +91,10 @@ public class SyncData {
         s.setTime(js.getString("time"));
         Log.e("Dato",js.getString("time"));
         s.setOperatore(js.getString("operatore"));
-        s.setSlot(js.getInt("slot"));
+        s.setTurno(js.getInt("slot"));
         s.setImei(js.getString("imei"));
-        s.setErrore(js.getString("errore").equals("1"));
-        s.setErrore(js.getString("entrata").equals("1"));;
         s.setSync(true);
-        s.setIdEvento(js.getString("idEvento"));
+        s.setIdVarco(js.getString("idEvento"));
         return s;
     }
 
@@ -108,49 +109,5 @@ public class SyncData {
         }
         return ar;
 
-    }
-    /**
-     * This method could be moved into Statistics
-     * @param s the row of Statistics table
-     * @return the json version of the row
-     * @throws JSONException
-     */
-    public static JSONObject StatToJSON(StatisticheScansioni s) throws JSONException {
-        JSONObject js=new JSONObject();
-        js.put("idScansione",s.getIdScansione());
-        js.put("codiceUnivoco",s.getCodiceUnivoco());
-        js.put("codiceRistampa",s.getCodiceRistampa());
-        js.put("time",s.getTime());
-        js.put("operatore",s.getOperatore());
-        js.put("slot",s.getSlot());
-        js.put("imei",s.getImei());
-        js.put("errore",s.isErrore());
-        js.put("entrata",s.isEntrata());
-        js.put("idEvento",s.getIdEvento());
-        return js;
-    }
-
-    /**
-     * This method merge the Statistics List into a jason object
-     * @param stat the Statistic List row by row
-     * @return a Json Object fulfill with the Statistics
-     */
-    public static JSONObject StatListToJSONArr(ArrayList<StatisticheScansioni> stat){
-        JSONArray jsonArr = new JSONArray();
-
-        for (StatisticheScansioni s : stat ) {
-            try {
-                jsonArr.put(StatToJSON(s));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        JSONObject js=new JSONObject();
-        try {
-            js.put("update",jsonArr);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return js;
     }
 }

@@ -21,26 +21,23 @@
 	} else {
 			
 		foreach($json->update as $stat){
-			$idScansione=$stat->idScansione;
-			$codiceUnivoco=$stat->codiceUnivoco;
-			$codiceRistampa=$stat->codiceRistampa;
+			$codiceUnivoco=$stat->cu;
+			$codiceRistampa=$stat->reprint;
 			$time=$stat->time;
-			$operatore=$stat->operatore;
-			$slot=$stat->slot;
+			$operatore=$stat->operator;
+			$slot=$stat->turn;
 			$imei=$stat->imei;
-			$errore=$stat->errore;
-			$entrata=$stat->entrata;
-			$idEvento=$stat->idEvento;
+			$tipo=$stat->type;
+			$idVarco=$stat->gate;			
 			
-			if (insertStatistics($idScansione,
-					$codiceUnivoco,
+			if (insertStatistics($codiceUnivoco,
 					$codiceRistampa,
 					$time,
 					$operatore,
 					$slot,
 					$imei,
 					$tipo,
-					$idEvento) == false) http_response_code(500);
+					$idVarco) == false) http_response_code(500);
 		}
 		
 		http_response_code(200);
