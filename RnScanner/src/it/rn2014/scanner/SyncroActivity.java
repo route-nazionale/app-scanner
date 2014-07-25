@@ -1,13 +1,18 @@
 package it.rn2014.scanner;
 
+import it.rn2014.db.StatsManager;
+import it.rn2014.db.entity.StatisticheScansioni;
+
 import java.util.ArrayList;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -17,6 +22,9 @@ import android.widget.Toast;
 
 public class SyncroActivity extends ActionBarActivity {
 
+	private static final String SERVER_URL = "http://mobile.rn2014.it/post.php";
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,13 +34,41 @@ public class SyncroActivity extends ActionBarActivity {
 		btnSync.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {				
-				SyncroTask st = new SyncroTask();
-				st.execute(new String[]{"pippo", "pluto"});
+//				SyncroTask st = new SyncroTask();
+//				st.execute(new String[]{"pippo", "pluto"});
+				new SendTask().execute();
 			}
 		});
 	}
 	
-	
+	private class SendTask extends AsyncTask<Void, Void, Void>{
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			
+			StatsManager qm = StatsManager.getInstance(SyncroActivity.this);
+            ArrayList<StatisticheScansioni> ls = qm.findAllStatsNotSync();
+            			
+	        String json= StatisticheScansioni.toJSONArray(ls);
+	        Log.e("Mi aspetto di vedere il json", json);
+	        
+	        ArrayList<NameValuePair> postParams = new ArrayList<NameValuePair>();
+	        postParams.add(new BasicNameValuePair("cu",UserData.getInstance().getCU()));
+	        postParams.add(new BasicNameValuePair("date", UserData.getInstance().getDate()));
+	        postParams.add(new BasicNameValuePair("json", json));
+	        
+	        String res = null;
+	        try{
+	            HttpResponse response = CustomHttpClient.executeHttpPost(SERVER_URL, postParams);
+	            res = response.getStatusLine().toString();
+	            Log.e("Risposta HTTP", res);
+	        } catch (Exception e) {
+	            Log.e("me", e.toString());
+	        }
+	        return null;
+		}
+		
+	}
 	
 
 	private class SyncroTask extends AsyncTask<String, Integer, String>{
@@ -93,22 +129,22 @@ public class SyncroActivity extends ActionBarActivity {
 			String res = null;
 			String response = null;
 			try{
-				response = CustomHttpClient.executeHttpPost("http://ncorti.it/files/rn.php", postParams);
-				res = response.toString();
-				res = res.replaceAll("\\s+","");
-				publishProgress(1);
-				
-				
-				response = CustomHttpClient.executeHttpPost("http://ncorti.it/files/rn.php", postParams);
-				res = response.toString();
-				res = res.replaceAll("\\s+","");
-				publishProgress(2);
-				
-				
-				response = CustomHttpClient.executeHttpPost("http://ncorti.it/files/rn.php", postParams);
-				res = response.toString();
-				res = res.replaceAll("\\s+","");
-				publishProgress(3);
+//				response = CustomHttpClient.executeHttpPost("http://ncorti.it/files/rn.php", postParams);
+//				res = response.toString();
+//				res = res.replaceAll("\\s+","");
+//				publishProgress(1);
+//				
+//				
+//				response = CustomHttpClient.executeHttpPost("http://ncorti.it/files/rn.php", postParams);
+//				res = response.toString();
+//				res = res.replaceAll("\\s+","");
+//				publishProgress(2);
+//				
+//				
+//				response = CustomHttpClient.executeHttpPost("http://ncorti.it/files/rn.php", postParams);
+//				res = response.toString();
+//				res = res.replaceAll("\\s+","");
+//				publishProgress(3);
 				
 			} catch (Exception e) {
 				e.printStackTrace();

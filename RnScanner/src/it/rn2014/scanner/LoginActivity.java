@@ -14,6 +14,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -141,6 +142,7 @@ public class LoginActivity extends ActionBarActivity {
 				 
 				UserData.getInstance().setLevel("OK");
 				UserData.saveInstance(getApplicationContext());
+				
 				startActivity(main);
 				finish();
 		    }
@@ -164,7 +166,7 @@ public class LoginActivity extends ActionBarActivity {
 			String res = null;
 			String response = null;
 			try{
-				response = CustomHttpClient.executeHttpPost("http://ncorti.it/files/rn.php", postParams);
+				response = CustomHttpClient.executeHttpPostString("http://ncorti.it/files/rn.php", postParams);
 				res = response.toString();
 				res = res.replaceAll("\\s+","");
 			} catch (Exception e) {

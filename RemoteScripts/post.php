@@ -1,14 +1,14 @@
 <?
 	include('query.php');
 	
-	if (!isset($_POST['data']) || !isset($_POST['cu']) || !isset($_POST['date'])){
+	if (!isset($_POST['json']) || !isset($_POST['cu']) || !isset($_POST['date'])){
 		http_response_code(400);
 		return;
 	} 
-	$data = $_POST['data'];
+	$data = $_POST['json'];
 	$cu = $_POST['cu'];
 	$date = $_POST['date'];
-	
+		
 	/* if (Auth con cu e date == false)
 	 * 		http_response_code(401)
 	 * else {....
@@ -16,7 +16,7 @@
 	
 	$json=json_decode($data);
 	
-	if (!property_exists($json,'update') || !isset($obj->update)) {
+	if (!property_exists($json,'update') || !isset($json->update)) {
 		http_response_code(400);
 	} else {
 			
@@ -41,5 +41,6 @@
 		}
 		
 		http_response_code(200);
+		echo "FATTO :)";
 	}
 ?>

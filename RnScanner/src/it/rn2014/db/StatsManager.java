@@ -33,7 +33,7 @@ public class StatsManager {
 	
 	private void createStatTable() {
 		String sql = "CREATE TABLE IF NOT EXISTS `statistiche` ( " +
-		  " `idScansione` INT NOT NULL, " + 
+		  " `idScansione` INTEGER PRIMARY KEY AUTOINCREMENT, " + 
 		  " `codiceUnivoco` VARCHAR NOT NULL, " + 
 		  " `ristampaBadge` INT NOT NULL, " + 
 		  " `codiceOperatore` VARCHAR NOT NULL, " + 
@@ -42,8 +42,7 @@ public class StatsManager {
 		  " `idVarco` VARCHAR NOT NULL, " + 
 		  " `turno` INT NOT NULL, " + 
 		  " `tipo` VARCHAR NOT NULL, " + 
-		  " `sync` INT DEFAULT 0, " + 
-		  " PRIMARY KEY (`idScansione`) " + 
+		  " `sync` INT DEFAULT 0 " + 
 		  " ) ";
 		
 		try {
@@ -51,6 +50,7 @@ public class StatsManager {
 			databaseManager.close();
 			database = databaseManager.getWritableDatabase();
 			database.execSQL(sql);
+			database.close();
 		} catch (SQLException mSQLException) {
 			Log.e(TAG, "creation >>" + mSQLException.toString());
 			throw mSQLException;
@@ -80,37 +80,27 @@ public class StatsManager {
 
 	public synchronized StatsManager open() throws SQLException {
 		try {
-			databaseManager.openDataBase();
-			databaseManager.close();
-			database = databaseManager.getWritableDatabase();
+			if (database != null && !database.isOpen()){
+				databaseManager.openDataBase();
+				databaseManager.close();
+				database = databaseManager.getReadableDatabase();
+			}
 		} catch (SQLException mSQLException) {
 			Log.e(TAG, "open >>" + mSQLException.toString());
 			throw mSQLException;
 		}
 		return this;
 	}
-
+	
 	public synchronized void close() {
 		databaseManager.close();
 	}
 	
-	public synchronized ArrayList<StatisticheScansioni> findAllStatsByImeiNotSync(String imei){
-		String sql = "SELECT * from statisticheScansioni Where imei = '" + imei + "' and sync ISNULL" ;
+	public synchronized ArrayList<StatisticheScansioni> findAllStatsNotSync(){
+		String sql = "SELECT * from statistiche WHERE sync = 0";
 		return findAllStatsBySQL(sql) ;
 	}
 	
-	public synchronized ArrayList<StatisticheScansioni> findAllStatsByEventSync(String idEvent){
-		String sql = "SELECT * FROM statisticheScansioni WHERE idVarco = '" + idEvent + "' AND sync NOTNULL" ;
-		return findAllStatsBySQL(sql) ;
-	}
-	
-	public synchronized ArrayList<StatisticheScansioni> findAllStatsByBadgeAndEventNotMine(String idEvent, String myImei, String codiceUnivoco, String codiceRisampa ){
-		String sql = "SELECT * FROM statisticheScansioni WHERE idVarco = 'idevento' " +
-					 "AND codiceUnivoco = '" + codiceUnivoco + "'" +
-					 "AND codiceRisampa = '" + codiceRisampa+ "'" +
-					 "AND imei<>'" + myImei + "'" ;
-		return findAllStatsBySQL(sql) ;
-	}
 	
 	public synchronized ArrayList<StatisticheScansioni> findAllStatsBySQL(String sql){
 		
@@ -126,12 +116,15 @@ public class StatsManager {
 			} while(cursor.moveToNext());
 		}
 		
+		cursor.close();
 		close();
 		return statisticheScansioniList;
 	}
 	
 	public synchronized boolean insertStats(StatisticheScansioni statistica){
 		try {
+			
+			open();
 			
 			ContentValues cv = new ContentValues();
 			cv.put("ristampaBadge", statistica.getCodiceRistampa());
@@ -147,6 +140,7 @@ public class StatsManager {
 			database.insert("statistiche", null, cv);
 			
 			Log.d("insertStats", "Statistica salvata");
+			close();
 			return true;
 		} catch (Exception ex) {
 			Log.d("insertStats", ex.toString());
@@ -178,6 +172,9 @@ public class StatsManager {
 		if (type.contentEquals(StatisticheScansioni.AUTH)) statisticheScansioni.setAuth();
 		if (type.contentEquals(StatisticheScansioni.INVALID)) statisticheScansioni.setInvalid();
 		if (type.contentEquals(StatisticheScansioni.NOT_AUTH)) statisticheScansioni.setNotAuth();
+		if (type.contentEquals(StatisticheScansioni.USER_ABORT)) statisticheScansioni.setAbort();
+		if (type.contentEquals(StatisticheScansioni.VALID_ENTER)) statisticheScansioni.setEnter();
+		if (type.contentEquals(StatisticheScansioni.VALID_EXIT)) statisticheScansioni.setExit();
 		
 		return statisticheScansioni;
 	}

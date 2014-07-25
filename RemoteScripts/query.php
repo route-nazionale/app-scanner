@@ -40,7 +40,7 @@
 		$imei=safe($imei);
 		$tipo=safe($tipo);
 		$idVarco=safe($idVarco);
-		$query_string="INSERT INTO statistiche (idScansione,codiceUnivoco,ristampaBadge,timeStamp,operatore,slot,imei,tipo,idVarco) ". 
+		$query_string="INSERT INTO statistiche (codiceUnivoco,ristampaBadge,timeStamp,codiceOperatore,turno,imei,tipo,idVarco) ". 
 		"VALUES ('".$codiceUnivoco
 			 ."','".$codiceRistampa
 			 ."','".$time

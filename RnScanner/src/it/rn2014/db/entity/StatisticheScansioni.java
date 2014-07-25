@@ -1,13 +1,16 @@
 package it.rn2014.db.entity;
 
-import android.annotation.SuppressLint;
 import it.rn2014.scanner.UserData;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.annotation.SuppressLint;
 
 public class StatisticheScansioni {
 	
@@ -138,4 +141,5 @@ public class StatisticheScansioni {
         }
 		return jsonObject.toString();
     }
+
 }

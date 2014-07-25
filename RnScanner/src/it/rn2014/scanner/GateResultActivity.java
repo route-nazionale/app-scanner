@@ -5,7 +5,9 @@ import it.rn2014.db.StatsManager;
 import it.rn2014.db.entity.Persona;
 import it.rn2014.db.entity.StatisticheScansioni;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -88,11 +90,12 @@ public class GateResultActivity extends Activity implements OnClickListener {
 		    scan.setCodiceRistampa(reprint);
 		    scan.setIdVarco("ACCESSI");
 		    
+            TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+            scan.setImei(telephonyManager.getDeviceId());
+            
 		} else {
 			finish();
 		}
-		
-		
 	}
 
 	@Override
@@ -106,7 +109,8 @@ public class GateResultActivity extends Activity implements OnClickListener {
 			scan.setExit();
 		} else if (v.getId() == R.id.btnAbort) {
 			t.setText("Scansione annullata");
-			scan.setAbort();
+			if (scan.getType() == StatisticheScansioni.AUTH)
+				scan.setAbort();
 		}
 		StatsManager.getInstance(GateResultActivity.this).insertStats(scan);
 		Log.e("Inserito ", scan.toJSONObject().toString());

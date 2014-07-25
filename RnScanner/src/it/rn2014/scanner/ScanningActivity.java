@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.Html;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -107,6 +108,10 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 			alert.setMessage("Scrivi il codice badge da scansionare");
 
 			final EditText code = new EditText(this);
+			
+			InputFilter[] fArray = new InputFilter[1];
+			fArray[0] = new InputFilter.LengthFilter(16);
+			code.setFilters(fArray);
 			code.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);			
 			code.setHint(R.string.prompt_code);
 			
