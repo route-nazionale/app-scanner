@@ -18,7 +18,14 @@ import android.widget.Toast;
 
 public class GateResultActivity extends Activity implements OnClickListener {
 	
-	StatisticheScansioni scan = new StatisticheScansioni();
+	private final static int INVALID_SCAN = -1;
+	private final static int NOT_AUTH = -2;
+	private final static int AUTH = -3;
+	
+	
+	private StatisticheScansioni scan = new StatisticheScansioni();
+	private int status = INVALID_SCAN;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +45,39 @@ public class GateResultActivity extends Activity implements OnClickListener {
 		    String code = extras.getString("qrscanned");
 		    if (code == null) finish();
 		    
-			String cu = code.substring(0, code.length()-2);
-			String reprint = code.substring(code.length()-1);
-			
-			Persona res = DataManager.getInstance(this).findPersonaByCodiceUnivoco(cu, reprint);
+		    try {
+		    	
+		    	String cu = code.substring(0, code.length()-2);
+		    	String reprint = code.substring(code.length()-1);
+			    status = computeStatus(code);
+			    
+			    scan.setCodiceUnivoco(cu);
+			    scan.setCodiceRistampa(reprint);
+			    scan.setIdVarco("ACCESSO");
+			    scan.setTurno(0);
+	            TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+	            scan.setImei(telephonyManager.getDeviceId());
+			    
+		    } catch (IndexOutOfBoundsException e) {
+		    	status = INVALID_SCAN;
+		    }
 		    
-		    if (res.getCodiceUnivoco().contentEquals("AA-1079-022839")){
+
+			if (status == AUTH){
+		    	/* Persona autorizzata */
+				/* Persona non autorizzata */
 		    	TextView result = (TextView)findViewById(R.id.result);
+		    	TextView codetext = (TextView)findViewById(R.id.code);
+		    	LinearLayout background = (LinearLayout)findViewById(R.id.backGroundResult);
+		    	
+		    	result.setText(getResources().getString(R.string.autorizzato));
+		    	codetext.setText(code);
+		    	background.setBackgroundColor(getResources().getColor(R.color.LightGreen));
+				
+				
+		    } else if (status == NOT_AUTH) {
+		    	
+				TextView result = (TextView)findViewById(R.id.result);
 		    	TextView codetext = (TextView)findViewById(R.id.code);
 		    	LinearLayout background = (LinearLayout)findViewById(R.id.backGroundResult);
 		    	
@@ -54,22 +87,10 @@ public class GateResultActivity extends Activity implements OnClickListener {
 		    	
 		    	exit.setVisibility(View.INVISIBLE);
 		    	enter.setVisibility(View.INVISIBLE);
-		    	scan.setNotAuth();
-		    	
-		    } else if (code.substring(0, code.length()-2).contentEquals(res.getCodiceUnivoco()) &&
-		    		code.substring(code.length()-1).contentEquals(res.getRistampaBadge())) {
-
-		    	TextView result = (TextView)findViewById(R.id.result);
-		    	TextView codetext = (TextView)findViewById(R.id.code);
-		    	LinearLayout background = (LinearLayout)findViewById(R.id.backGroundResult);
-		    	
-		    	result.setText(getResources().getString(R.string.autorizzato));
-		    	codetext.setText(code);
-		    	background.setBackgroundColor(getResources().getColor(R.color.LightGreen));
-		    	scan.setAuth();
 		    	
 		    } else {
 		    	
+		    	/* Scansione invalida */
 		    	TextView result = (TextView)findViewById(R.id.result);
 		    	TextView codetext = (TextView)findViewById(R.id.code);
 		    	LinearLayout background = (LinearLayout)findViewById(R.id.backGroundResult);
@@ -80,23 +101,37 @@ public class GateResultActivity extends Activity implements OnClickListener {
 		    	
 		    	exit.setVisibility(View.INVISIBLE);
 		    	enter.setVisibility(View.INVISIBLE);
-		    	scan.setInvalid();
+		    	
 		    }
 		    
-			cu = code.substring(0, code.length()-2);
-			reprint = code.substring(code.length()-1);
-			
-		    scan.setCodiceUnivoco(cu);
-		    scan.setCodiceRistampa(reprint);
-		    scan.setIdVarco("ACCESSI");
-		    
-            TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-            scan.setImei(telephonyManager.getDeviceId());
-            
+
 		} else {
 			finish();
 		}
 	}
+	
+	
+	private int computeStatus(String code) {
+		String cu;
+		String reprint;
+		
+		try {
+			
+			cu = code.substring(0, code.length()-2);
+			reprint = code.substring(code.length()-1);
+			
+			Persona p = DataManager.getInstance(this).findPersonaByCodiceUnivoco(cu, reprint);
+			if (p.getCodiceUnivoco() == "") return INVALID_SCAN;
+			return AUTH;
+			
+			/* TODO ritornare non valido?
+			 */
+			
+		} catch (IndexOutOfBoundsException e ){
+			return INVALID_SCAN;
+		}
+	}
+
 
 	@Override
 	public void onClick(View v) {

@@ -33,7 +33,7 @@ public class StatisticheScansioni {
     
     @SuppressLint("SimpleDateFormat")
 	public StatisticheScansioni(){
-    	imei = UserData.getInstance().getImei();
+    	imei = "";
     	turno = UserData.getInstance().getTurn();
     	sync = false;
     	idVarco = UserData.getInstance().getEvent();

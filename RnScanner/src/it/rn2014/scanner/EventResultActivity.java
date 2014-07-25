@@ -3,10 +3,15 @@ package it.rn2014.scanner;
 import java.util.ArrayList;
 
 import it.rn2014.db.DataManager;
+import it.rn2014.db.StatsManager;
 import it.rn2014.db.entity.Evento;
 import it.rn2014.db.entity.Persona;
+import it.rn2014.db.entity.StatisticheScansioni;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -21,6 +26,9 @@ public class EventResultActivity extends Activity implements OnClickListener {
 	private final static int AUTH = -3;
 	
 	private ArrayList<Evento> otherEvent = null;
+	private StatisticheScansioni scan = new StatisticheScansioni();
+	private int status = INVALID_SCAN;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +44,31 @@ public class EventResultActivity extends Activity implements OnClickListener {
 		
 		Bundle extras = getIntent().getExtras();
 		if (extras != null && extras.containsKey("qrscanned")) {
+			
 		    String code = extras.getString("qrscanned");
 		    if (code == null) finish();
 		    
-		    int status = computeStatus(code);
+		    try {
+		    	
+		    	String cu = code.substring(0, code.length()-2);
+		    	String reprint = code.substring(code.length()-1);
+			    status = computeStatus(code);
+			    
+			    scan.setCodiceUnivoco(cu);
+			    scan.setCodiceRistampa(reprint);
+			    scan.setIdVarco(UserData.getInstance().getEvent());
+			    scan.setTurno(UserData.getInstance().getTurn());
+			    TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+	            scan.setImei(telephonyManager.getDeviceId());
+			    
+
+		    } catch (IndexOutOfBoundsException e) {
+		    	status = INVALID_SCAN;
+		    }
+		    
 		    
 		    if (status == AUTH){
+		    	/* Persona autorizzata */
 		    	TextView result = (TextView)findViewById(R.id.result);
 		    	TextView codetext = (TextView)findViewById(R.id.code);
 		    	LinearLayout background = (LinearLayout)findViewById(R.id.backGroundResult);
@@ -51,7 +78,8 @@ public class EventResultActivity extends Activity implements OnClickListener {
 		    	background.setBackgroundColor(getResources().getColor(R.color.LightGreen));
 		    	
 		    } else if (status == NOT_AUTH) {
-
+		    	
+		    	/* Persona non autorizzata */
 		    	TextView result = (TextView)findViewById(R.id.result);
 		    	TextView codetext = (TextView)findViewById(R.id.code);
 		    	LinearLayout background = (LinearLayout)findViewById(R.id.backGroundResult);
@@ -87,6 +115,8 @@ public class EventResultActivity extends Activity implements OnClickListener {
 		    	}
 		    	
 		    } else {
+		    	
+		    	/* Scansione invalida */
 		    	TextView result = (TextView)findViewById(R.id.result);
 		    	TextView codetext = (TextView)findViewById(R.id.code);
 		    	LinearLayout background = (LinearLayout)findViewById(R.id.backGroundResult);
@@ -150,11 +180,18 @@ public class EventResultActivity extends Activity implements OnClickListener {
 		Toast t = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
 		if (v.getId() == R.id.btnEnter){
 			t.setText("Check-in evento registrato");
+			scan.setEnter();
 		} else if (v.getId() == R.id.btnExit) {
 			t.setText("Check-out evento registrato");
+			scan.setExit();
 		} else if (v.getId() == R.id.btnAbort) {
 			t.setText("Scansione annullata");
+			if (scan.getType() == StatisticheScansioni.AUTH)
+				scan.setAbort();
 		}
+		StatsManager.getInstance(EventResultActivity.this).insertStats(scan);
+		Log.e("Inserito ", scan.toJSONObject().toString());
+		
 		t.show();
 		finish();
 	}

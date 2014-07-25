@@ -1,7 +1,7 @@
 <?php
 	
-	$sqlite_filename = 'rn2014.db';
-	$gzipped_filename = 'rn2014.db.gz';
+	$sqlite_filename = '/var/www/mobile.rn2014.it/rn2014.db';
+	$gzipped_filename = '/var/www/mobile.rn2014.it/rn2014.db.gz';
 	$mysql_host = '172.16.10.151';
 	$mysql_db = 'varchi';
 	$mysql_user = 'varchi';

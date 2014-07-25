@@ -48,7 +48,8 @@ public class SyncroActivity extends ActionBarActivity {
 			
 			StatsManager qm = StatsManager.getInstance(SyncroActivity.this);
             ArrayList<StatisticheScansioni> ls = qm.findAllStatsNotSync();
-            			
+            if (ls.size() == 0) return null;
+            
 	        String json= StatisticheScansioni.toJSONArray(ls);
 	        Log.e("Mi aspetto di vedere il json", json);
 	        
@@ -62,6 +63,10 @@ public class SyncroActivity extends ActionBarActivity {
 	            HttpResponse response = CustomHttpClient.executeHttpPost(SERVER_URL, postParams);
 	            res = response.getStatusLine().toString();
 	            Log.e("Risposta HTTP", res);
+	            
+	            if (response.getStatusLine().getStatusCode() == 200){
+	            	StatsManager.getInstance(SyncroActivity.this).updateSyncStats();
+	            }
 	        } catch (Exception e) {
 	            Log.e("me", e.toString());
 	        }

@@ -23,7 +23,7 @@ public class UserData implements Serializable {
     private String lastEvent = null;
     private int lastEventTurn = 0;
     private String lastChoose = null;
-    private String imei = null;
+    private int toSync = 0;
     
     protected UserData(){}
 
@@ -40,8 +40,8 @@ public class UserData implements Serializable {
     public synchronized void setChoose(String l){ this.lastChoose = l; }
     public synchronized void setEvent(String l){ this.lastEvent = l; }
     public synchronized void setTurn(int t){ this.lastEventTurn = t; }
-    public synchronized void setImei(String l){ this.imei = l; }
-    
+    public synchronized void incToSync() { this.toSync++; }
+    public synchronized void resetToSync() { this.toSync = 0; }
     
     public synchronized String getDate(){ return this.date; }
     public synchronized String getCU(){ return this.cu; }
@@ -50,7 +50,7 @@ public class UserData implements Serializable {
     public synchronized String getChoose(){ return this.lastChoose; }
     public synchronized String getEvent(){ return this.lastEvent; }
     public synchronized int getTurn(){ return this.lastEventTurn; }
-    public synchronized String getImei(){ return this.imei; }
+    public synchronized int getToSync(){ return this.toSync; }
     
     public synchronized void logOut() {
     	this.date = null;
