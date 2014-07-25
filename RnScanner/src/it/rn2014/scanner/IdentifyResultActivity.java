@@ -8,13 +8,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 
 public class IdentifyResultActivity extends ActionBarActivity {
 
+	Map<String, String> datumNome;
+	Map<String, String> datumCognome;
+	Map<String, String> datumDataNascita;
+	
+	SimpleAdapter adapter = null;
+	ArrayList<Map<String, String>> data = null;
+	ListView lw = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,20 +49,25 @@ public class IdentifyResultActivity extends ActionBarActivity {
 			Persona result = DataManager.getInstance(this).findPersonaByCodiceUnivoco(cu, reprint);
 			ArrayList<Evento> ae = DataManager.getInstance(this).findEventiByPersona(result);
 			
-			ListView lw = (ListView)findViewById(R.id.listIdentify);
+			lw = (ListView)findViewById(R.id.listIdentify);
 			
-			ArrayList<Map<String, String>> data = new ArrayList<Map<String, String>>();
+			data = new ArrayList<Map<String, String>>();
 			Map<String, String> datum;
 			
-			datum = new HashMap<String, String>(2);
-			datum.put("title", result.getNome());
-			datum.put("subtitle", "Nome");
-			data.add(datum);
+			datumNome = new HashMap<String, String>(2);
+			datumNome.put("title", result.getNome());
+			datumNome.put("subtitle", "Nome");
+			data.add(datumNome);
 			
-			datum = new HashMap<String, String>(2);
-			datum.put("title", result.getCognome());
-			datum.put("subtitle", "Cognome");
-			data.add(datum);
+			datumCognome = new HashMap<String, String>(2);
+			datumCognome.put("title", result.getCognome());
+			datumCognome.put("subtitle", "Cognome");
+			data.add(datumCognome);
+			
+			datumDataNascita = new HashMap<String, String>(2);
+			datumDataNascita.put("title", "****-**-**");
+			datumDataNascita.put("subtitle", "Data di nascita");
+			data.add(datumDataNascita);
 			
 			datum = new HashMap<String, String>(2);
 			datum.put("title", result.getCodiceUnivoco());
@@ -74,12 +97,78 @@ public class IdentifyResultActivity extends ActionBarActivity {
 				data.add(datum);
 			}			
 			
-			SimpleAdapter adapter = new SimpleAdapter(this, data,
+			adapter = new SimpleAdapter(this, data,
 			                                      android.R.layout.simple_list_item_2,
 			                                      new String[] {"title", "subtitle"},
 			                                      new int[] {android.R.id.text1,
 			                                                 android.R.id.text2});
 			lw.setAdapter(adapter);
+			
+			if (RemoteResources.haveNetworkConnection(IdentifyResultActivity.this))
+				new IndentifyTask().execute(cu);
+			else {
+				final AlertDialog.Builder adb = new AlertDialog.Builder(this);
+			    adb.setTitle("Connessione Assente");
+			    adb.setMessage("Per visualizzare i dati oscurati e' necessario essere connessi ad internet");
+			    adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int which) {
+			      } });
+			}	
+		}
+	}
+	
+	private class IndentifyTask extends AsyncTask<String, Void, String>{
+		
+		ProgressBar pbIdent = null;
+		
+		@Override
+		protected void onPreExecute() {
+			pbIdent = (ProgressBar)findViewById(R.id.identify_progress);
+			pbIdent.setVisibility(View.VISIBLE);
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+		    pbIdent.setVisibility(View.GONE);
+		    
+			adapter = new SimpleAdapter(IdentifyResultActivity.this, data,
+                    android.R.layout.simple_list_item_2,
+                    new String[] {"title", "subtitle"},
+                    new int[] {android.R.id.text1,
+                               android.R.id.text2});
+			lw.setAdapter(adapter);
+		}
+		
+		@Override
+		protected String doInBackground(String... params) {
+			
+			ArrayList<NameValuePair> postParams = new ArrayList<NameValuePair>();
+			postParams.add(new BasicNameValuePair("date", UserData.getInstance().getDate()));
+			postParams.add(new BasicNameValuePair("cu", UserData.getInstance().getCU()));
+			postParams.add(new BasicNameValuePair("search", params[0]));
+			
+			String res = null;
+			String response = null;
+			try{
+				response = CustomHttpClient.executeHttpPostString("http://mobile.rn2014.it/ident.php", postParams);
+				res = response.toString();
+				res = res.replaceAll("\\s+","");
+				
+
+				JSONObject parsedObject = new JSONObject(res);
+				String nome  = parsedObject.getString("nome");
+				String cognome  = parsedObject.getString("cognome");
+				String datanascita  = parsedObject.getString("data");
+				
+				datumNome.put("title", nome);
+				datumCognome.put("title", cognome);
+				datumDataNascita.put("title", datanascita);
+				
+				Log.e("Found ", nome + " " + cognome + " " + datanascita);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return res;
 		}
 	}
 }

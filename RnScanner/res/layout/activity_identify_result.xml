@@ -6,14 +6,23 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context="it.rn2014.scanner.IdentifyResultActivity" >
 
-    
+    <ProgressBar
+        android:id="@+id/identify_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:indeterminate="true"
+        android:indeterminateBehavior="repeat"
+        android:visibility="gone" />
+
     <ListView 
         android:id="@+id/listIdentify"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
-        
     </ListView>
 
 </LinearLayout>

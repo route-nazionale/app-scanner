@@ -24,14 +24,14 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (UserData.getInstance().getLevel().contentEquals("security")){
-			setContentView(R.layout.activity_mainevt);
+			setContentView(R.layout.activity_main);
 			Button btnGate = (Button)findViewById(R.id.btnGate);
 			btnGate.setOnClickListener(this);
 			Button btnIdentify = (Button)findViewById(R.id.btnIdentify);
 			btnIdentify.setOnClickListener(this);
 		}
 		else
-			setContentView(R.layout.activity_main);
+			setContentView(R.layout.activity_mainevt);
 			
 		TextView cu = (TextView)findViewById(R.id.cu);
 		cu.setText(UserData.getInstance().getCU());
