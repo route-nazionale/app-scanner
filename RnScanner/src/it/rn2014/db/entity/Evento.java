@@ -1,13 +1,27 @@
 package it.rn2014.db.entity;
 
+/**
+ * Classe del modello.
+ * Rappresenta un entita' di tipo evento, utile per gestire gli eventi
+ * tramite il Database
+ * 
+ * @author Nicola Corti
+ */
 public class Evento {
 	
+	/** ID univoco evento */
 	private String idEvento;
+	/** Codice di stampa dell'evento */
 	private String codiceStampa;
+	/** Nome dell'evento */
 	private String nome;
+	/** Quartiere dell'evento */
 	private String quartiere;
+	/** Strada di coraggio */
 	private String stradaCoraggio;
+	/** Contrata - NON UTILIZZATO */
 	private String contrada;
+	/** Tipologia dell'evento */
 	private String tipoEvento;
 	
 	public String getIdEvento() {

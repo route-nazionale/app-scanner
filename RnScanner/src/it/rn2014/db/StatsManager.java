@@ -14,24 +14,42 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 /**
- * @author Luca
+ * Classe per la gestione delle query sul DB delle statistiche
+ * Implementato con patter singleton
  * 
+ * @author Luca Sirri & Nicola Corti
  */
 public class StatsManager {
 
-	public static final String TAG = "DataAdapter";
+	/** TAG per i file di log */
+	public static final String TAG = "StatsManager";
 
+	/** Nome del DB delle statistiche */
+	private static final String DB_NAME = "stat.db";
+	
+	/** Riferimento al DB */
 	private SQLiteDatabase database;
+	/** Riferimento al DB Manager */
 	private DataBaseManager databaseManager;
 	
+	/** Istanza di Stats (singleto) */
 	private static StatsManager instance = null;
 
+	/**
+	 * Ritorna un nuovo Stats manager
+	 * 
+	 * @param context
+	 */
 	private StatsManager(Context context) {
-		databaseManager = new DataBaseManager(context, "stat.db");
+		databaseManager = new DataBaseManager(context, DB_NAME);
 		createDatabase();
 		createStatTable();
 	}
 	
+	/**
+	 * Crea la tabella delle statistiche per il nuovo DB
+	 * (ricorda che questo non e' scaricato ma aperto sul device)
+	 */
 	private void createStatTable() {
 		String sql = "CREATE TABLE IF NOT EXISTS `statistiche` ( " +
 		  " `idScansione` INTEGER PRIMARY KEY AUTOINCREMENT, " + 
@@ -47,6 +65,7 @@ public class StatsManager {
 		  " ) ";
 		
 		try {
+			// Recupero un DB scrivibile e faccio la query
 			databaseManager.openDataBase();
 			databaseManager.close();
 			database = databaseManager.getWritableDatabase();
@@ -58,6 +77,11 @@ public class StatsManager {
 		}
 	}
 
+	/**
+	 * Ritorna un'istanza di un Stat manager (singleton) 
+	 * 
+	 * @param c Contesto di esecuzione
+	 */
 	public static synchronized StatsManager getInstance(Context c){
 		if (instance == null){
 			instance = new StatsManager(c);
@@ -65,10 +89,17 @@ public class StatsManager {
 		return instance;
 	}
 	
+	/** Controlla se esiste il DB
+	 * @return True se esiste il DB false altrimenti
+	 */
 	public synchronized boolean checkDataBase(){
 		return databaseManager.checkDataBase();
 	}
 
+	/**
+	 * Crea un nuovo database
+	 * @throws SQLException Se ha problemi di tipo SQL
+	 */
 	public synchronized StatsManager createDatabase() throws SQLException {
 		try {
 			databaseManager.createDataBase();
@@ -79,7 +110,13 @@ public class StatsManager {
 		return this;
 	}
 
-	public synchronized StatsManager open() throws SQLException {
+	/**
+	 * Apre il database al fine di poterci fare query (funzione di comodo)
+	 * 
+	 * @return Lo statmanager aperto
+	 * @throws SQLException Errori a livello di DB
+	 */
+	private synchronized StatsManager open() throws SQLException {
 		try {
 			if (database != null && !database.isOpen()){
 				databaseManager.openDataBase();
@@ -93,16 +130,30 @@ public class StatsManager {
 		return this;
 	}
 	
-	public synchronized void close() {
+	/**
+	 * Chiude lo stat manager
+	 */
+	private synchronized void close() {
 		databaseManager.close();
 	}
 	
+	/**
+	 * Ritorno tutte le statistiche non ancora sincronizzare
+	 * 
+	 * @return L'elenco delle statistiche da sincronizzare
+	 */
 	public synchronized ArrayList<StatisticheScansioni> findAllStatsNotSync(){
 		String sql = "SELECT * from statistiche WHERE sync = 0";
 		return findAllStatsBySQL(sql) ;
 	}
 	
 	
+	/**
+	 * Ritorno tutte le statistiche data un query SQL select
+	 * 
+	 * @param sql Query di select su `statistiche`
+	 * @return L'elenco delle statistiche trovate
+	 */
 	public synchronized ArrayList<StatisticheScansioni> findAllStatsBySQL(String sql){
 		
 		open();
@@ -122,6 +173,12 @@ public class StatsManager {
 		return statisticheScansioniList;
 	}
 	
+	/**
+	 * Inserisco una nuova statistica nel DB
+	 * 
+	 * @param statistica Statistica da inserire
+	 * @return True se inserita correttamente
+	 */
 	public synchronized boolean insertStats(StatisticheScansioni statistica){
 		try {
 			
@@ -153,8 +210,12 @@ public class StatsManager {
 		
 	}
 	
+	/**
+	 * Aggiorno tutte le statistiche le imposto come sincronizzate
+	 */
 	public synchronized void updateSyncStats (){
 		
+		// Query di update delle statistiche
 		String sql = "UPDATE `statistiche` SET sync = 1 WHERE sync = 0";
 		
 		try {
@@ -162,6 +223,8 @@ public class StatsManager {
 			databaseManager.close();
 			database = databaseManager.getWritableDatabase();
 			database.execSQL(sql);
+			
+			// Resetto il tosync dell'userdata
         	UserData.getInstance().resetToSync();
 			database.close();
 		} catch (SQLException mSQLException) {
@@ -173,9 +236,10 @@ public class StatsManager {
 	
 	
 	/**
-	 * Metodi per mappare gli oggetti Entity Persona, Evento, Statisciche
-	 * @param cursor
-	 * @return
+	 * Metodo per mappare l'oggetto StatisticheScansioni a partire dal cursore
+	 * 
+	 * @param cursor Cursore su statistiche scansioni
+	 * @return Un oggetto di tipo StatisticheScansioni
 	 */
 	private synchronized StatisticheScansioni getStatisticaScansione(Cursor cursor) {
 		StatisticheScansioni statisticheScansioni = new StatisticheScansioni();
@@ -200,7 +264,12 @@ public class StatsManager {
 		return statisticheScansioni;
 	}
 	
-		
+	/**
+	 * Ritorna un cursore a partire da una query
+	 * 
+	 * @param sql Query SQL da eseguire
+	 * @return Cursore della query
+	 */	
 	private synchronized Cursor getDBCursor(String sql) {
 		try {
 			Cursor mCur = database.rawQuery(sql, null);
@@ -214,6 +283,13 @@ public class StatsManager {
 		}
 	}
 
+	/**
+	 * Ritorna il valore di un campo del cursore
+	 * 
+	 * @param cur Cursore di una query
+	 * @param ColumnName Nome della colonna
+	 * @return Valore per quella colonna
+	 */
 	private synchronized static String getColumnValue(Cursor cur, String ColumnName) {
 		try {
 			return cur.getString(cur.getColumnIndex(ColumnName));

@@ -13,23 +13,41 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 /**
- * @author Luca
+ * Classe per la gestione delle query sul DB scaricato
+ * Implementato con patter singleton
  * 
+ * @author Luca Sirri & Nicola Corti
  */
 public class DataManager {
 
-	public static final String TAG = "DataAdapter";
+	/** TAG per i file di log */
+	public static final String TAG = "DataManager";
+	/** Nome del DB Scaricato */
+	private static final String DB_NAME = "rn2014.db";
 
+	/** Riferimento al DB */
 	private SQLiteDatabase database;
+	/** Riferimento al DB Manager */
 	private DataBaseManager databaseManager;
 	
+	/** Istanza di Datamanager (singleto) */
 	private static DataManager instance = null;
 
+	/**
+	 * Ritorna un nuovo Data manager
+	 * 
+	 * @param context
+	 */
 	private DataManager(Context context) {
-		databaseManager = new DataBaseManager(context, "rn2014.db");
+		databaseManager = new DataBaseManager(context, DB_NAME);
 		createDatabase();
 	}
 	
+	/**
+	 * Ritorna un'istanza di un Data manager (singleton) 
+	 * 
+	 * @param c Contesto di esecuzione
+	 */
 	public static synchronized DataManager getInstance(Context c){
 		if (instance == null){
 			instance = new DataManager(c);
@@ -37,10 +55,17 @@ public class DataManager {
 		return instance;
 	}
 	
+	/** Controlla se esiste il DB
+	 * @return True se esiste il DB false altrimenti
+	 */
 	public synchronized boolean checkDataBase(){
 		return databaseManager.checkDataBase();
 	}
 
+	/**
+	 * Crea un nuovo database
+	 * @throws SQLException Se ha problemi di tipo SQL
+	 */
 	public synchronized DataManager createDatabase() throws SQLException {
 		try {
 			databaseManager.createDataBase();
@@ -51,7 +76,13 @@ public class DataManager {
 		return this;
 	}
 
-	public synchronized DataManager open() throws SQLException {
+	/**
+	 * Apre il database al fine di poterci fare query (funzione di comodo)
+	 * 
+	 * @return Il datamanager aperto
+	 * @throws SQLException Errori a livello di DB
+	 */
+	private synchronized DataManager open() throws SQLException {
 		try {
 			databaseManager.openDataBase();
 			databaseManager.close();
@@ -63,20 +94,42 @@ public class DataManager {
 		return this;
 	}
 
-	public synchronized void close() {
+	/**
+	 * Chiude il datamanager
+	 */
+	private synchronized void close() {
 		databaseManager.close();
 	}
 
+	/**
+	 * Ritorna la persona dato un codice univoco
+	 * 
+	 * @param codiceUnivoco Codice univoco da cercare
+	 * @return La persona trovata
+	 */
 	public synchronized Persona findPersonaByCodiceUnivoco(String codiceUnivoco) {
 		String sql = "SELECT * FROM `persone` WHERE `codiceUnivoco` =  '" + codiceUnivoco  + "'" ;
 		return findPersonaBySQL(sql);
 	}
 	
+	/**
+	 * Ritorna la persona dato un codice univoco e il reprint badge
+	 * 
+	 * @param codiceUnivoco Codice univoco da cercare
+	 * @param reprint Ristampa badge da cercare
+	 * @return La persona trovata
+	 */
 	public synchronized Persona findPersonaByCodiceUnivoco(String codiceUnivoco, String reprint) {
 		String sql = "SELECT * FROM `persone` WHERE `codiceUnivoco` =  '" + codiceUnivoco  + "' AND `ristampaBadge` = '" + reprint + "'" ;
 		return findPersonaBySQL(sql);
 	}
 	
+	/**
+	 * Ritorna il nome del gruppo di una persona
+	 * 
+	 * @param p Persona da cercare
+	 * @return La stringa del nome
+	 */
 	public synchronized String findGruppoByPersona(Persona p){
 		String sql = "SELECT gruppi.nome AS nome FROM gruppi, persone WHERE gruppi.idGruppo = persone.idGruppo AND gruppi.idUnita = persone.idUnita AND persone.codiceUnivoco = '" + p.getCodiceUnivoco() + "'";
 		open();
@@ -85,6 +138,12 @@ public class DataManager {
 		return getColumnValue(cursor, "nome");
 	}
 	
+	/**
+	 * Ritorna una persona dato l'SQL
+	 * 
+	 * @param sql SQL della persona da cercare
+	 * @return Persona trovata
+	 */
 	public synchronized Persona findPersonaBySQL(String sql) {
 		open();
 		Cursor cursor = getDBCursor(sql);
@@ -98,8 +157,9 @@ public class DataManager {
 	/**
 	 * Trova gli eventi di una persona in un dato turno
 	 * 
-	 * @param persona
-	 * @return
+	 * @param persona Persona di cui si vogliono gli eventi
+	 * @param turno Turno di ricerca (1,2 o 3)
+	 * @return Elenco di eventi della persona
 	 */
 	public synchronized ArrayList<Evento> findEventiByPersona(Persona persona, int turno) {
 		String sql = "SELECT * from eventi" +
@@ -113,8 +173,8 @@ public class DataManager {
 	/**
 	 * Trova gli eventi di una persona
 	 * 
-	 * @param persona
-	 * @return
+	 * @param persona Persona di cui si vogliono gli eventi
+	 * @return Elenco di eventi della persona
 	 */
 	public synchronized ArrayList<Evento> findEventiByPersona(Persona persona) {
 		String sql = "SELECT * from eventi" +
@@ -126,10 +186,11 @@ public class DataManager {
 	}
 	
 	/**
-	 * Trova gli eventi di cui si e' capispalla in un dato turno
+	 * Trova gli eventi di una persona in un dato turno di cui si e' capispalla
 	 * 
-	 * @param persona
-	 * @return
+	 * @param cu Codice univoco della persona
+	 * @param turno Turno di ricerca (1,2 o 3)
+	 * @return Elenco di eventi della persona
 	 */
 	public synchronized ArrayList<Evento> findEventiToCheckin(String cu, String turno) {
 		/////////////////////////////////////////////
@@ -152,6 +213,12 @@ public class DataManager {
 		return findAllEventiBySQL(sql);
 	}
 	
+	/**
+	 * Ritorna un evento dato un ID
+	 * 
+	 * @param eventid Evento che si vuole cercare
+	 * @return L'evento trovato
+	 */
 	public Evento findEventById(String eventid) {
 		String sql = "SELECT * from eventi WHERE idEvento = '" + eventid + "'";
 		ArrayList<Evento> e = findAllEventiBySQL(sql);
@@ -163,8 +230,8 @@ public class DataManager {
 	
 	/**
 	 * Trova tutti gli eventi a partire da uno script sql
-	 * @param sql
-	 * @return
+	 * @param sql Select su eventi
+	 * @return Lista di eventi trovati
 	 */
 	public synchronized ArrayList<Evento> findAllEventiBySQL(String sql){
 		
@@ -186,6 +253,12 @@ public class DataManager {
 		
 	}
 	
+	/**
+	 * Ritorna un evento a partire da un cursor
+	 * 
+	 * @param cursor Cursore su eventi
+	 * @return Evento risultante
+	 */
 	private synchronized Evento getEvento(Cursor cursor){
 		Evento evento = new Evento();
 		
@@ -200,6 +273,12 @@ public class DataManager {
 		return evento;
 	}
 	
+	/**
+	 * Ritorna una persona a partire da un cursore
+	 * 
+	 * @param cursor Cursore su persone
+	 * @return Persona risultante
+	 */
 	private synchronized Persona getPersona(Cursor cursor) {
 		Persona persona;
 		persona = new Persona();
@@ -217,6 +296,12 @@ public class DataManager {
 		return persona;
 	}
 	
+	/**
+	 * Ritorna un cursore a partire da una query
+	 * 
+	 * @param sql Query SQL da eseguire
+	 * @return Cursore della query
+	 */
 	private synchronized Cursor getDBCursor(String sql) {
 		try {
 			Cursor mCur = database.rawQuery(sql, null);
@@ -230,6 +315,13 @@ public class DataManager {
 		}
 	}
 
+	/**
+	 * Ritorna il valore di un campo del cursore
+	 * 
+	 * @param cur Cursore di una query
+	 * @param ColumnName Nome della colonna
+	 * @return Valore per quella colonna
+	 */
 	private synchronized static String getColumnValue(Cursor cur, String ColumnName) {
 		try {
 			return cur.getString(cur.getColumnIndex(ColumnName));

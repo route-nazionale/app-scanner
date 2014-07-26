@@ -1,29 +1,31 @@
 package it.rn2014.db.entity;
 
-
-//CREATE TABLE persone ( 
-//	    codiceUnivoco VARCHAR PRIMARY KEY,
-//	    ristampaBadge NUMERIC,
-//	    nome          VARCHAR,
-//	    cognome       VARCHAR,
-//	    idGruppo      VARCHAR,
-//	    ruolo         VARCHAR REFERENCES ruolo,
-//	    codiceAgesci  VARCHAR,
-//	    idUnita       VARCHAR,
-//	    sottocampo    VARCHAR,
-//	    quartiere     VARCHAR 
-//	);
-
+/**
+ * Classe del modello.
+ * Rappresenta un entita' di tipo persona, utile per gestire le persone
+ * tramite il Database
+ * 
+ * @author Nicola Corti
+ */
 public class Persona {
 	
+	/** Codice univoco */
 	private String codiceUnivoco  ;
-	private String ristampaBadge ;	
+	/** Numero ristampa badge */
+	private String ristampaBadge ;
+	/** Nome della persona */
 	private String nome ;
+	/** Cognome della persona */
 	private String cognome ;
+	/** Codice agesci */
 	private String codiceAgesci ;
+	/** ID Gruppo */
 	private String idGruppo ;
+	/** ID Unita */
 	private String idUnita ;
+	/** Quartiere */
 	private String quartiere ;
+	/** Contrada */
 	private String contrada ;
 	
 	@Override
