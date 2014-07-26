@@ -6,11 +6,8 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -26,12 +23,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Classe che si occupa di effettuare il login dell'applicazione
+ * 
+ * @author Nicola Corti
+ */
 public class LoginActivity extends ActionBarActivity {
 
-	EditText code;
-	DatePicker date;
-	ProgressBar prb;
-	TextView error;
+	/** Riferimento alla casella di testo del codice */
+	private EditText code;
+	/** Riferimento al datepicker della data */
+	private DatePicker date;
+	/** Riferimento al messsaggio di errore */
+	private TextView error;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +45,13 @@ public class LoginActivity extends ActionBarActivity {
 		
 		code = (EditText)findViewById(R.id.code);
 		date = (DatePicker)findViewById(R.id.date);
-		
 		Button btn = (Button)findViewById(R.id.btnSignin);
 		final ProgressBar prb = (ProgressBar)findViewById(R.id.login_progress);
-		
 		error = (TextView)findViewById(R.id.errorMessage);
 		
+		/*
+		 * TextWatcher per l'inserimento dei trattini automatici nel codice
+		 */
 		code.addTextChangedListener(new TextWatcher() {
 			
 			boolean delete = false;
@@ -56,10 +61,7 @@ public class LoginActivity extends ActionBarActivity {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
-				if (count < after) 
-					delete = false;
-				else
-					delete = true;
+				if (count < after) delete = false; else	delete = true;
 			}
 			
 			@Override
@@ -71,7 +73,9 @@ public class LoginActivity extends ActionBarActivity {
 			}
 		});
 		
-		
+		/*
+		 * Dialog per connessione assente
+		 */
 		final AlertDialog.Builder adb = new AlertDialog.Builder(this);
 	    adb.setTitle("Connessione Assente");
 	    adb.setMessage("Per effettuare il login e' necessario essere connessi ad Internet");
@@ -79,14 +83,18 @@ public class LoginActivity extends ActionBarActivity {
 	        public void onClick(DialogInterface dialog, int which) {
 	      } });
 		
+	    /*
+	     * Listner del click sul bottone login
+	     */
 		btn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (code.length() <= 1) return;
 				
-				if (!haveNetworkConnection()){
+				if (!RemoteResources.haveNetworkConnection(LoginActivity.this)){
 					adb.show();
 				} else {
+					// Creo un nuovo async task
 					LoginTask login = new LoginTask(prb, error);
 										 
 					String day, month, year;
@@ -103,10 +111,14 @@ public class LoginActivity extends ActionBarActivity {
 					
 					String dateValue = year + "-" + month + "-" + day;
 					
+					// Eseguo con i parametri di accesso l'async task
 					login.execute(new String[]{code.getText().toString(), dateValue});
 				}
 			}
 		});
+		
+		// Se e' presente il parametro `qrscanned` (arrivo da un intent)
+		// allora blocco la casella di testo
 		Bundle extras = getIntent().getExtras();
 		if (extras != null && extras.containsKey("qrscanned")) {
 		    String scannedCode = extras.getString("qrscanned");
@@ -119,13 +131,28 @@ public class LoginActivity extends ActionBarActivity {
 	}
 	
 
+	/**
+	 * Task asincrono che si occupa di effettuare il login
+	 * 
+	 * @author Nicola Corti
+	 */
 	private class LoginTask extends AsyncTask<String, Void, String>{
 
+		/** URL dell'autenticazione */
 		private static final String URL_AUTH = "http://mobile.rn2014.it/index.php/auth.php";
 		
-		ProgressBar prb;
-		TextView error;
+		/** Riferimento alla progressbar */
+		private ProgressBar prb;
+		/** Riferimento al messaggio di errore */
+		private TextView error;
 		
+		
+		/**
+		 * Costruttore di base
+		 * 
+		 * @param p Riferimento alla progressbar
+		 * @param err Riferimento alla TextView dell'errore
+		 */
 		private LoginTask(ProgressBar p, TextView err){
 			this.prb = p;
 			this.error = err;
@@ -133,6 +160,7 @@ public class LoginActivity extends ActionBarActivity {
 		
 		@Override
 		protected void onPreExecute() {
+			// Mostro la barra e nascondo messaggio errore
 			error.setVisibility(View.GONE);
 			prb.setVisibility(View.VISIBLE);
 		}
@@ -142,35 +170,46 @@ public class LoginActivity extends ActionBarActivity {
 			
 			ArrayList<NameValuePair> postParams = new ArrayList<NameValuePair>();
 			
-			try{
-			postParams.add(new BasicNameValuePair("cu", params[0]));
-			postParams.add(new BasicNameValuePair("reprint", params[0].substring(0, params[0].length()-2)));
-			postParams.add(new BasicNameValuePair("date", params[1]));
+			try {
+
+				// Mando in post i parametri di autenticazione
+				postParams.add(new BasicNameValuePair("reprint", params[0].substring(params[0].length()-1)));
+				postParams.add(new BasicNameValuePair("cu", params[0]
+						.substring(0, params[0].length() - 2)));
+				postParams.add(new BasicNameValuePair("date", params[1]));
 			} catch (IndexOutOfBoundsException e) {
+				
+				// Se mi inseriscono un cu troppo corto
 				return "noauth";
 			}
+			
+			// Mi salvo nell'Userdata i dati di accesso
 			UserData.getInstance().setCU(params[0]);
 			UserData.getInstance().setDate(params[1]);
 			
-			String res = null;
-			String response = "noauth";
+			String res = "noauth";
+			String response = null;
 			try{
 				response = CustomHttpClient.executeHttpPostString(URL_AUTH, postParams);
 				res = response.toString();
 				res = res.replaceAll("\\s+","");
 				
 				Log.e("Risposta", res);
-				return "noauth";
+				return res;
 			} catch (Exception e) {
 				e.printStackTrace();
+				return "noauth";
 			}
-			return res;
 		}
 		
 		@Override
 		protected void onPostExecute(String result) {
 		    
-			if(result.equals("security")){
+			// In base alla risposta calcolo il livello di autenticazione
+			// inoltre serializzo i dati utente
+			if(result != null && result.contentEquals("security")){
+				
+				// Security
 				UserData.getInstance().setLevel("security");
 				UserData.saveInstance(getApplicationContext());
 		    	Toast.makeText(getApplicationContext(), "Autenticazione Riuscita", Toast.LENGTH_SHORT).show();
@@ -179,8 +218,9 @@ public class LoginActivity extends ActionBarActivity {
 				startActivity(main);
 				finish();
 				
-		    } else if (result.equals("event")) {
+		    } else if (result != null && result.contentEquals("event")) {
 		    	
+		    	// Capospalla
 				UserData.getInstance().setLevel("event");
 				UserData.saveInstance(getApplicationContext());
 		    	
@@ -191,28 +231,11 @@ public class LoginActivity extends ActionBarActivity {
 				finish();
 		    }
 		    else{
+		    	// Non loggato
 		    	error.setVisibility(View.VISIBLE);
 		    	UserData.getInstance().logOut();
 		    }
 		    prb.setVisibility(View.GONE);
 		}
-		
 	}
-	
-    private boolean haveNetworkConnection() {
-        boolean haveConnectedWifi = false;
-        boolean haveConnectedMobile = false;
-
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-        for (NetworkInfo ni : netInfo) {
-            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-                if (ni.isConnected())
-                    haveConnectedWifi = true;
-            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-                if (ni.isConnected())
-                    haveConnectedMobile = true;
-        }
-        return haveConnectedWifi || haveConnectedMobile;
-    }
 }

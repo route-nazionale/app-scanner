@@ -204,8 +204,10 @@ public class RemoteResources {
 	        Log.e("Mi aspetto di vedere il json", json);
 	        
 	        ArrayList<NameValuePair> postParams = new ArrayList<NameValuePair>();
-	        postParams.add(new BasicNameValuePair("cu",UserData.getInstance().getCU()));
-	        postParams.add(new BasicNameValuePair("reprint", UserData.getInstance().getCU().substring(0, UserData.getInstance().getCU().length()-2)));
+	        
+	        postParams.add(new BasicNameValuePair("cu", UserData.getInstance().getCU().substring(0, UserData.getInstance().getCU().length()-2)));
+	        postParams.add(new BasicNameValuePair("reprint", UserData.getInstance().getCU().substring(UserData.getInstance().getCU().length()-1)));
+	        
 	        postParams.add(new BasicNameValuePair("date", UserData.getInstance().getDate()));
 	        postParams.add(new BasicNameValuePair("json", json));
 	        
