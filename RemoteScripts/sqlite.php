@@ -1,11 +1,13 @@
 <?php
+
+	include(__DIR__ . '/../config/params.php');
 	
-	$sqlite_filename = '/var/www/mobile.rn2014.it/rn2014.db';
-	$gzipped_filename = '/var/www/mobile.rn2014.it/rn2014.db.gz';
-	$mysql_host = '172.16.10.151';
-	$mysql_db = 'varchi';
-	$mysql_user = 'varchi';
-	$mysql_password = '';
+	$sqlite_filename = __DIR__ . '/../data/rn2014.db';
+	$gzipped_filename = __DIR__ . '/../web/rn2014.db.gz';
+	$mysql_host = MYSQL_HOST;
+	$mysql_db = MYSQL_DB_VARCHI;
+	$mysql_user = MYSQL_USER_VARCHI;
+	$mysql_password = MYSQL_PASS_VARCHI;
 	
 	
 	if (file_exists($sqlite_filename)) { 

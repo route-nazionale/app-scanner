@@ -1,5 +1,5 @@
-<?
-	include('query.php');
+<?php
+	include(__DIR__ . '/../src/query.php');
 	
 	if (!isset($_POST['json']) || !isset($_POST['cu']) || !isset($_POST['date'])){
 		http_response_code(400);
@@ -8,6 +8,7 @@
 	$data = $_POST['json'];
 	$cu = $_POST['cu'];
 	$date = $_POST['date'];
+	$imei = $_POST['imei'];
 		
 	/* if (Auth con cu e date == false)
 	 * 		http_response_code(401)
@@ -41,6 +42,5 @@
 		}
 		
 		http_response_code(200);
-		echo "FATTO :)";
 	}
 ?>

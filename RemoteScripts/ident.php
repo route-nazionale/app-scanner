@@ -12,16 +12,12 @@
 	$search = $_POST['search'];
 	$cu = $_POST['cu'];
 	$date = $_POST['date'];
+	$imei = $_POST['imei'];
 	
 	/* TODO 
 	 * Autenticazione
+	 * Solo SECURITY!
 	 */
-	
-// 	class Risultato {
-// 		public $nome = "";
-// 		public $cognome = "";
-// 		public $data = "";
-// 	}
 	
 	$con = mysqli_connect($mysql_host,$mysql_user,$mysql_password,$mysql_db);
 
