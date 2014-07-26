@@ -5,11 +5,14 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.TextView;
 
 public class SplashScreenActivity extends Activity {
 
@@ -21,6 +24,15 @@ public class SplashScreenActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
+		
+		TextView vers = (TextView)findViewById(R.id.versionName);
+		PackageInfo pInfo;
+		try {
+			pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+			vers.setText(pInfo.versionName);
+		} catch (NameNotFoundException e1) {
+			e1.printStackTrace();
+		}
 		
 		final AlertDialog.Builder adb = new AlertDialog.Builder(SplashScreenActivity.this);
 	    adb.setTitle("Scaricare Barcode Scanner");
