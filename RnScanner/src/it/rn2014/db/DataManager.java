@@ -203,12 +203,12 @@ public class DataManager {
 		 * a
 		 * AND assegnamenti.staffEvento = 1
 		 * 
-		 * Questa e' solamente a scopo di testing
+		 * Questa e' solamente a scopo di testing, sennò non recupera i capi spalla
 		 */
 		/////////////////////////////////////////////
 		String sql = "SELECT * from eventi" +
 				"  JOIN assegnamenti ON assegnamenti.idEvento = eventi.idEvento" +
-				"  AND assegnamenti.staffEvento = 0 AND assegnamenti.slot = '" + turno + 
+				"  AND assegnamenti.staffEvento = 1 AND assegnamenti.slot = '" + turno + 
 				"' AND assegnamenti.codiceUnivoco = '" + cu + "'";
 		return findAllEventiBySQL(sql);
 	}
