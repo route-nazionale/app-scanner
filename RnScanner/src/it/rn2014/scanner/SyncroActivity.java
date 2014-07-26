@@ -81,7 +81,8 @@ public class SyncroActivity extends ActionBarActivity {
 			me.setVisibility(View.GONE);
 			
 			// TODO Gestire i risultati
-			if (ret != 200)
+			// Mostro l'immagine rossa a meno di aver ricevuto OK o insieme vuoto (-1)
+			if (ret != 200 && ret != -1)
 				img.setImageDrawable(getResources().getDrawable(R.drawable.cancel));
 			img.setVisibility(View.VISIBLE);
 			count++;
@@ -93,12 +94,7 @@ public class SyncroActivity extends ActionBarActivity {
 		
 		@Override
 		protected Integer doInBackground(Void... params){
-			try {
-				return super.doInBackground();
-			} catch (Exception e) {
-				img.setImageDrawable(getResources().getDrawable(R.drawable.cancel));
-				return 500;
-			}
+			return super.doInBackground();
 		}
 
 		@Override

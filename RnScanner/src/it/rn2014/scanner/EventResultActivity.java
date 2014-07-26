@@ -90,12 +90,16 @@ public class EventResultActivity extends Activity implements OnClickListener {
 		    	codetext.setText(code);
 		    	background.setBackgroundColor(getResources().getColor(R.color.LightGreen));
 		    	
+		    	scan.setAuth();
+		    	
 		    } else if (status == NOT_AUTH) {
 		    	
 		    	/* Persona non autorizzata */
 		    	TextView result = (TextView)findViewById(R.id.result);
 		    	TextView codetext = (TextView)findViewById(R.id.code);
 		    	LinearLayout background = (LinearLayout)findViewById(R.id.backGroundResult);
+		    	
+		    	scan.setNotAuth();
 		    	
 		    	result.setText(getResources().getString(R.string.non_partecipante));
 		    	codetext.setText(code);
@@ -143,6 +147,8 @@ public class EventResultActivity extends Activity implements OnClickListener {
 		    	
 		    	exit.setVisibility(View.INVISIBLE);
 		    	enter.setVisibility(View.INVISIBLE);
+		    	
+		    	scan.setInvalid();
 		    }
 		} else {
 			finish();

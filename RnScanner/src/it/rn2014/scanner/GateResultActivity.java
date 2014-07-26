@@ -83,6 +83,7 @@ public class GateResultActivity extends Activity implements OnClickListener {
 		    	codetext.setText(code);
 		    	background.setBackgroundColor(getResources().getColor(R.color.LightGreen));
 				
+		    	scan.setAuth();
 				
 		    } else if (status == NOT_AUTH) {
 		    	
@@ -98,6 +99,8 @@ public class GateResultActivity extends Activity implements OnClickListener {
 		    	exit.setVisibility(View.INVISIBLE);
 		    	enter.setVisibility(View.INVISIBLE);
 		    	
+		    	scan.setNotAuth();
+		    	
 		    } else {
 		    	
 		    	/* Scansione invalida */
@@ -111,6 +114,8 @@ public class GateResultActivity extends Activity implements OnClickListener {
 		    	
 		    	exit.setVisibility(View.INVISIBLE);
 		    	enter.setVisibility(View.INVISIBLE);
+		    	
+		    	scan.setInvalid();
 		    	
 		    }
 		    

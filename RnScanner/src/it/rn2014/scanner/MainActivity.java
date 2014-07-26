@@ -106,7 +106,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 			@Override
 			public void onClick(DialogInterface dialog, int which) { }
 	      });
-	    if (RemoteResources.haveNetworkConnection(MainActivity.this)){
+	    if (RemoteResources.haveNetworkConnection(MainActivity.this) &&
+	    		UserData.getInstance().getToSync(MainActivity.this) > 0){
 	    	adb.show();
 	    }
 	}

@@ -153,6 +153,8 @@ public class IdentifyResultActivity extends ActionBarActivity {
 		/** Progress bar per il caricamento */
 		ProgressBar pbIdent = null;
 		
+		private final static String URL_IDENT = "http://mobile.rn2014.it/ident.php";
+		
 		@Override
 		protected void onPreExecute() {
 			// Mostro la barra
@@ -183,12 +185,24 @@ public class IdentifyResultActivity extends ActionBarActivity {
 			postParams.add(new BasicNameValuePair("search", params[0]));
 	        postParams.add(new BasicNameValuePair("imei", params[1]));
 	        
+	        
+	        
 			String res = null;
 			String response = null;
 			try{
-				response = CustomHttpClient.executeHttpPostString("http://mobile.rn2014.it/ident.php", postParams);
+				
+				Log.e("date", UserData.getInstance().getDate());
+				Log.e("cu", UserData.getInstance().getCU().substring(0, UserData.getInstance().getCU().length()-2));
+				Log.e("reprint", UserData.getInstance().getCU().substring(UserData.getInstance().getCU().length()-1));
+				Log.e("search", params[0]);
+				Log.e("imei", params[1]);
+		        
+				
+				response = CustomHttpClient.executeHttpPostString(URL_IDENT, postParams);
 				res = response.toString();
 				res = res.replaceAll("\\s+","");
+				
+				Log.e("result", res);
 				
 				// Parso l'oggetto JSON che mi e' tornato
 				JSONObject parsedObject = new JSONObject(res);

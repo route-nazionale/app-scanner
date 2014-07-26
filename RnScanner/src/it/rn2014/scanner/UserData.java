@@ -1,5 +1,8 @@
 package it.rn2014.scanner;
 
+import it.rn2014.db.StatsManager;
+import it.rn2014.db.entity.StatisticheScansioni;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -7,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import android.content.Context;
 
@@ -120,9 +124,15 @@ public class UserData implements Serializable {
      */
     public synchronized int getTurn(){ return this.lastEventTurn; }
     /**Ritorna il numero di eventi da sincronizzare
+     * @param c Contesto di esecuzione
      * @return Numero di eventi da sincronizzare
      */
-    public synchronized int getToSync(){ return this.toSync; }
+    public synchronized int getToSync(Context c){ 
+		// Recupero le statistiche da sincronizzare
+		StatsManager qm = StatsManager.getInstance(c);
+        ArrayList<StatisticheScansioni> ls = qm.findAllStatsNotSync();
+        return ls.size();
+    }
     
     
     /**
