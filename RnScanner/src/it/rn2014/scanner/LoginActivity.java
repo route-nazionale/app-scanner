@@ -78,6 +78,7 @@ public class LoginActivity extends ActionBarActivity {
 		 */
 		final AlertDialog.Builder adb = new AlertDialog.Builder(this);
 	    adb.setTitle("Connessione Assente");
+	    adb.setIcon(R.drawable.no_network);
 	    adb.setMessage("Per effettuare il login e' necessario essere connessi ad Internet");
 	    adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) {

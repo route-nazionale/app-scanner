@@ -50,6 +50,7 @@ public class SplashScreenActivity extends Activity {
 		// Creo alert per Barcode Scanner - Eseguo in caso di eccezione
 		final AlertDialog.Builder adb = new AlertDialog.Builder(SplashScreenActivity.this);
 	    adb.setTitle("Scaricare Barcode Scanner");
+	    adb.setIcon(R.drawable.qr_code_icon);
 	    adb.setMessage("Per effettuare le scansioni dei QR code e' necessario scaricare dal Play Store l'app Barcode Scanner");
 	    
 	    adb.setPositiveButton("Scarica ora", new DialogInterface.OnClickListener() {

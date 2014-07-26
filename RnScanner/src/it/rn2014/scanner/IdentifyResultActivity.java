@@ -134,6 +134,7 @@ public class IdentifyResultActivity extends ActionBarActivity {
 				// Se non ho connessione lo nofifico
 				final AlertDialog.Builder adb = new AlertDialog.Builder(this);
 			    adb.setTitle("Connessione Assente");
+			    adb.setIcon(R.drawable.no_network);
 			    adb.setMessage("Per visualizzare i dati oscurati e' necessario essere connessi ad internet");
 			    adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			        public void onClick(DialogInterface dialog, int which) {

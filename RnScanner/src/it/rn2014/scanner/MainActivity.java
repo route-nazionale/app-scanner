@@ -71,6 +71,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 			
 		    AlertDialog.Builder adb = new AlertDialog.Builder(this);
 		    adb.setTitle("Connessione Assente");
+		    adb.setIcon(R.drawable.no_network);
 		    adb.setMessage("Non sono presenti i dati della Route Nazionale sul device! Devi essere connesso ad Internet per scaricarli");
 		    adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 		        public void onClick(DialogInterface dialog, int which) {
@@ -86,6 +87,28 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 			DownloadTask dt = new DownloadMainTask(MainActivity.this);
 			dt.execute();
 		}
+		
+		// Creo alert per Notificare eventi da sincronizzare
+		final AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
+	    adb.setTitle("Eventi da sincronizzare");
+	    adb.setIcon(R.drawable.syncro);
+	    adb.setMessage("Ci sono eventi da sincronizzare non ancora inviati, farlo adesso?");
+	    
+	    adb.setPositiveButton("Sincronizza ora", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				Intent sync = new Intent(getApplicationContext(), SyncroActivity.class);
+				startActivity(sync);
+			}
+	      });
+	    
+	    adb.setNegativeButton("Non ora", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) { }
+	      });
+	    if (RemoteResources.haveNetworkConnection(MainActivity.this)){
+	    	adb.show();
+	    }
 	}
 
 	@Override

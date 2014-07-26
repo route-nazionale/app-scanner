@@ -16,6 +16,8 @@
 
 package com.google.zxing.integration.android;
 
+import it.rn2014.scanner.R;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -370,6 +372,7 @@ public class IntentIntegrator {
     AlertDialog.Builder downloadDialog = new AlertDialog.Builder(activity);
     downloadDialog.setTitle(title);
     downloadDialog.setMessage(message);
+    downloadDialog.setIcon(R.drawable.qr_code_icon);
     downloadDialog.setPositiveButton(buttonYes, new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialogInterface, int i) {

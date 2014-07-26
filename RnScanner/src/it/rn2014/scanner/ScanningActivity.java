@@ -115,6 +115,7 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 			AlertDialog.Builder alert = new AlertDialog.Builder(this);
 			
 			alert.setTitle("Codice Badge");
+			alert.setIcon(R.drawable.password_icon);
 			alert.setMessage("Scrivi il codice badge da scansionare");
 
 			// Casella di testo per il codice
