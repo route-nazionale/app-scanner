@@ -60,6 +60,17 @@
 
 		}		
 		
+		// creo la tabella gruppi in sqlite
+		$sql = "CREATE TABLE IF NOT EXISTS `gruppi` (  `idGruppo` varchar(20) NOT NULL,  `idUnita` varchar(5) DEFAULT NULL,  `nome` varchar(50) NOT NULL) " ;
+		$sq->query($sql);
+		
+		$result = mysqli_query($con,"SELECT * FROM gruppi");
+		while($row = mysqli_fetch_array($result)) {
+				
+			$sql = "INSERT INTO `gruppi`(`idGruppo`, `nome`, `idUnita`) VALUES ('" . $row['idGruppo']  . "', '" . SQLite3::escapeString($row['nome'])  . "', '" . $row['idUnita'] . "')" ;
+			$sq->query($sql);
+		}
+		
 		// creo la tabella assegnamenti in sqlite 
 		$sql = "CREATE TABLE IF NOT EXISTS `assegnamenti` ( `idAssegnamenti` INTEGER PRIMARY KEY AUTOINCREMENT, `codiceUnivoco` varchar(30) DEFAULT NULL, `idEvento` varchar(20) DEFAULT NULL, `slot` decimal(10,0) DEFAULT NULL, `staffEvento` tinyint(1) DEFAULT '0')";
 		$sq->query($sql);
