@@ -125,7 +125,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:text="@string/avvia_sincronizzazione"
-        android:layout_gravity="bottom"
+        android:layout_gravity="bottom|center_horizontal"
         android:layout_margin="20dp"
         android:drawableBottom="@drawable/syncro"
         android:padding="20dp"
