@@ -13,10 +13,12 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
@@ -105,9 +107,11 @@ public class IdentifyResultActivity extends ActionBarActivity {
 			                                                 android.R.id.text2});
 			lw.setAdapter(adapter);
 			
-			if (RemoteResources.haveNetworkConnection(IdentifyResultActivity.this))
-				new IndentifyTask().execute(cu);
-			else {
+			if (RemoteResources.haveNetworkConnection(IdentifyResultActivity.this)){
+				
+			    TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+				new IndentifyTask().execute(cu, telephonyManager.getDeviceId());
+			} else {
 				final AlertDialog.Builder adb = new AlertDialog.Builder(this);
 			    adb.setTitle("Connessione Assente");
 			    adb.setMessage("Per visualizzare i dati oscurati e' necessario essere connessi ad internet");
@@ -146,8 +150,10 @@ public class IdentifyResultActivity extends ActionBarActivity {
 			ArrayList<NameValuePair> postParams = new ArrayList<NameValuePair>();
 			postParams.add(new BasicNameValuePair("date", UserData.getInstance().getDate()));
 			postParams.add(new BasicNameValuePair("cu", UserData.getInstance().getCU()));
+			postParams.add(new BasicNameValuePair("reprint", UserData.getInstance().getCU().substring(0, UserData.getInstance().getCU().length()-2)));
 			postParams.add(new BasicNameValuePair("search", params[0]));
-			
+	        postParams.add(new BasicNameValuePair("imei", params[1]));
+	        
 			String res = null;
 			String response = null;
 			try{

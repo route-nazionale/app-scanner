@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -101,6 +102,7 @@ public class LoginActivity extends ActionBarActivity {
 					year = "" + date.getYear();
 					
 					String dateValue = year + "-" + month + "-" + day;
+					
 					login.execute(new String[]{code.getText().toString(), dateValue});
 				}
 			}
@@ -119,6 +121,8 @@ public class LoginActivity extends ActionBarActivity {
 
 	private class LoginTask extends AsyncTask<String, Void, String>{
 
+		private static final String URL_AUTH = "http://mobile.rn2014.it/index.php/auth.php";
+		
 		ProgressBar prb;
 		TextView error;
 		
@@ -131,6 +135,36 @@ public class LoginActivity extends ActionBarActivity {
 		protected void onPreExecute() {
 			error.setVisibility(View.GONE);
 			prb.setVisibility(View.VISIBLE);
+		}
+		
+		@Override
+		protected String doInBackground(String... params) {
+			
+			ArrayList<NameValuePair> postParams = new ArrayList<NameValuePair>();
+			
+			try{
+			postParams.add(new BasicNameValuePair("cu", params[0]));
+			postParams.add(new BasicNameValuePair("reprint", params[0].substring(0, params[0].length()-2)));
+			postParams.add(new BasicNameValuePair("date", params[1]));
+			} catch (IndexOutOfBoundsException e) {
+				return "noauth";
+			}
+			UserData.getInstance().setCU(params[0]);
+			UserData.getInstance().setDate(params[1]);
+			
+			String res = null;
+			String response = "noauth";
+			try{
+				response = CustomHttpClient.executeHttpPostString(URL_AUTH, postParams);
+				res = response.toString();
+				res = res.replaceAll("\\s+","");
+				
+				Log.e("Risposta", res);
+				return "noauth";
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return res;
 		}
 		
 		@Override
@@ -163,27 +197,6 @@ public class LoginActivity extends ActionBarActivity {
 		    prb.setVisibility(View.GONE);
 		}
 		
-		@Override
-		protected String doInBackground(String... params) {
-			
-			ArrayList<NameValuePair> postParams = new ArrayList<NameValuePair>();
-			postParams.add(new BasicNameValuePair("code", params[0]));
-			postParams.add(new BasicNameValuePair("date", params[1]));
-			
-			UserData.getInstance().setCU(params[0]);
-			UserData.getInstance().setDate(params[1]);
-			
-			String res = null;
-			String response = null;
-			try{
-				response = CustomHttpClient.executeHttpPostString("http://ncorti.it/files/rn.php", postParams);
-				res = response.toString();
-				res = res.replaceAll("\\s+","");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return res;
-		}
 	}
 	
     private boolean haveNetworkConnection() {

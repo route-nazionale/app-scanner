@@ -136,9 +136,11 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 						"Errore nel download: " + result, Toast.LENGTH_LONG)
 						.show();
 			else
+				if (!super.alreadyExists){
 				Toast.makeText(MainActivity.this,
 						"Dati scaricati correttamente", Toast.LENGTH_LONG)
 						.show();
+				}
 		}
 	}
 }

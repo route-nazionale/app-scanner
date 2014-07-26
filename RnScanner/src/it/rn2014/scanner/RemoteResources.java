@@ -25,6 +25,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.PowerManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 public class RemoteResources {
@@ -204,8 +205,12 @@ public class RemoteResources {
 	        
 	        ArrayList<NameValuePair> postParams = new ArrayList<NameValuePair>();
 	        postParams.add(new BasicNameValuePair("cu",UserData.getInstance().getCU()));
+	        postParams.add(new BasicNameValuePair("reprint", UserData.getInstance().getCU().substring(0, UserData.getInstance().getCU().length()-2)));
 	        postParams.add(new BasicNameValuePair("date", UserData.getInstance().getDate()));
 	        postParams.add(new BasicNameValuePair("json", json));
+	        
+            TelephonyManager telephonyManager = (TelephonyManager)c.getSystemService(Context.TELEPHONY_SERVICE);
+	        postParams.add(new BasicNameValuePair("imei", telephonyManager.getDeviceId()));
 	        
 	        int ret = 0;
 	        try{
@@ -254,9 +259,4 @@ public class RemoteResources {
         }
         return haveConnectedWifi || haveConnectedMobile;
     }
-	
-	
-	
-	
-	
 }
