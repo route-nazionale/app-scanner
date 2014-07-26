@@ -1,17 +1,17 @@
 package it.rn2014.scanner;
 
-import java.util.ArrayList;
-
 import it.rn2014.db.DataManager;
 import it.rn2014.db.StatsManager;
 import it.rn2014.db.entity.Evento;
 import it.rn2014.db.entity.Persona;
 import it.rn2014.db.entity.StatisticheScansioni;
+
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -19,14 +19,25 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Interfaccia che mostra i risultati di una scansione varchi eventi
+ * 
+ * @author Nicola Corti
+ */
 public class EventResultActivity extends Activity implements OnClickListener {
 	
+	/** Costante per scansione invalida */
 	private final static int INVALID_SCAN = -1;
+	/** Costante per scansione non autorizzata */
 	private final static int NOT_AUTH = -2;
+	/** Costante per scansione autorizzata */
 	private final static int AUTH = -3;
 	
+	/** Lista degli eventi assegnati al ragazzo */
 	private ArrayList<Evento> otherEvent = null;
+	/** Nuova statistica della scansione effettuata */
 	private StatisticheScansioni scan = new StatisticheScansioni();
+	/** Status della scansione */
 	private int status = INVALID_SCAN;
 
 	
@@ -50,10 +61,12 @@ public class EventResultActivity extends Activity implements OnClickListener {
 		    
 		    try {
 		    	
+		    	// Scompongo il qr code
 		    	String cu = code.substring(0, code.length()-2);
 		    	String reprint = code.substring(code.length()-1);
 			    status = computeStatus(code);
 			    
+			    // Imposto i dati della scansione nella statistica
 			    scan.setCodiceUnivoco(cu);
 			    scan.setCodiceRistampa(reprint);
 			    scan.setIdVarco(UserData.getInstance().getEvent());
@@ -93,6 +106,8 @@ public class EventResultActivity extends Activity implements OnClickListener {
 		    	
 		    	if (otherEvent != null){
 		    		
+		    		// In caso di non autorizzato mostro l'elenco degli eventi
+		    		// a cui deve partecipare
 		    		Evento evt1 = (otherEvent.size() >= 1 ? otherEvent.get(0) : null);
 		    		Evento evt2 = (otherEvent.size() >= 2 ? otherEvent.get(1) : null);
 		    		Evento evt3 = (otherEvent.size() >= 3 ? otherEvent.get(2) : null);
@@ -105,6 +120,7 @@ public class EventResultActivity extends Activity implements OnClickListener {
 			    	if (evt2 != null) event2.setText(evt2.getCodiceStampa() + " - " + evt2.getNome());
 			    	if (evt3 != null) event3.setText(evt3.getCodiceStampa() + " - " + evt3.getNome());
 			    	
+			    	// Coloro lo sfondo in base al sottocampo
 			    	if (evt1 != null) event1.setBackgroundColor(getSubcampColor(evt1));
 			    	if (evt2 != null) event2.setBackgroundColor(getSubcampColor(evt2));
 			    	if (evt3 != null) event3.setBackgroundColor(getSubcampColor(evt3));
@@ -133,6 +149,13 @@ public class EventResultActivity extends Activity implements OnClickListener {
 		}
 	}
 
+	
+	/**
+	 * Funzione che ritorna il colore del sottocampo
+	 * 
+	 * @param evt Evento di cui si vuole il colore
+	 * @return Ritorna il colore associato
+	 */
 	private int getSubcampColor(Evento evt) {
 		switch (Integer.parseInt(evt.getQuartiere())) {
 		case 1: return getResources().getColor(R.color.LightYellow);
@@ -145,6 +168,12 @@ public class EventResultActivity extends Activity implements OnClickListener {
 		}
 	}
 
+	/**
+	 * Calcola lo stato della scansione effettuata (valida, non valida, etc...)
+	 * 
+	 * @param code QR Scansionato
+	 * @return Lo stato calcolato
+	 */
 	private int computeStatus(String code) {
 		String cu;
 		String reprint;
@@ -154,9 +183,11 @@ public class EventResultActivity extends Activity implements OnClickListener {
 			cu = code.substring(0, code.length()-2);
 			reprint = code.substring(code.length()-1);
 			
+			// Controlla se la persona e' presente nel DB
 			Persona p = DataManager.getInstance(this).findPersonaByCodiceUnivoco(cu, reprint);
 			if (p.getCodiceUnivoco() == "") return INVALID_SCAN;
 			
+			// Trova gli eventi della persona
 			otherEvent = DataManager.getInstance(this).findEventiByPersona(p);
 			ArrayList<Evento> ae = DataManager.getInstance(this).findEventiByPersona(p, turn);
 			
@@ -164,6 +195,7 @@ public class EventResultActivity extends Activity implements OnClickListener {
 			if (ae.isEmpty()) return NOT_AUTH;
 			else {
 				Evento evt = ae.get(0);
+				// Controlla se la persona e' autorizzata per l'evento o no
 				if (evt.getCodiceEvento().contentEquals(UserData.getInstance().getEvent())){
 					return AUTH;
 				} else {
@@ -177,6 +209,7 @@ public class EventResultActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		// Memorizzo la selezione dell'operatore (entrata, uscita, etc...)
 		Toast t = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
 		if (v.getId() == R.id.btnEnter){
 			t.setText("Check-in evento registrato");
@@ -189,9 +222,9 @@ public class EventResultActivity extends Activity implements OnClickListener {
 			if (scan.getType() == StatisticheScansioni.AUTH)
 				scan.setAbort();
 		}
-		StatsManager.getInstance(EventResultActivity.this).insertStats(scan);
-		Log.e("Inserito ", scan.toJSONObject().toString());
 		
+		// Salvo nel database la statistica
+		StatsManager.getInstance(EventResultActivity.this).insertStats(scan);
 		t.show();
 		finish();
 	}

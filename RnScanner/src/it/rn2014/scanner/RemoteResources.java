@@ -115,6 +115,7 @@ public class RemoteResources {
 	        }
 	        try {
 	            
+	        	onStartDownload();
 	        	URL url = new URL(URL_DB);
 	            connection = (HttpURLConnection) url.openConnection();
 	            connection.connect();
@@ -182,6 +183,12 @@ public class RemoteResources {
 	    	if (!alreadyExists){
 	    		mWakeLock.release();
 	        }
+	    }
+	    
+	    /**
+	     * Metodo che viene invocato quando parte effettivamente il download
+	     */
+	    protected void onStartDownload() {
 	    }
 	}
 	

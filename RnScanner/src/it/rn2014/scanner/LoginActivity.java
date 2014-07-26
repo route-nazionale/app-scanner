@@ -194,7 +194,6 @@ public class LoginActivity extends ActionBarActivity {
 				res = response.toString();
 				res = res.replaceAll("\\s+","");
 				
-				Log.e("Risposta", res);
 				return res;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -207,6 +206,9 @@ public class LoginActivity extends ActionBarActivity {
 		    
 			// In base alla risposta calcolo il livello di autenticazione
 			// inoltre serializzo i dati utente
+			
+			Log.e("CHECK", result);
+			
 			if(result != null && result.contentEquals("security")){
 				
 				// Security

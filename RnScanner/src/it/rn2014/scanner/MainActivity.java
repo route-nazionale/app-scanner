@@ -15,16 +15,28 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Classe che gestisce la schermata principale dell'applicazione.
+ * La schermata viene disengata in modo differente in base al livello di
+ * autenticazione dell'utente (security o event).
+ * 
+ * @author Nicola Corti
+ */
 public class MainActivity extends ActionBarActivity implements OnClickListener{
 
-	// declare the dialog as a member field of your activity
+
+	/** Riferimento al progress dialog per il download del file */
 	ProgressDialog mProgressDialog;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		// Disegno l'interfaccia in base al livello
 		if (UserData.getInstance().getLevel().contentEquals("security")){
 			setContentView(R.layout.activity_main);
+			
+			// bottoni non presenti per `event`
 			Button btnGate = (Button)findViewById(R.id.btnGate);
 			btnGate.setOnClickListener(this);
 			Button btnIdentify = (Button)findViewById(R.id.btnIdentify);
@@ -44,12 +56,16 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 		Button btnSync = (Button)findViewById(R.id.btnSyncro);
 		btnSync.setOnClickListener(this);
 
-		// instantiate it within the onCreate method
+
+		// ProgressDialog per lo scaricamento del database
 		mProgressDialog = new ProgressDialog(MainActivity.this);
 		mProgressDialog.setMessage("Download dei dati Route Nazionale");
 		mProgressDialog.setIndeterminate(true);
 		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		
+		
+		// Controllo se non posso scaricare i dati Route Nazionale
+		// Internet assente e Db assente
 		if (!RemoteResources.haveNetworkConnection(MainActivity.this) && 
 				!DataManager.getInstance(this).checkDataBase()){
 			
@@ -58,6 +74,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 		    adb.setMessage("Non sono presenti i dati della Route Nazionale sul device! Devi essere connesso ad Internet per scaricarli");
 		    adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 		        public void onClick(DialogInterface dialog, int which) {
+		        	
+		        	// Faccio tornare alla home
 		        	Intent intent = new Intent(Intent.ACTION_MAIN);
 					intent.addCategory(Intent.CATEGORY_HOME);
 					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -73,6 +91,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+		
+		// Collego i bottoni alle varie modalita' di esecuzione
 		case R.id.btnGate:
 			Intent gate = new Intent(getApplicationContext(), ScanningActivity.class);
 			gate.putExtra("mode", "gate");
@@ -80,6 +100,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 			startActivity(gate);
 			break;
 		case R.id.btnLogout:
+			// Faccio il logout e torno alla schermata di auth
 			UserData.getInstance().logOut();
 			UserData.saveInstance(getApplicationContext());
 			Intent login = new Intent(getApplicationContext(), AuthActivity.class);
@@ -105,6 +126,12 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 		}
 	}
 	
+	/**
+	 * Task per il download del DB
+	 * Si comporta come DownloadTask, ma aggiorna anche l'interfaccia
+	 * 
+	 * @author nicola
+	 */
 	public class DownloadMainTask extends DownloadTask {
 
 		public DownloadMainTask(Context context) {
@@ -112,17 +139,16 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 		}
 		
 	    @Override
-	    protected void onPreExecute() {
-	        super.onPreExecute();
-	        
-	        if(super.alreadyExists == false){
-		        mProgressDialog.show();
-	        }
+	    protected void onStartDownload() {
+	    	// Se parte il download mostro il progress dialog
+	        mProgressDialog.show();
 	    }
 
 		@Override
 		protected void onProgressUpdate(Integer... progress) {
 			super.onProgressUpdate(progress);
+			
+			// Aggiorno la barra di completamento
 			mProgressDialog.setIndeterminate(false);
 			mProgressDialog.setMax(100);
 			mProgressDialog.setProgress(progress[0]);
@@ -130,6 +156,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 
 		@Override
 		protected void onPostExecute(String result) {
+			
+			// Mostro il messaggio in base al risultato del task
 			mProgressDialog.dismiss();
 			if (result != null)
 				Toast.makeText(MainActivity.this,

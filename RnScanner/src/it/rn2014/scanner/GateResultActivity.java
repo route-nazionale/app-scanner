@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -16,16 +15,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Interfaccia che mostra i risultati di una scansione varchi accesso
+ * 
+ * @author Nicola Corti
+ */
 public class GateResultActivity extends Activity implements OnClickListener {
 	
+	/** Costante per scansione invalida */
 	private final static int INVALID_SCAN = -1;
+	/** Costante per scansione non autorizzata */
 	private final static int NOT_AUTH = -2;
+	/** Costante per scansione autorizzata */
 	private final static int AUTH = -3;
 	
-	
+	/** Nuova statistica della scansione effettuata */
 	private StatisticheScansioni scan = new StatisticheScansioni();
+	/** Status della scansione */
 	private int status = INVALID_SCAN;
-	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +54,12 @@ public class GateResultActivity extends Activity implements OnClickListener {
 		    
 		    try {
 		    	
+		    	// Scompongo il qr code
 		    	String cu = code.substring(0, code.length()-2);
 		    	String reprint = code.substring(code.length()-1);
 			    status = computeStatus(code);
 			    
+			    // Imposto i dati della scansione nella statistica
 			    scan.setCodiceUnivoco(cu);
 			    scan.setCodiceRistampa(reprint);
 			    scan.setIdVarco("ACCESSO");
@@ -65,7 +74,7 @@ public class GateResultActivity extends Activity implements OnClickListener {
 
 			if (status == AUTH){
 		    	/* Persona autorizzata */
-				/* Persona non autorizzata */
+				
 		    	TextView result = (TextView)findViewById(R.id.result);
 		    	TextView codetext = (TextView)findViewById(R.id.code);
 		    	LinearLayout background = (LinearLayout)findViewById(R.id.backGroundResult);
@@ -77,6 +86,7 @@ public class GateResultActivity extends Activity implements OnClickListener {
 				
 		    } else if (status == NOT_AUTH) {
 		    	
+				/* Persona non autorizzata */
 				TextView result = (TextView)findViewById(R.id.result);
 		    	TextView codetext = (TextView)findViewById(R.id.code);
 		    	LinearLayout background = (LinearLayout)findViewById(R.id.backGroundResult);
@@ -110,7 +120,12 @@ public class GateResultActivity extends Activity implements OnClickListener {
 		}
 	}
 	
-	
+	/**
+	 * Calcola lo stato della scansione effettuata (valida, non valida, etc...)
+	 * 
+	 * @param code QR Scansionato
+	 * @return Lo stato calcolato
+	 */
 	private int computeStatus(String code) {
 		String cu;
 		String reprint;
@@ -124,7 +139,7 @@ public class GateResultActivity extends Activity implements OnClickListener {
 			if (p.getCodiceUnivoco() == "") return INVALID_SCAN;
 			return AUTH;
 			
-			/* TODO ritornare non valido?
+			/* TODO ritornare non valido? Se si quando?
 			 */
 			
 		} catch (IndexOutOfBoundsException e ){
@@ -135,6 +150,7 @@ public class GateResultActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		// Memorizzo la selezione dell'operatore (entrata, uscita, etc...)
 		Toast t = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
 		if (v.getId() == R.id.btnEnter){
 			t.setText("Accesso al varco registrato");
@@ -147,8 +163,9 @@ public class GateResultActivity extends Activity implements OnClickListener {
 			if (scan.getType() == StatisticheScansioni.AUTH)
 				scan.setAbort();
 		}
+		
+		// Salvo nel database la statistica
 		StatsManager.getInstance(GateResultActivity.this).insertStats(scan);
-		Log.e("Inserito ", scan.toJSONObject().toString());
 		t.show();
 		finish();
 	}

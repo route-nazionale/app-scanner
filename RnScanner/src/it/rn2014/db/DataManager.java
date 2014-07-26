@@ -132,6 +132,19 @@ public class DataManager {
 	 * @return
 	 */
 	public synchronized ArrayList<Evento> findEventiToCheckin(String cu, String turno) {
+		/////////////////////////////////////////////
+		/*
+		 * NOTA BENE TODO FIXME
+		 * 
+		 * La query seguente deve essere cambiata da
+		 * AND assegnamenti.staffEvento = 0
+		 * 
+		 * a
+		 * AND assegnamenti.staffEvento = 1
+		 * 
+		 * Questa e' solamente a scopo di testing
+		 */
+		/////////////////////////////////////////////
 		String sql = "SELECT * from eventi" +
 				"  JOIN assegnamenti ON assegnamenti.idEvento = eventi.idEvento" +
 				"  AND assegnamenti.staffEvento = 0 AND assegnamenti.slot = '" + turno + 

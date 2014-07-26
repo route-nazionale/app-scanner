@@ -25,8 +25,14 @@ import android.widget.TextView;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+/**
+ * Classe che gestisce la scansione dei badge (per eventi, per varco accessi o identifica). 
+ * 
+ * @author Nicola Corti
+ */
 public class ScanningActivity extends ActionBarActivity implements OnClickListener {
 
+	/** Modalita' di esecuzione */
 	String mode = null;
 	
 	@Override
@@ -39,6 +45,7 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 		Button btnWrite = (Button)findViewById(R.id.btnWrite);
 		btnWrite.setOnClickListener(this);
 				
+		// Recupero la modalita' con cui devo disegnarmi ed eseguire
 		if (savedInstanceState != null){
 			mode = savedInstanceState.getString("mode");
 		} else {
@@ -71,7 +78,7 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 	    	TextView event = (TextView)findViewById(R.id.eventText);
 			TextView turn = (TextView)findViewById(R.id.turnText);
 			
-	    	
+	    	// Testi descrizione evento
 			title.setText(R.string.title_event);
 			title.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.event), null, null, null);
 			description.setText(R.string.desc_event);
@@ -102,11 +109,15 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.btnWrite){
+			
+			// Se clicco sul bottone per scrivere il codice a mano faccio
+			// apparire un alert
 			AlertDialog.Builder alert = new AlertDialog.Builder(this);
 			
 			alert.setTitle("Codice Badge");
 			alert.setMessage("Scrivi il codice badge da scansionare");
 
+			// Casella di testo per il codice
 			final EditText code = new EditText(this);
 			
 			InputFilter[] fArray = new InputFilter[1];
@@ -115,6 +126,7 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 			code.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);			
 			code.setHint(R.string.prompt_code);
 			
+			// Textwatcher per aggiungere i trattiti in automatico
 			code.addTextChangedListener(new TextWatcher() {
 				
 				boolean delete = false;
@@ -124,10 +136,7 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 				@Override
 				public void beforeTextChanged(CharSequence s, int start, int count,
 						int after) {
-					if (count < after) 
-						delete = false;
-					else
-						delete = true;
+					if (count < after) delete = false; else delete = true;
 				}
 				
 				@Override
@@ -145,7 +154,8 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 				public void onClick(DialogInterface dialog, int whichButton) {
 					String value = code.getText().toString();
 					Intent login = null;
-					// TODO da completare
+
+					// Faccio partire il risultato in base alla modalita'
 					if (mode.contentEquals("identify"))
 						login = new Intent(getApplicationContext(), IdentifyResultActivity.class);
 					else if (mode.contentEquals("gate"))
@@ -154,6 +164,7 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 						login = new Intent(getApplicationContext(), EventResultActivity.class);
 					
 					if (login != null){
+						// Aggiungo come parametro il codice scansionato
 						login.putExtra("qrscanned", value);
 						startActivity(login);
 					}
@@ -165,7 +176,10 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 				}
 			});
 			alert.show();
+			
 		} else if (v.getId() == R.id.btnBadge) {
+			
+			// Se ho scelto badge faccio partire una scansione
 			IntentIntegrator ii = new IntentIntegrator(this);
 			ArrayList<String> formats = new ArrayList<String>();
 			formats.add("QR_CODE");
@@ -176,6 +190,7 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		
+		// Faccio partire il risultato in base alla modalita'
 		Intent result = null;
 		if (mode.contentEquals("gate"))
 			result = new Intent(getApplicationContext(), GateResultActivity.class);
@@ -184,6 +199,7 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 		if (mode.contentEquals("event"))
 			result = new Intent(getApplicationContext(), EventResultActivity.class);
 		
+		// Controllo cosa mi e' tornato dalla scansione QR
 		IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
 		if (scanResult != null && scanResult.getContents() != null && scanResult.getContents() != "" && result != null) {
 			result.putExtra("qrscanned", scanResult.getContents());
@@ -195,12 +211,16 @@ public class ScanningActivity extends ActionBarActivity implements OnClickListen
 	
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
-	    savedInstanceState.putString("mode", mode);
+	    
+		// Salva la modalita' di esecuzione
+		savedInstanceState.putString("mode", mode);
 	    super.onSaveInstanceState(savedInstanceState);
 	}
 	
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
-	    super.onRestoreInstanceState(savedInstanceState);
+	    
+		// Recupera la modalita' di esecuzione
+		super.onRestoreInstanceState(savedInstanceState);
 	    mode = savedInstanceState.getString("mode");
 	}
 }

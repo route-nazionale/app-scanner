@@ -12,8 +12,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+/**
+ * Activity che si occupa della sincronizzazione
+ * 
+ * @author Nicola
+ */
 public class SyncroActivity extends ActionBarActivity {
 
+	/** Conteggio dei sottotask completati */
 	private int count = 0;
 	
 	@Override
@@ -32,17 +38,28 @@ public class SyncroActivity extends ActionBarActivity {
 		btnSync.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				
 				count = 0;
+				
+				// Faccio partire due task asincroni
 				new DownloadSyncTask(SyncroActivity.this, pbDownload, pbTotal, imgDownload).execute();
 				new SendSyncTask(SyncroActivity.this, pbSend, pbTotal, imgSend).execute();
 			}
 		});
 	}
 	
+	/**
+	 * Task per l'invio delle statistiche al server remoto
+	 * 
+	 * @author Nicola Corti
+	 */
 	private class SendSyncTask extends SendTask{
 		
+		/** Riferimento alla propria progress bar */
 		ProgressBar me = null;
+		/** Riferimento alla progress bar global */
 		ProgressBar total = null;
+		/** Riferimetno all'immagine */
 		ImageView img = null;
 		
 		public SendSyncTask(Context context, ProgressBar pb, ProgressBar total, ImageView img) {
@@ -54,10 +71,18 @@ public class SyncroActivity extends ActionBarActivity {
 		
 		@Override
 		protected void onPostExecute(Integer ret) {
-			super.onPostExecute(ret);
+			
+			// In caso di errore visualizzo immagine rossa
+			try{
+				super.onPostExecute(ret);
+			} catch (Exception e) {
+				img.setImageDrawable(getResources().getDrawable(R.drawable.cancel));
+			}
 			me.setVisibility(View.GONE);
 			
-			// Gestire i risultati
+			// TODO Gestire i risultati
+			if (ret != 200)
+				img.setImageDrawable(getResources().getDrawable(R.drawable.cancel));
 			img.setVisibility(View.VISIBLE);
 			count++;
 			if (count == 2){
@@ -65,20 +90,40 @@ public class SyncroActivity extends ActionBarActivity {
 				Toast.makeText(getApplicationContext(), "Sincronizzazione completata!", Toast.LENGTH_LONG).show();
 			}
 		}
+		
+		@Override
+		protected Integer doInBackground(Void... params){
+			try {
+				return super.doInBackground();
+			} catch (Exception e) {
+				img.setImageDrawable(getResources().getDrawable(R.drawable.cancel));
+				return 500;
+			}
+		}
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
+			
+			// Faccio partire le progressbar
 			total.setIndeterminate(true);
 			me.setVisibility(View.VISIBLE);
 			img.setVisibility(View.GONE);
 		}
 	}
 	
+	/**
+	 * Task asincrono per il download del db nella schermata di sincronia
+	 * 
+	 * @author Nicola Corti
+	 */
 	private class DownloadSyncTask extends DownloadTask{
 		
+		/** Riferimento alla propria progress bar */
 		ProgressBar me = null;
+		/** Riferimento alla progress bar global */
 		ProgressBar total = null;
+		/** Riferimetno all'immagine */
 		ImageView img = null;
 		
 		public DownloadSyncTask(Context context, ProgressBar pb, ProgressBar total, ImageView img) {
@@ -90,7 +135,12 @@ public class SyncroActivity extends ActionBarActivity {
 		
 		@Override
 		protected void onPostExecute(String ret) {
-			super.onPostExecute(ret);
+			// In caso di errore visualizzo immagine rossa
+			try{
+				super.onPostExecute(ret);
+			} catch (Exception e) {
+				img.setImageDrawable(getResources().getDrawable(R.drawable.cancel));
+			}
 			me.setVisibility(View.GONE);
 			
 			// Gestire i risultati
@@ -102,6 +152,16 @@ public class SyncroActivity extends ActionBarActivity {
 			}
 		}
 
+		@Override
+		protected String doInBackground(String... sUrl) {
+			try {
+				return super.doInBackground(sUrl);
+			} catch (Exception e) {
+				img.setImageDrawable(getResources().getDrawable(R.drawable.cancel));
+				return null;
+			}
+		}
+		
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();

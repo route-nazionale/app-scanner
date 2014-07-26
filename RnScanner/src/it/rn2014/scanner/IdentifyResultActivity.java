@@ -25,14 +25,25 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 
+/**
+ * Interfaccia che mostra i risultati di una identificazione
+ * 
+ * @author Nicola Corti
+ */
 public class IdentifyResultActivity extends ActionBarActivity {
 
-	Map<String, String> datumNome;
-	Map<String, String> datumCognome;
-	Map<String, String> datumDataNascita;
+	/** Riferimento al nome */
+	private Map<String, String> datumNome;
+	/** Riferimento al cognome */
+	private Map<String, String> datumCognome;
+	/** Riferimento alla data di nascita */
+	private Map<String, String> datumDataNascita;
 	
+	/** Adapter per i dati */
 	SimpleAdapter adapter = null;
+	/** Mappa dei dati */
 	ArrayList<Map<String, String>> data = null;
+	/** Listview dei risultati */
 	ListView lw = null;
 	
 	@Override
@@ -48,12 +59,14 @@ public class IdentifyResultActivity extends ActionBarActivity {
 			String cu = code.substring(0, code.length()-2);
 			String reprint = code.substring(code.length()-1);
 			
+			// Raccolgo dal DB i dati che ho presenti in locale
 			Persona result = DataManager.getInstance(this).findPersonaByCodiceUnivoco(cu, reprint);
 			ArrayList<Evento> ae = DataManager.getInstance(this).findEventiByPersona(result);
 			String gruppo = DataManager.getInstance(this).findGruppoByPersona(result);
 			
 			lw = (ListView)findViewById(R.id.listIdentify);
 			
+			// Imposto le coppie con titolo/sottotitolo
 			data = new ArrayList<Map<String, String>>();
 			Map<String, String> datum;
 			
@@ -92,6 +105,7 @@ public class IdentifyResultActivity extends ActionBarActivity {
 			datum.put("subtitle", "Contrada - Quartiere");
 			data.add(datum);
 			
+			// Elenco degli eventi associati
 			for (int i = 0; i < ae.size(); i++){
 				Evento e = ae.get(i);
 				datum = new HashMap<String, String>(2);
@@ -100,6 +114,7 @@ public class IdentifyResultActivity extends ActionBarActivity {
 				data.add(datum);
 			}			
 			
+			// Imposto l'adapter
 			adapter = new SimpleAdapter(this, data,
 			                                      android.R.layout.simple_list_item_2,
 			                                      new String[] {"title", "subtitle"},
@@ -107,11 +122,16 @@ public class IdentifyResultActivity extends ActionBarActivity {
 			                                                 android.R.id.text2});
 			lw.setAdapter(adapter);
 			
+			
+			// Se ho connessione raccolgo i dati sensibili online
 			if (RemoteResources.haveNetworkConnection(IdentifyResultActivity.this)){
 				
 			    TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
 				new IndentifyTask().execute(cu, telephonyManager.getDeviceId());
+				
 			} else {
+				
+				// Se non ho connessione lo nofifico
 				final AlertDialog.Builder adb = new AlertDialog.Builder(this);
 			    adb.setTitle("Connessione Assente");
 			    adb.setMessage("Per visualizzare i dati oscurati e' necessario essere connessi ad internet");
@@ -122,20 +142,27 @@ public class IdentifyResultActivity extends ActionBarActivity {
 		}
 	}
 	
+	/**
+	 * Task asincrono per l'identificazione
+	 * 
+	 * @author Nicola Corti
+	 */
 	private class IndentifyTask extends AsyncTask<String, Void, String>{
 		
+		/** Progress bar per il caricamento */
 		ProgressBar pbIdent = null;
 		
 		@Override
 		protected void onPreExecute() {
+			// Mostro la barra
 			pbIdent = (ProgressBar)findViewById(R.id.identify_progress);
 			pbIdent.setVisibility(View.VISIBLE);
 		}
 		
 		@Override
 		protected void onPostExecute(String result) {
-		    pbIdent.setVisibility(View.GONE);
-		    
+		    // Tolgo la barra e aggiorno la lista
+			pbIdent.setVisibility(View.GONE);
 			adapter = new SimpleAdapter(IdentifyResultActivity.this, data,
                     android.R.layout.simple_list_item_2,
                     new String[] {"title", "subtitle"},
@@ -147,6 +174,7 @@ public class IdentifyResultActivity extends ActionBarActivity {
 		@Override
 		protected String doInBackground(String... params) {
 			
+			// Preparo la richiesta Post
 			ArrayList<NameValuePair> postParams = new ArrayList<NameValuePair>();
 			postParams.add(new BasicNameValuePair("date", UserData.getInstance().getDate()));
 			postParams.add(new BasicNameValuePair("cu", UserData.getInstance().getCU().substring(0, UserData.getInstance().getCU().length()-2)));
@@ -161,7 +189,7 @@ public class IdentifyResultActivity extends ActionBarActivity {
 				res = response.toString();
 				res = res.replaceAll("\\s+","");
 				
-
+				// Parso l'oggetto JSON che mi e' tornato
 				JSONObject parsedObject = new JSONObject(res);
 				String nome  = parsedObject.getString("nome");
 				String cognome  = parsedObject.getString("cognome");

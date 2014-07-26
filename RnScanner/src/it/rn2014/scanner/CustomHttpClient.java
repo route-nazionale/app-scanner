@@ -17,15 +17,22 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
+/**
+ * Classe che contiene un HttpClient per effettuare richeste GET/POST
+ * 
+ * @author Nicola Corti
+ */
 public class CustomHttpClient {
 
+	/** Timeout */
 	public static final int HTTP_TIMEOUT = 30 * 1000; // milliseconds
+	/** Riferimento al client */
 	private static HttpClient mHttpClient;
 
 	/**
-	 * Get our single instance of our HttpClient object
+	 * Ritorna un istanza di HttpClient (singleton)
 	 * 
-	 * @return an HttpClient object with connection parameters set
+	 * @return un HttpClient con i parametri di connessione configurati
 	 */
 	private static HttpClient getHttpClient() {
 		if (mHttpClient == null) {
@@ -39,14 +46,11 @@ public class CustomHttpClient {
 	}
 
 	/**
-	 * Performs an HTTP Post request to the specified url with the specified
-	 * parameters.
+	 * Esegue una richiesta Http POST
 	 * 
-	 * @param url
-	 *            The web address to post the request to
-	 * @param postParameters
-	 *            The parameters to send via the request
-	 * @return The result of the request
+	 * @param url Indirizzo della richiesta
+	 * @param postParameters parametri da inviare
+	 * @return Risultato della richiesta in formato HttpResponse
 	 * @throws Exception
 	 */
 	public static HttpResponse executeHttpPost(String url,
@@ -62,6 +66,14 @@ public class CustomHttpClient {
 		return response;
 	}
 
+	/**
+	 * Esegue una richiesta Http POST e torna una stringa
+	 * 
+	 * @param url Indirizzo della richiesta
+	 * @param postParameters parametri da inviare
+	 * @return Risultato della richiesta in formato Stringa
+	 * @throws Exception
+	 */
 	public static String executeHttpPostString(String url,
 			ArrayList<NameValuePair> postParameters) throws Exception {
 
@@ -93,12 +105,12 @@ public class CustomHttpClient {
 	}
 	
 	/**
-     * Performs an HTTP GET request to the specified url.
-     *
-     * @param url The web address to post the request to
-     * @return The result of the request
-     * @throws Exception
-     */
+	 * Esegue una richiesta Http GET
+	 * 
+	 * @param url Indirizzo della richiesta
+	 * @return Risultato della richiesta in formato Stringa
+	 * @throws Exception
+	 */
     public static String executeHttpGet(String url) throws Exception {
         BufferedReader in = null;
         try {
