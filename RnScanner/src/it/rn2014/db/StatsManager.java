@@ -1,7 +1,6 @@
 package it.rn2014.db;
 
 import it.rn2014.db.entity.StatisticheScansioni;
-import it.rn2014.scanner.UserData;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -197,8 +196,6 @@ public class StatsManager {
 			
 			database.insert("statistiche", null, cv);
 			
-			UserData.getInstance().incToSync();
-			
 			Log.d("insertStats", "Statistica salvata");
 			close();
 			return true;
@@ -224,8 +221,6 @@ public class StatsManager {
 			database = databaseManager.getWritableDatabase();
 			database.execSQL(sql);
 			
-			// Resetto il tosync dell'userdata
-        	UserData.getInstance().resetToSync();
 			database.close();
 		} catch (SQLException mSQLException) {
 			Log.e(TAG, "updating >>" + mSQLException.toString());

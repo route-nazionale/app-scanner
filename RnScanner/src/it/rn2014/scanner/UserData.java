@@ -43,8 +43,6 @@ public class UserData implements Serializable {
     private int lastEventTurn = 0;
     /** Ultima modalita' scelta */
     private String lastChoose = null;
-    /** Numero di statistiche da sincronizzare */
-    private int toSync = 0;
     
     /**
      * Costruttore vuoto
@@ -88,12 +86,6 @@ public class UserData implements Serializable {
      * @param t ultima scelta del turno
      */
     public synchronized void setTurn(int t){ this.lastEventTurn = t; }
-    /**Incrementa il numero di statistiche da sincronizzare
-     */
-    public synchronized void incToSync() { this.toSync++; }
-    /**Resetta il numero di statistiche da sincronizzare
-     */
-    public synchronized void resetToSync() { this.toSync = 0; }
     
     /**Ritorna la data di nascita 
      * @return Data di nascita
@@ -145,7 +137,6 @@ public class UserData implements Serializable {
     	this.lastChoose = null;
     	this.lastEvent = null;
     	this.lastEventTurn = 0;
-    	this.toSync = 0;
 	}
     
     /**

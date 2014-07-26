@@ -163,9 +163,10 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 		}
 		
 	    @Override
-	    protected void onStartDownload() {
-	    	// Se parte il download mostro il progress dialog
-	        mProgressDialog.show();
+	    protected void onPreExecute() {
+	        super.onPreExecute();
+	    	if (!super.alreadyExists)
+	    		mProgressDialog.show();
 	    }
 
 		@Override
