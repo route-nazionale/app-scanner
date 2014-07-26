@@ -56,8 +56,15 @@ public class IdentifyResultActivity extends ActionBarActivity {
 		    String code = extras.getString("qrscanned");
 		    if (code == null) finish();
 			
-			String cu = code.substring(0, code.length()-2);
-			String reprint = code.substring(code.length()-1);
+		    String cu = "";
+		    String reprint = "";
+		    try {
+				cu = code.substring(0, code.length()-2);
+				reprint = code.substring(code.length()-1);
+		    } catch (IndexOutOfBoundsException e) {
+		    	cu = "";
+		    	reprint = "";
+		    }
 			
 			// Raccolgo dal DB i dati che ho presenti in locale
 			Persona result = DataManager.getInstance(this).findPersonaByCodiceUnivoco(cu, reprint);
