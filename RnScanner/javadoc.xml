@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="private" additionalparam="-bootclasspath /home/nicola/android/platforms/android-20/android.jar " author="true" classpath="/home/nicola/git/app-scanner/appcompat_v7/bin/android-support-v7-appcompat.jar:/home/nicola/git/app-scanner/appcompat_v7/libs/android-support-v7-appcompat.jar:/home/nicola/git/app-scanner/appcompat_v7/libs/android-support-v4.jar" destdir="doc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="it.rn2014.db,it.rn2014.scanner,android.support.v7.appcompat,com.google.zxing.integration.android,it.rn2014.db.entity" source="1.7" sourcepath="src:gen" splitindex="true" use="true" version="true">
+            <link href="http://developer.android.com/reference/"/>
+            <link href="file:/home/nicola/git/app-scanner/RnScanner/doc/"/>
+        </javadoc>
+    </target>
+</project>

@@ -51,7 +51,7 @@ public class UserData implements Serializable {
      * Metodo che ritorna un'istanza di UserData.
      * Se non e' stata istanziata la ritorna
      * 
-     * @return
+     * @return Riferimento allo UserData
      */
     public static synchronized UserData getInstance(){
     	if(null == instance){
@@ -65,11 +65,11 @@ public class UserData implements Serializable {
      */
     public synchronized void setDate(String d){ this.date = d; }
     /**Setter per codice univoco
-     * @param d Codice univoco
+     * @param c Codice univoco
      */
     public synchronized void setCU(String c){ this.cu = c; }
     /**Setter per livello di autenticazione
-     * @param c Livello di autenticazione
+     * @param l Livello di autenticazione
      */
     public synchronized void setLevel(String l){ this.authLevel = l; }
     /**Setter per ultima scelta della modalita'
@@ -81,7 +81,7 @@ public class UserData implements Serializable {
      */
     public synchronized void setEvent(String l){ this.lastEvent = l; }
     /**Setter per ultima scelta del turno
-     * @param l ultima scelta del turno
+     * @param t ultima scelta del turno
      */
     public synchronized void setTurn(int t){ this.lastEventTurn = t; }
     /**Incrementa il numero di statistiche da sincronizzare
