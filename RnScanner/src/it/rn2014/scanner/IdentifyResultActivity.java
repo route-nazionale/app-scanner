@@ -48,6 +48,7 @@ public class IdentifyResultActivity extends ActionBarActivity {
 			
 			Persona result = DataManager.getInstance(this).findPersonaByCodiceUnivoco(cu, reprint);
 			ArrayList<Evento> ae = DataManager.getInstance(this).findEventiByPersona(result);
+			String gruppo = DataManager.getInstance(this).findGruppoByPersona(result);
 			
 			lw = (ListView)findViewById(R.id.listIdentify);
 			
@@ -80,7 +81,7 @@ public class IdentifyResultActivity extends ActionBarActivity {
 			data.add(datum);
 			
 			datum = new HashMap<String, String>(2);
-			datum.put("title", result.getIdGruppo() + " - " + result.getIdUnita());
+			datum.put("title", gruppo + " - " + result.getIdGruppo() + " - " + result.getIdUnita());
 			datum.put("subtitle", "Gruppo - Unita'");
 			data.add(datum);
 			

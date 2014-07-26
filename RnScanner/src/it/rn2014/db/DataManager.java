@@ -77,6 +77,14 @@ public class DataManager {
 		return findPersonaBySQL(sql);
 	}
 	
+	public synchronized String findGruppoByPersona(Persona p){
+		String sql = "SELECT nome FROM gruppi, persone WHERE gruppi.idGruppo = persone.idGruppo AND gruppi.idUnita = persone.idUnita AND persone.codiceUnivoco = '" + p.getCodiceUnivoco() + "'";
+		open();
+		Cursor cursor = getDBCursor(sql);
+		close();
+		return getColumnValue(cursor, "nome");
+	}
+	
 	public synchronized Persona findPersonaBySQL(String sql) {
 		open();
 		Cursor cursor = getDBCursor(sql);
